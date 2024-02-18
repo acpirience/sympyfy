@@ -1,10 +1,8 @@
-from dotenv import dotenv_values
-from loguru import logger
+from sympyfy import Sympyfy
 
 
 def main() -> None:
-    config = dotenv_values(".env")
-    logger.info(config)
+    _ = Sympyfy()
 
 
 if __name__ == "__main__":
