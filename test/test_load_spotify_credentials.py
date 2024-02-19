@@ -1,6 +1,6 @@
 """
 
-test for _get_spotify_credentials
+test for sympyfy._get_spotify_credentials
 
 """
 

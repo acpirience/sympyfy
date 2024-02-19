@@ -9,10 +9,11 @@ import os
 import sys
 
 from dotenv import dotenv_values
-from requests import post
+from requests import get, post
 
-from .sympyfy_urls import HTTP_GET_APP_TOKEN
-from .tokens.access_token import Access_token
+from sympyfy.api.api_urls import HTTP_GET_APP_TOKEN, HTTP_GET_ARTIST
+from sympyfy.api.artists import Artist, make_artist
+from sympyfy.tokens.access_token import Access_token
 
 
 class Sympyfy:
@@ -53,6 +54,7 @@ class Sympyfy:
         }
 
     def _load_access_token(self) -> None:
+        # get access token used when user identification is not needed
         auth_str = (
             self._spotify_credentials["client_id"]
             + ":"
@@ -74,3 +76,19 @@ class Sympyfy:
         self._access_token = Access_token(
             response_json["access_token"], response_json["expires_in"]
         )
+        print(f"Access Token received, valid until {self._access_token.expiry}")
+
+    def _get_api_response_with_access_token(self, url: str) -> bytes | None:
+        # Generic function that returns the json response
+        # of an API call using access token
+        headers = {"Authorization": "Bearer " + self._access_token.token}
+        response = get(url, headers=headers)
+        return response.content  # type: ignore[no-any-return]
+
+    def get_artist(self, id: str) -> Artist | None:
+        url = HTTP_GET_ARTIST.replace("{id}", id)
+        json_content = self._get_api_response_with_access_token(url)
+        if json_content:
+            print(json_content)
+            return make_artist(json_content)
+        return None

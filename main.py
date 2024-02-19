@@ -2,7 +2,10 @@ from sympyfy import Sympyfy
 
 
 def main() -> None:
-    _ = Sympyfy()
+    spotify = Sympyfy()
+    spotify.load_credentials()
+
+    test = spotify.get_artist("1GhPHrq36VKCY3ucVaZCfo")
 
 
 if __name__ == "__main__":

@@ -16,6 +16,7 @@ def test_access_token() -> None:
     assert test.is_valid()
     assert test.expiry > datetime.now() + timedelta(seconds=3000)
 
+
 def test_access_repr() -> None:
     test = Access_token("test", 3600)
     test.expiry = datetime(2024, 2, 14, 0, 0, 1)
