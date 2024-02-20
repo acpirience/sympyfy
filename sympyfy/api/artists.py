@@ -6,6 +6,7 @@ class dealing with all the artists API calls
 
 import json
 from dataclasses import dataclass
+from typing import Any
 
 from sympyfy.api.common import Image
 
@@ -24,8 +25,11 @@ class Artist:
     images: list[Image]
 
 
-def make_artist(json_content: bytes) -> Artist:
-    _dict = json.loads(json_content)
+def make_artist(json_content: bytes | Any) -> Artist:
+    if isinstance(json_content, bytes):
+        _dict = json.loads(json_content)
+    else:
+        _dict = json_content
 
     ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
     genres = [x for x in _dict["genres"]]
@@ -43,3 +47,12 @@ def make_artist(json_content: bytes) -> Artist:
         genres,
         images,
     )
+
+
+def make_artists_list(json_content: bytes) -> list[Artist]:
+    _dict = json.loads(json_content)
+    artists_list = []
+    for artist in _dict["artists"]:
+        if artist:
+            artists_list.append(make_artist(artist))
+    return artists_list

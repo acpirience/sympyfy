@@ -11,8 +11,13 @@ import sys
 from dotenv import dotenv_values
 from requests import Response, get, post
 
-from sympyfy.api.api_urls import HTTP_GET_APP_TOKEN, HTTP_GET_ARTIST
-from sympyfy.api.artists import Artist, make_artist
+from sympyfy.api.api_urls import (
+    HTTP_GET_APP_TOKEN,
+    HTTP_GET_ARTIST,
+    HTTP_GET_RELATED_ARTISTS,
+    HTTP_GET_SEVERAL_ARTISTS,
+)
+from sympyfy.api.artists import Artist, make_artist, make_artists_list
 from sympyfy.tokens.access_token import Access_token
 
 
@@ -86,8 +91,41 @@ class Sympyfy:
         return response
 
     def get_artist(self, id: str) -> Artist | None:
+        """returns an Artist Object specified by its id
+        https://developer.spotify.com/documentation/web-api/reference/get-an-artist
+
+        :param id: Spotify id of the artist
+        :type id: str
+        :returns:  Artist object or None if id does not match an artist
+        """
         url = HTTP_GET_ARTIST.replace("{id}", id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return make_artist(response.content)
+        return None
+
+    def get_several_artists(self, ids: list[str]) -> list[Artist]:
+        """returns a list of Artist Objects specified by a list of their ids
+        https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists
+
+        :param ids: list of artists ids
+        :type ids: list[str]
+        :returns:  list of Artist objects
+        """
+        url = HTTP_GET_SEVERAL_ARTISTS.replace("{ids}", "%2C".join(ids))
+        response = self._get_api_response_with_access_token(url)
+        return make_artists_list(response.content)
+
+    def get_artist_related_artists(self, id: str) -> list[Artist] | None:
+        """returns a list of Artist Objects related to the artist specified by its id
+        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists
+
+        :param id: Spotify id of the artist
+        :type id: str
+        :returns:  list of Artist objects
+        """
+        url = HTTP_GET_RELATED_ARTISTS.replace("{id}", id)
+        response = self._get_api_response_with_access_token(url)
+        if response.status_code == 200:
+            return make_artists_list(response.content)
         return None
