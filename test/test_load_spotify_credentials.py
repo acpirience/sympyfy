@@ -19,7 +19,7 @@ def test_env_variables() -> None:
     assert test._spotify_credentials == {"client_id": "123", "client_secret": "456"}
 
 
-def test_env_file() -> None:
+def test_env_file_content() -> None:
     os.environ.pop("client_id", None)
     os.environ.pop("client_secret", None)
 
@@ -28,3 +28,13 @@ def test_env_file() -> None:
 
     assert "client_id" in test._spotify_credentials
     assert "client_secret" in test._spotify_credentials
+
+
+def test_env_file_credentials() -> None:
+    test = Sympyfy()
+    test.load_credentials()
+
+    assert "client_id" in test._spotify_credentials
+    assert "client_secret" in test._spotify_credentials
+
+    assert test._access_token.token
