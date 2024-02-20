@@ -1,6 +1,6 @@
 """
 
-test for sympyfy.artists.get_artists_list
+test for sympyfy.artists.make_artists_list
 
 """
 

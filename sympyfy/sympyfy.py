@@ -16,8 +16,10 @@ from sympyfy.api.api_urls import (
     HTTP_GET_ARTIST,
     HTTP_GET_RELATED_ARTISTS,
     HTTP_GET_SEVERAL_ARTISTS,
+    HTTP_GET_TRACK,
 )
 from sympyfy.api.artists import Artist, make_artist, make_artists_list
+from sympyfy.api.tracks import Track, make_track
 from sympyfy.tokens.access_token import Access_token
 
 
@@ -122,10 +124,27 @@ class Sympyfy:
 
         :param id: Spotify id of the artist
         :type id: str
-        :returns:  list of Artist objects
+        :returns:  list of Artist objects  or None if id does not match an artist
         """
         url = HTTP_GET_RELATED_ARTISTS.replace("{id}", id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return make_artists_list(response.content)
         return None
+
+    def get_track(self, id: str) -> Track | None:
+        """returns the details of a track specified by its id
+        https://developer.spotify.com/documentation/web-api/reference/get-track
+
+        :param id: Spotify id of the track
+        :type id: str
+        :returns:  Track object or None if id does not match a track
+        """
+        url = HTTP_GET_TRACK.replace("{id}", id)
+        response = self._get_api_response_with_access_token(url)
+        if response.status_code == 200:
+            print(response.content)
+            return make_track(response.content)
+        return None
+
+        pass

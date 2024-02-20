@@ -1,6 +1,6 @@
 """
 
-test for sympyfy.artists.get_artist
+test for sympyfy.artists.make_artist
 
 """
 from sympyfy.api.artists import make_artist
