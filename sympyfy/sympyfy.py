@@ -13,11 +13,12 @@ from typing import Any, Optional
 from dotenv import dotenv_values
 from requests import Response, get, post
 
-from api_urls import (
+from sympyfy.api_urls import (
     HTTP_GET_ALBUM,
     HTTP_GET_APP_TOKEN,
     HTTP_GET_ARTIST,
     HTTP_GET_RELATED_ARTISTS,
+    HTTP_GET_SEVERAL_ALBUMS,
     HTTP_GET_SEVERAL_ARTISTS,
     HTTP_GET_TRACK,
 )
@@ -220,6 +221,19 @@ class Sympyfy:
             return self.make_album(response.content)
         return None
 
+    def get_several_albums(self, ids: list[str]) -> list[Album]:
+        """returns a list of Album Objects specified by a list of their ids
+        https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums
+
+        :param ids: list of albums ids
+        :type ids: list[str]
+        :returns:  list of Albums objects
+        """
+        url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(ids))
+        response = self._get_api_response_with_access_token(url)
+        print(response.content)
+        return self.make_albums_list(response.content)
+
     def make_artist(self, json_content: bytes | Any) -> Artist:
         if isinstance(json_content, bytes):
             _dict = json.loads(json_content)
@@ -350,6 +364,14 @@ class Sympyfy:
             tracks_total=tracks_total,
             tracks=tracks,
         )
+
+    def make_albums_list(self, json_content: bytes) -> list[Album]:
+        _dict = json.loads(json_content)
+        albums_list = []
+        for album in _dict["albums"]:
+            if album:
+                albums_list.append(self.make_album(album))
+        return albums_list
 
 
 def _value_or_default(key: str, _dict: dict[str, Any], default: Any) -> Any:

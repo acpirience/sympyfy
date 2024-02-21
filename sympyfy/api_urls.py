@@ -17,3 +17,4 @@ HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"
 
 # albums
 HTTP_GET_ALBUM = HTTP_API_ROOT + "/albums/{id}"
+HTTP_GET_SEVERAL_ALBUMS = HTTP_API_ROOT + "/albums?ids={ids}"

@@ -6,7 +6,7 @@ API implemented so far:
 
 **Albums**
 - [x] Get Album ⮕ **GET** `/albums/{id}`
-- [ ] Get Several Albums ⮕ **GET** `/albums?ids={ids}`
+- [x] Get Several Albums ⮕ **GET** `/albums?ids={ids}`
 - [ ] Get Album Tracks ⮕ **GET** `/albums/{id}/tracks`
 - [ ] Get User's Saved Albums ⮕ **GET** `/me/albums` 🔒
 - [ ] Save Albums for Current User ⮕ **PUT** `/me/albums` 🔒
