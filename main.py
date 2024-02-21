@@ -10,7 +10,8 @@ def main() -> None:
     # test = spotify.get_several_artists(["5N5tQ9Dx1h8Od7aRmGj7Fi", "xyz"])
     # test = spotify.get_several_artists(["zzz", "xyz"])
     # test = spotify.get_artist_related_artists("5N5tQ9Dx1h8Od7aRmGj7Fi")
-    test = spotify.get_track("6Ft7UiAv5SCfK7ZkqVmOCQ")
+    # test = spotify.get_track("6Ft7UiAv5SCfK7ZkqVmOCQ")
+    test = spotify.get_album("2ANVost0y2y52ema1E9xAZ")
 
     print(f"{test=}")
 
