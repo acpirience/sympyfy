@@ -164,7 +164,7 @@ class Sympyfy:
         url = HTTP_GET_ARTIST.replace("{id}", id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
-            return self.make_artist(response.content)
+            return self.__make_artist(response.content)
         return None
 
     def get_several_artists(self, ids: list[str]) -> list[Artist]:
@@ -177,7 +177,7 @@ class Sympyfy:
         """
         url = HTTP_GET_SEVERAL_ARTISTS.replace("{ids}", "%2C".join(ids))
         response = self._get_api_response_with_access_token(url)
-        return self.make_artists_list(response.content)
+        return self.__make_artists_list(response.content)
 
     def get_artist_related_artists(self, id: str) -> list[Artist] | None:
         """returns a list of Artist Objects related to the artist specified by its id
@@ -190,7 +190,7 @@ class Sympyfy:
         url = HTTP_GET_RELATED_ARTISTS.replace("{id}", id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
-            return self.make_artists_list(response.content)
+            return self.__make_artists_list(response.content)
         return None
 
     def get_track(self, id: str) -> Track | None:
@@ -204,7 +204,7 @@ class Sympyfy:
         url = HTTP_GET_TRACK.replace("{id}", id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
-            return self.make_track(response.content)
+            return self.__make_track(response.content)
         return None
 
     def get_album(self, id: str) -> Album | None:
@@ -218,7 +218,7 @@ class Sympyfy:
         url = HTTP_GET_ALBUM.replace("{id}", id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
-            return self.make_album(response.content)
+            return self.__make_album(response.content)
         return None
 
     def get_several_albums(self, ids: list[str]) -> list[Album]:
@@ -232,9 +232,9 @@ class Sympyfy:
         url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(ids))
         response = self._get_api_response_with_access_token(url)
         print(response.content)
-        return self.make_albums_list(response.content)
+        return self.__make_albums_list(response.content)
 
-    def make_artist(self, json_content: bytes | Any) -> Artist:
+    def __make_artist(self, json_content: bytes | Any) -> Artist:
         if isinstance(json_content, bytes):
             _dict = json.loads(json_content)
         else:
@@ -266,15 +266,15 @@ class Sympyfy:
             images=images,
         )
 
-    def make_artists_list(self, json_content: bytes) -> list[Artist]:
+    def __make_artists_list(self, json_content: bytes) -> list[Artist]:
         _dict = json.loads(json_content)
         artists_list = []
         for artist in _dict["artists"]:
             if artist:
-                artists_list.append(self.make_artist(artist))
+                artists_list.append(self.__make_artist(artist))
         return artists_list
 
-    def make_track(self, json_content: bytes | Any) -> Track:
+    def __make_track(self, json_content: bytes | Any) -> Track:
         if isinstance(json_content, bytes):
             _dict = json.loads(json_content)
         else:
@@ -288,8 +288,8 @@ class Sympyfy:
             ext_ids = [{x: _dict["external_ids"][x]} for x in _dict["external_ids"]]
 
         ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
-        artists = [self.make_artist(x) for x in _dict["artists"]]
-        album = self.make_album(_dict["album"]) if "album" in _dict else None
+        artists = [self.__make_artist(x) for x in _dict["artists"]]
+        album = self.__make_album(_dict["album"]) if "album" in _dict else None
 
         return Track(
             id=_dict["id"],
@@ -311,7 +311,7 @@ class Sympyfy:
             album=album,
         )
 
-    def make_album(self, json_content: bytes | Any) -> Album:
+    def __make_album(self, json_content: bytes | Any) -> Album:
         if isinstance(json_content, bytes):
             print(json_content)
             _dict = json.loads(json_content)
@@ -336,12 +336,12 @@ class Sympyfy:
         if "copyrights" in _dict:
             copyrights = [x for x in _dict["copyrights"]]
         if "tracks" in _dict and "items" in _dict["tracks"]:
-            tracks = [self.make_track(x) for x in _dict["tracks"]["items"]]
+            tracks = [self.__make_track(x) for x in _dict["tracks"]["items"]]
         if "tracks" in _dict and "total" in _dict["tracks"]:
             tracks_total = _dict["tracks"]["total"]
 
         ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
-        artists = [self.make_artist(x) for x in _dict["artists"]]
+        artists = [self.__make_artist(x) for x in _dict["artists"]]
 
         return Album(
             id=_dict["id"],
@@ -365,12 +365,12 @@ class Sympyfy:
             tracks=tracks,
         )
 
-    def make_albums_list(self, json_content: bytes) -> list[Album]:
+    def __make_albums_list(self, json_content: bytes) -> list[Album]:
         _dict = json.loads(json_content)
         albums_list = []
         for album in _dict["albums"]:
             if album:
-                albums_list.append(self.make_album(album))
+                albums_list.append(self.__make_album(album))
         return albums_list
 
 
