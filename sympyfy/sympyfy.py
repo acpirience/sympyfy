@@ -17,6 +17,7 @@ from sympyfy.api_urls import (
     HTTP_GET_ALBUM,
     HTTP_GET_APP_TOKEN,
     HTTP_GET_ARTIST,
+    HTTP_GET_ARTIST_TOP_TRACKS,
     HTTP_GET_RELATED_ARTISTS,
     HTTP_GET_SEVERAL_ALBUMS,
     HTTP_GET_SEVERAL_ARTISTS,
@@ -54,6 +55,7 @@ class Track:
     duration_ms: int
     explicit: bool
     is_local: bool
+    is_playable: bool
     external_ids: list[dict[str, str]]
     external_urls: list[dict[str, str]]
     artists: list[Artist]
@@ -185,12 +187,29 @@ class Sympyfy:
 
         :param id: Spotify id of the artist
         :type id: str
-        :returns:  list of Artist objects  or None if id does not match an artist
+        :returns:  list of Artist objects or None if id does not match an artist
         """
         url = HTTP_GET_RELATED_ARTISTS.replace("{id}", id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artists_list(response.content)
+        return None
+
+    def get_artist_top_tracks(self, id: str, market: str) -> list[Track] | None:
+        """returns a list of top Track Objects related to the artist specified by its id
+        in a given market
+        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks
+
+        :param id: Spotify id of the artist
+        :type id: str
+        :param market: ISO 2 character country code of the market
+        :type id: str
+        :returns:  list of Tracks objects or None if id does not match an artist
+        """
+        url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", id).replace("{market}", market)
+        response = self._get_api_response_with_access_token(url)
+        if response.status_code == 200:
+            return self.__make_tracks_list(response.content)
         return None
 
     def get_track(self, id: str) -> Track | None:
@@ -304,12 +323,21 @@ class Sympyfy:
             duration_ms=_dict["duration_ms"],
             explicit=_dict["explicit"],
             is_local=_dict["is_local"],
+            is_playable=_value_or_default("is_playable", _dict, True),
             external_ids=ext_ids,
             external_urls=ext_urls,
             artists=artists,
             available_markets=available_markets,
             album=album,
         )
+
+    def __make_tracks_list(self, json_content: bytes) -> list[Track]:
+        _dict = json.loads(json_content)
+        track_list = []
+        for track in _dict["tracks"]:
+            if track:
+                track_list.append(self.__make_track(track))
+        return track_list
 
     def __make_album(self, json_content: bytes | Any) -> Album:
         if isinstance(json_content, bytes):

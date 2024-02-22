@@ -1,0 +1,3 @@
+- env variable for default market ?
+- make a pass of the API to find forgotten properties
+- handle access token refresh
