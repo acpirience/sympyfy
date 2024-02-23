@@ -14,6 +14,7 @@ HTTP_GET_RELATED_ARTISTS = HTTP_API_ROOT + "/artists/{id}/related-artists"
 
 # tracks
 HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"
+HTTP_GET_SEVERAL_TRACKS = HTTP_API_ROOT + "/tracks?ids={ids}"
 
 # albums
 HTTP_GET_ALBUM = HTTP_API_ROOT + "/albums/{id}"

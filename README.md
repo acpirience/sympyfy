@@ -25,7 +25,7 @@ API implemented so far:
 
 **Tracks**
 - [x] Get Track ⮕ **GET** `/tracks/{id}`
-- [ ] Get Several Tracks ⮕ **GET** `/tracks?ids={ids}`
+- [x] Get Several Tracks ⮕ **GET** `/tracks?ids={ids}`
 - [ ] Get User's Saved Tracks ⮕ **GET** `/me/tracks` 🔒
 - [ ] Save Tracks for Current User ⮕ **PUT** `/me/tracks?ids={ids}` 🔒
 - [ ] Remove User's Saved Tracks ⮕ **DELETE** `/me/tracks?ids={ids}` 🔒

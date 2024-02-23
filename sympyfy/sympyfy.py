@@ -21,6 +21,7 @@ from sympyfy.api_urls import (
     HTTP_GET_RELATED_ARTISTS,
     HTTP_GET_SEVERAL_ALBUMS,
     HTTP_GET_SEVERAL_ARTISTS,
+    HTTP_GET_SEVERAL_TRACKS,
     HTTP_GET_TRACK,
 )
 from sympyfy.common import Image
@@ -226,6 +227,19 @@ class Sympyfy:
             return self.__make_track(response.content)
         return None
 
+    def get_several_tracks(self, ids: list[str]) -> list[Track]:
+        """returns a list of Track Objects specified by a list of their ids
+        https://developer.spotify.com/documentation/web-api/reference/get-several-tracks
+
+        :param ids: list of tracks ids
+        :type ids: list[str]
+        :returns:  list of Tracks objects
+        """
+        url = HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(ids))
+        response = self._get_api_response_with_access_token(url)
+        print(response.content)
+        return self.__make_tracks_list(response.content)
+
     def get_album(self, id: str) -> Album | None:
         """returns the details of an album specified by its id
         https://developer.spotify.com/documentation/web-api/reference/get-an-album
@@ -250,7 +264,6 @@ class Sympyfy:
         """
         url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(ids))
         response = self._get_api_response_with_access_token(url)
-        print(response.content)
         return self.__make_albums_list(response.content)
 
     def __make_artist(self, json_content: bytes | Any) -> Artist:
