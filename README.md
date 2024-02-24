@@ -31,7 +31,7 @@ API implemented so far:
 - [ ] Remove User's Saved Tracks ⮕ **DELETE** `/me/tracks?ids={ids}` 🔒
 - [ ] Check User's Saved Tracks ⮕ **GET** `/me/tracks/contains?ids={ids}` 🔒
 - [ ] Get Several Tracks' Audio Features ⮕ **GET** `/audio-features?ids={ids}`
-- [ ] Get Track's Audio Features ⮕ **GET** `/audio-features/{id}`
+- [x] Get Track's Audio Features ⮕ **GET** `/audio-features/{id}`
 - [ ] Get Track's Audio Analysis ⮕ **GET** `/audio-analysis/{id}`
 - [ ] Get Recommendations ⮕ **GET** `/recommendations`
 
