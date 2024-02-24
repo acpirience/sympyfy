@@ -23,6 +23,7 @@ from sympyfy.api_urls import (
     HTTP_GET_SEVERAL_ARTISTS,
     HTTP_GET_SEVERAL_TRACKS,
     HTTP_GET_TRACK,
+    HTTP_GET_TRACK_AUDIO_FEATURES,
 )
 from sympyfy.common import Image, add_market, value_or_default
 from sympyfy.tokens.access_token import Access_token
@@ -62,6 +63,28 @@ class Track:
     artists: list[Artist]
     available_markets: list[str]
     album: Optional["Album"]
+
+
+@dataclass
+class Audio_features:
+    id: str
+    track_href: str
+    uri: str
+    analysis_url: str
+    type: str
+    key: int
+    mode: int
+    time_signature: int
+    duration_ms: int
+    danceability: float
+    energy: float
+    loudness: float
+    speechiness: float
+    acousticness: float
+    instrumentalness: float
+    liveness: float
+    valence: float
+    tempo: float
 
 
 @dataclass
@@ -249,6 +272,20 @@ class Sympyfy:
         print(response.content)
         return self.__make_tracks_list(response.content)
 
+    def get_track_audio_features(self, id: str) -> Audio_features | None:
+        """returns a Audio_features Object specified by its ids
+        https://developer.spotify.com/documentation/web-api/reference/get-audio-features
+
+        :param id: track id
+        :type id: str
+        :returns:  Audio_features object
+        """
+        url = HTTP_GET_TRACK_AUDIO_FEATURES.replace("{id}", id)
+        response = self._get_api_response_with_access_token(url)
+        if response.status_code == 200:
+            return self.__make_audio_features(response.content)
+        return None
+
     def get_album(self, id: str, market: str | None = None) -> Album | None:
         """returns the details of an album specified by its id
         https://developer.spotify.com/documentation/web-api/reference/get-an-album
@@ -426,3 +463,28 @@ class Sympyfy:
             if album:
                 albums_list.append(self.__make_album(album))
         return albums_list
+
+    def __make_audio_features(self, json_content: bytes) -> Audio_features:
+        _dict = json.loads(json_content)
+        print(json_content)
+
+        return Audio_features(
+            id=_dict["id"],
+            track_href=_dict["track_href"],
+            uri=_dict["uri"],
+            analysis_url=_dict["analysis_url"],
+            type=_dict["type"],
+            key=_dict["key"],
+            mode=_dict["mode"],
+            time_signature=_dict["time_signature"],
+            duration_ms=_dict["duration_ms"],
+            danceability=_dict["danceability"],
+            energy=_dict["energy"],
+            loudness=_dict["loudness"],
+            speechiness=_dict["speechiness"],
+            acousticness=_dict["acousticness"],
+            instrumentalness=_dict["instrumentalness"],
+            liveness=_dict["liveness"],
+            valence=_dict["valence"],
+            tempo=_dict["tempo"],
+        )
