@@ -17,7 +17,10 @@ def main() -> None:
     # test = spotify.get_artist_top_tracks("066X20Nz7iquqkkCW6Jxy6")
     # test = spotify.get_artist_top_tracks("066X20Nz7iquqkkCW6Jxy6", "FR")
     # test = spotify.get_several_tracks(["3EEd6ldsPat620GVYMEhOP", "2fKdsBazcOLLIzDiZUQCih"])
-    test = spotify.get_track_audio_features("6Ft7UiAv5SCfK7ZkqVmOCQ")
+    # test = spotify.get_track_audio_features("6Ft7UiAv5SCfK7ZkqVmOCQ")
+    test = spotify.get_several_track_audio_features(
+        ["3EEd6ldsPat620GVYMEhOP", "2fKdsBazcOLLIzDiZUQCih"]
+    )
 
     print("*" * 20)
     print(f"{test=}")

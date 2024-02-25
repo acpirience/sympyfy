@@ -21,6 +21,7 @@ from sympyfy.api_urls import (
     HTTP_GET_RELATED_ARTISTS,
     HTTP_GET_SEVERAL_ALBUMS,
     HTTP_GET_SEVERAL_ARTISTS,
+    HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES,
     HTTP_GET_SEVERAL_TRACKS,
     HTTP_GET_TRACK,
     HTTP_GET_TRACK_AUDIO_FEATURES,
@@ -197,12 +198,27 @@ class Sympyfy:
 
         :param id: track id
         :type id: str
-        :returns:  Audio_features object
+        :returns:  List of Audio_features object
         """
         url = HTTP_GET_TRACK_AUDIO_FEATURES.replace("{id}", id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_audio_features(response.content)
+        return None
+
+    def get_several_track_audio_features(self, ids: list[str]) -> list[Audio_features] | None:
+        """returns a list of Audio_features Object specified by a list of their ids
+        https://developer.spotify.com/documentation/web-api/reference/get-several-audio-features
+
+        :param ids: list of tracks ids
+        :type ids: list[str]
+        :returns:  Audio_features object
+        """
+        url = HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(ids))
+        response = self._get_api_response_with_access_token(url)
+        if response.status_code == 200:
+            print(response.content)
+            return self.__make_audio_features_list(response.content)
         return None
 
     def get_album(self, id: str, market: str | None = None) -> Album | None:
@@ -384,8 +400,11 @@ class Sympyfy:
         return albums_list
 
     def __make_audio_features(self, json_content: bytes) -> Audio_features:
-        _dict = json.loads(json_content)
-        print(json_content)
+        if isinstance(json_content, bytes):
+            print(json_content)
+            _dict = json.loads(json_content)
+        else:
+            _dict = json_content
 
         return Audio_features(
             id=_dict["id"],
@@ -407,3 +426,11 @@ class Sympyfy:
             valence=_dict["valence"],
             tempo=_dict["tempo"],
         )
+
+    def __make_audio_features_list(self, json_content: bytes) -> list[Audio_features]:
+        _dict = json.loads(json_content)
+        audio_features_list = []
+        for audio_feature in _dict["audio_features"]:
+            if audio_feature:
+                audio_features_list.append(self.__make_audio_features(audio_feature))
+        return audio_features_list
