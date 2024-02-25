@@ -4,7 +4,7 @@ test for sympyfy.make_artist
 
 """
 from sympyfy import Sympyfy
-from sympyfy.common import Image
+from sympyfy.api_structures import Image
 
 
 def test_make_artist() -> None:
