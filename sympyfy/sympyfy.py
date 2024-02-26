@@ -300,7 +300,7 @@ class Sympyfy:
             album_ids: list of albums ids
             market: Market to search in
 
-        Returns
+        Returns:
             list of Albums objects
         """
         url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(album_ids)) + add_market(
@@ -311,7 +311,7 @@ class Sympyfy:
 
     def get_markets(self) -> set[str]:
         """returns the list of markets where Spotify is available.<br>
-        Please use the [markets property](sympyfy.md#sympyfy.Sympyfy.markets), this method is public only to match the Spotify API<br>
+        Please use the [markets property](0sympyfy.md#sympyfy.Sympyfy.markets), this method is public only to match the Spotify API<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-available-markets](https://developer.spotify.com/documentation/web-api/reference/get-available-markets)<br>
         [https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
 
@@ -325,7 +325,7 @@ class Sympyfy:
     @property
     def markets(self) -> set[str]:
         """returns the list of markets where Spotify is available.<br>
-        This is the preferred way to get this information since it is lazy loaded from the api via the method [get_markets](sympyfy.md#sympyfy.Sympyfy.get_markets)
+        This is the preferred way to get this information since it is lazy loaded from the api via the method [get_markets](0sympyfy.md#sympyfy.Sympyfy.get_markets)
 
         Returns:
             list of ISO 3166-1 alpha-2 country codes

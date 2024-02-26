@@ -34,7 +34,16 @@ theme:
 plugins:
 - search
 - autorefs
-- mkdocstrings
+- mkdocstrings:
+    handlers:
+      python:
+        options:
+          show_source: false
+          show_signature: true
+          show_root_full_path: false
+          show_symbol_type_toc: true
+          show_root_heading: true
+          docstring_section_style: table
 
 markdown_extensions:
   - pymdownx.snippets

@@ -34,7 +34,7 @@
 - [ ] Save Tracks for Current User ⮕ **PUT** `/me/tracks?ids={ids}` 🔒
 - [ ] Remove User's Saved Tracks ⮕ **DELETE** `/me/tracks?ids={ids}` 🔒
 - [ ] Check User's Saved Tracks ⮕ **GET** `/me/tracks/contains?ids={ids}` 🔒
-- [x] Get Several Tracks' Audio Features ⮕ **GET** `/audio-features?ids={ids}`
 - [x] Get Track's Audio Features ⮕ **GET** `/audio-features/{id}`
+- [x] Get Several Tracks' Audio Features ⮕ **GET** `/audio-features?ids={ids}`
 - [ ] Get Track's Audio Analysis ⮕ **GET** `/audio-analysis/{id}`
 - [ ] Get Recommendations ⮕ **GET** `/recommendations`
