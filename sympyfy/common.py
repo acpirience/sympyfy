@@ -6,8 +6,6 @@ common classes used by other objects
 
 from typing import Any
 
-from sympyfy.isoCountryCodes import ISO3166
-
 INCLUDE_GROUPS = ["album", "single", "appears_on", "compilation"]
 
 
@@ -23,9 +21,9 @@ def sanitize(url: str) -> str:
     return url.replace("&", "?", 1)
 
 
-def add_market(market: str | None) -> str:
+def add_market(market: str | None, markets: set[str]) -> str:
     if market:
-        if market in ISO3166:
+        if market in markets:
             return "?market=" + market
         print("Warning: Wrong market, switching to default")
     return ""

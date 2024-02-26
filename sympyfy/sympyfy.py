@@ -19,6 +19,7 @@ from sympyfy.api_urls import (
     HTTP_GET_ARTIST,
     HTTP_GET_ARTIST_ALBUMS,
     HTTP_GET_ARTIST_TOP_TRACKS,
+    HTTP_GET_MARKETS,
     HTTP_GET_RELATED_ARTISTS,
     HTTP_GET_SEVERAL_ALBUMS,
     HTTP_GET_SEVERAL_ARTISTS,
@@ -43,6 +44,7 @@ class Sympyfy:
     def __init__(self) -> None:
         self._spotify_credentials: dict[str, str]
         self._access_token: Access_token
+        self._spotify_markets: set[str] = set()
 
     def load_credentials(self) -> None:
         """Load Spotify credential request for an Access Token
@@ -162,7 +164,7 @@ class Sympyfy:
         """
         url = (
             HTTP_GET_ARTIST_ALBUMS.replace("{id}", id)
-            + add_market(market)
+            + add_market(market, self.markets)
             + add_pagination(limit, offset)
             + add_include_groups(include_groups)
         )
@@ -182,7 +184,7 @@ class Sympyfy:
         :type market: str
         :returns:  list of Tracks objects or None if id does not match an artist
         """
-        url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", id) + add_market(market)
+        url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", id) + add_market(market, self.markets)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_tracks_list(response.content)
@@ -212,7 +214,7 @@ class Sympyfy:
         :type market: str
         :returns:  Track object or None if id does not match a track
         """
-        url = HTTP_GET_TRACK.replace("{id}", id) + add_market(market)
+        url = HTTP_GET_TRACK.replace("{id}", id) + add_market(market, self.markets)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_track(response.content)
@@ -228,7 +230,9 @@ class Sympyfy:
         :type market: str
         :returns:  list of Tracks objects
         """
-        url = HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(ids)) + add_market(market)
+        url = HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(ids)) + add_market(
+            market, self.markets
+        )
         response = self._get_api_response_with_access_token(url)
         return self.__make_tracks_list(response.content)
 
@@ -268,7 +272,7 @@ class Sympyfy:
         :type market: str
         :returns:  Album object or None if id does not match a track
         """
-        url = HTTP_GET_ALBUM.replace("{id}", id) + add_market(market)
+        url = HTTP_GET_ALBUM.replace("{id}", id) + add_market(market, self.markets)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_album(response.content)
@@ -284,9 +288,35 @@ class Sympyfy:
         :type market: str
         :returns:  list of Albums objects
         """
-        url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(ids)) + add_market(market)
+        url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(ids)) + add_market(
+            market, self.markets
+        )
         response = self._get_api_response_with_access_token(url)
         return self.__make_albums_list(response.content)
+
+    def get_markets(self) -> set[str]:
+        """returns the list of markets where Spotify is available.
+        https://developer.spotify.com/documentation/web-api/reference/get-available-markets
+        https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+
+        :returns:  list of ISO 3166-1 alpha-2 country codes
+        """
+        url = HTTP_GET_MARKETS
+        response = self._get_api_response_with_access_token(url)
+        return self.__make_markets(response.content)
+
+    @property
+    def markets(self) -> set[str]:
+        """returns the list of markets where Spotify is available.
+        This is the preferred way to get this information since it is lazy loaded
+        from the api via the method 'get_markets'
+
+        :returns:  list of ISO 3166-1 alpha-2 country codes
+        """
+        if not self._spotify_markets:
+            # lazy loading of markets
+            self._spotify_markets = self.get_markets()
+        return self._spotify_markets
 
     def __make_artist(self, json_content: bytes | Any) -> Artist:
         if isinstance(json_content, bytes):
@@ -492,3 +522,7 @@ class Sympyfy:
             if audio_feature:
                 audio_features_list.append(self.__make_audio_features(audio_feature))
         return audio_features_list
+
+    def __make_markets(self, json_content: bytes) -> set[str]:
+        _dict = json.loads(json_content)
+        return set(_dict["markets"])

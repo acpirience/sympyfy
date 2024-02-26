@@ -23,6 +23,10 @@ API implemented so far:
 - [x] Get Artist's Related Artists ⮕ **GET** `/artists/{id}/related-artists`
 
 
+**Markets**
+- [x] Get Available Markets ⮕ **GET** `/markets`
+
+
 **Tracks**
 - [x] Get Track ⮕ **GET** `/tracks/{id}`
 - [x] Get Several Tracks ⮕ **GET** `/tracks?ids={ids}`
