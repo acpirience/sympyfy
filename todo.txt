@@ -1,3 +1,4 @@
 - env variable for default market ?
 - make a pass of the API to find forgotten properties
+- Navigation for "get album" tracks
 - handle access token refresh

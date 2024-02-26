@@ -4,7 +4,7 @@
 
 - [x] Get Album ⮕ **GET** `/albums/{id}`
 - [x] Get Several Albums ⮕ **GET** `/albums?ids={ids}`
-- [ ] Get Album Tracks ⮕ **GET** `/albums/{id}/tracks`
+- [x] Get Album Tracks ⮕ **GET** `/albums/{id}/tracks`
 - [ ] Get User's Saved Albums ⮕ **GET** `/me/albums` 🔒
 - [ ] Save Albums for Current User ⮕ **PUT** `/me/albums` 🔒
 - [ ] Remove Users' Saved Albums ⮕ **DELETE** `/me/albums` 🔒

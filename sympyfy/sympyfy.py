@@ -15,6 +15,7 @@ from requests import Response, get, post
 from sympyfy.api_structures import Album, Artist, Audio_features, Image, Navigation, Track
 from sympyfy.api_urls import (
     HTTP_GET_ALBUM,
+    HTTP_GET_ALBUM_TRACKS,
     HTTP_GET_APP_TOKEN,
     HTTP_GET_ARTIST,
     HTTP_GET_ARTIST_ALBUMS,
@@ -150,14 +151,14 @@ class Sympyfy:
         limit: int = 20,
         offset: int = 0,
     ) -> tuple[list[Album], Navigation] | None:
-        """returns a list of album Objects related to the artist its id in a given market. Result is paginated.<br>
+        """returns a list of album Objects related to the artist specified by its id in a given market. Result is paginated.<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums)
 
         Parameters:
             artist_id: Spotify id of the artist
             market: ISO 2 character country code of the market
             include_groups: A list of keywords that will be used to filter the response. Valid values are: album, single, appears_on, compilation.
-            limit: Maximum number of album appearing
+            limit: Maximum number of albums appearing
             offset: Index of first album to return
 
         Returns:
@@ -209,6 +210,69 @@ class Sympyfy:
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artists_list(response.content)
+        return None
+
+    def get_album(self, album_id: str, market: str | None = None) -> Album | None:
+        """returns the details of an album specified by its id<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-an-album](https://developer.spotify.com/documentation/web-api/reference/get-an-album)
+
+        Parameters:
+            album_id: Spotify id of the album
+            market: Market to search in
+
+        Returns:
+            Album object or None if id does not match a track
+        """
+        url = HTTP_GET_ALBUM.replace("{id}", album_id) + add_market(market, self.markets)
+        response = self._get_api_response_with_access_token(url)
+        if response.status_code == 200:
+            return self.__make_album(response.content)
+        return None
+
+    def get_several_albums(self, album_ids: list[str], market: str | None = None) -> list[Album]:
+        """returns a list of Album Objects specified by a list of their ids<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums](https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums)
+
+        Parameters:
+            album_ids: list of albums ids
+            market: Market to search in
+
+        Returns:
+            list of Albums objects
+        """
+        url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(album_ids)) + add_market(
+            market, self.markets
+        )
+        response = self._get_api_response_with_access_token(url)
+        return self.__make_albums_list(response.content)
+
+    def get_album_tracks(
+        self,
+        album_id: str,
+        market: str | None = None,
+        limit: int = 20,
+        offset: int = 0,
+    ) -> tuple[list[Track], Navigation] | None:
+        """returns a list of track Objects related to the album specified by its id in a given market. Result is paginated.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks](https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks)
+
+        Parameters:
+            album_id: Spotify id of the artist
+            market: ISO 2 character country code of the market
+            limit: Maximum number of tracks appearing
+            offset: Index of first track to return
+
+        Returns:
+            Navigation Object and list of track objects or None if id does not match an album
+        """
+        url = (
+            HTTP_GET_ALBUM_TRACKS.replace("{id}", album_id)
+            + add_market(market, self.markets)
+            + add_pagination(limit, offset)
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_album_tracks(response.content)
         return None
 
     def get_track(self, track_id: str, market: str | None = None) -> Track | None:
@@ -274,40 +338,6 @@ class Sympyfy:
         url = HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(track_ids))
         response = self._get_api_response_with_access_token(url)
         return self.__make_audio_features_list(response.content)
-
-    def get_album(self, album_id: str, market: str | None = None) -> Album | None:
-        """returns the details of an album specified by its id<br>
-        [https://developer.spotify.com/documentation/web-api/reference/get-an-album](https://developer.spotify.com/documentation/web-api/reference/get-an-album)
-
-        Parameters:
-            album_id: Spotify id of the album
-            market: Market to search in
-
-        Returns:
-            Album object or None if id does not match a track
-        """
-        url = HTTP_GET_ALBUM.replace("{id}", album_id) + add_market(market, self.markets)
-        response = self._get_api_response_with_access_token(url)
-        if response.status_code == 200:
-            return self.__make_album(response.content)
-        return None
-
-    def get_several_albums(self, album_ids: list[str], market: str | None = None) -> list[Album]:
-        """returns a list of Album Objects specified by a list of their ids<br>
-        [https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums](https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums)
-
-        Parameters:
-            album_ids: list of albums ids
-            market: Market to search in
-
-        Returns:
-            list of Albums objects
-        """
-        url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(album_ids)) + add_market(
-            market, self.markets
-        )
-        response = self._get_api_response_with_access_token(url)
-        return self.__make_albums_list(response.content)
 
     def get_markets(self) -> set[str]:
         """returns the list of markets where Spotify is available.<br>
@@ -415,7 +445,7 @@ class Sympyfy:
             uri=_dict["uri"],
             popularity=value_or_default("popularity", _dict, 0),
             type=_dict["type"],
-            preview_url=_dict["preview_url"],
+            preview_url=value_or_default("preview_url", _dict, None),
             disc_number=_dict["disc_number"],
             track_number=_dict["track_number"],
             duration_ms=_dict["duration_ms"],
@@ -431,8 +461,11 @@ class Sympyfy:
             restrictions=restrictions,
         )
 
-    def __make_tracks_list(self, json_content: bytes) -> list[Track]:
-        _dict = json.loads(json_content)
+    def __make_tracks_list(self, json_content: bytes | Any) -> list[Track]:
+        if isinstance(json_content, bytes):
+            _dict = json.loads(json_content)
+        else:
+            _dict = json_content
         track_list = []
         for track in _dict["tracks"]:
             if track:
@@ -503,6 +536,19 @@ class Sympyfy:
             if album:
                 albums_list.append(self.__make_album(album))
         return albums_list
+
+    def __make_album_tracks(self, json_content: bytes) -> tuple[list[Track], Navigation]:
+        _dict = json.loads(json_content)
+        navigation = Navigation(
+            href=_dict["href"],
+            next=_dict["next"],
+            previous=_dict["previous"],
+            limit=_dict["limit"],
+            offset=_dict["offset"],
+            total=_dict["total"],
+        )
+
+        return self.__make_tracks_list({"tracks": _dict["items"]}), navigation
 
     def __make_audio_features(self, json_content: bytes | Any) -> Audio_features:
         if isinstance(json_content, bytes):

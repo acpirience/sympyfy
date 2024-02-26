@@ -30,6 +30,9 @@
 ::: sympyfy.Sympyfy.get_several_albums
     options:
       heading_level: 3
+::: sympyfy.Sympyfy.get_album_tracks
+    options:
+      heading_level: 3
 
 ## MARKETS ##
 ::: sympyfy.Sympyfy.markets
