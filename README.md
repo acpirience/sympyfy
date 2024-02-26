@@ -5,7 +5,8 @@ A spotify python library.
 The project is still ongoing, see [Documentation](https://acpirience.github.io/sympyfy/) for update on the Spotify API implementation status
 
 
-``` py title="USAGE"
+### Usage ###
+``` py
 from sympyfy import Sympyfy
 import pprint
 
