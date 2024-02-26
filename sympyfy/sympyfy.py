@@ -504,7 +504,7 @@ class Sympyfy:
                 albums_list.append(self.__make_album(album))
         return albums_list
 
-    def __make_audio_features(self, json_content: bytes) -> Audio_features:
+    def __make_audio_features(self, json_content: bytes | Any) -> Audio_features:
         if isinstance(json_content, bytes):
             print(json_content)
             _dict = json.loads(json_content)
