@@ -47,10 +47,8 @@ class Sympyfy:
         self._spotify_markets: set[str] = set()
 
     def load_credentials(self) -> None:
-        """Load Spotify credential request for an Access Token
-        https://developer.spotify.com/documentation/web-api/concepts/access-token
-
-        :returns:  None
+        """Load Spotify credential request for an Access Token<br>
+        See: [https://developer.spotify.com/documentation/web-api/concepts/access-token](https://developer.spotify.com/documentation/web-api/concepts/access-token)
         """
         self._load_spotify_credentials()
         self._load_access_token()
@@ -114,56 +112,59 @@ class Sympyfy:
         response = get(url, headers=headers)
         return response
 
-    def get_artist(self, id: str) -> Artist | None:
-        """returns an Artist Object specified by its id
-        https://developer.spotify.com/documentation/web-api/reference/get-an-artist
+    def get_artist(self, artist_id: str) -> Artist | None:
+        """returns an Artist Object specified by its id<br>
+        See: [https://developer.spotify.com/documentation/web-api/reference/get-an-artist](https://developer.spotify.com/documentation/web-api/reference/get-an-artist)
 
-        :param id: Spotify id of the artist
-        :type id: str
-        :returns:  Artist object or None if id does not match an artist
+        Parameters:
+            artist_id: Spotify id of the artist
+
+        Returns:
+            Artist object or None if id does not match an artist
         """
-        url = HTTP_GET_ARTIST.replace("{id}", id)
+        url = HTTP_GET_ARTIST.replace("{id}", artist_id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artist(response.content)
         return None
 
-    def get_several_artists(self, ids: list[str]) -> list[Artist]:
-        """returns a list of Artist Objects specified by a list of their ids
-        https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists
+    def get_several_artists(self, artist_ids: list[str]) -> list[Artist]:
+        """returns a list of Artist Objects specified by a list of their ids<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists](https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists)
 
-        :param ids: list of artists ids
-        :type ids: list[str]
-        :returns:  list of Artist objects
+        Parameters:
+            artist_ids: list of artists ids
+
+        Returns:
+            list of Artist objects
         """
-        url = HTTP_GET_SEVERAL_ARTISTS.replace("{ids}", "%2C".join(ids))
+        url = HTTP_GET_SEVERAL_ARTISTS.replace("{ids}", "%2C".join(artist_ids))
         response = self._get_api_response_with_access_token(url)
         return self.__make_artists_list(response.content)
 
     def get_artist_albums(
         self,
-        id: str,
+        artist_id: str,
         market: str | None = None,
         include_groups: list[str] = INCLUDE_GROUPS,
         limit: int = 20,
         offset: int = 0,
     ) -> tuple[list[Album], Navigation] | None:
-        """returns a list of album Objects related to the artist its id in a given market.
-        Result is paginated.
-        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks
+        """returns a list of album Objects related to the artist its id in a given market. Result is paginated.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums)
 
-        :param id: Spotify id of the artist
-        :type id: str
-        :param market: ISO 2 character country code of the market
-        :type market: str
-        :param limit: maximum number of album appearing
-        :type limit: int
-        :param offset: index of first album to return
-        :type offset: int
-        :returns:  Navigation Object and list of Album objects or None if id does not match an artist
+        Parameters:
+            artist_id: Spotify id of the artist
+            market: ISO 2 character country code of the market
+            include_groups: A list of keywords that will be used to filter the response. Valid values are: album, single, appears_on, compilation.
+            limit: Maximum number of album appearing
+            offset: Index of first album to return
+
+        Returns:
+            Navigation Object and list of Album objects or None if id does not match an artist
         """
         url = (
-            HTTP_GET_ARTIST_ALBUMS.replace("{id}", id)
+            HTTP_GET_ARTIST_ALBUMS.replace("{id}", artist_id)
             + add_market(market, self.markets)
             + add_pagination(limit, offset)
             + add_include_groups(include_groups)
@@ -173,133 +174,149 @@ class Sympyfy:
             return self.__make_artist_albums(response.content)
         return None
 
-    def get_artist_top_tracks(self, id: str, market: str | None = None) -> list[Track] | None:
-        """returns a list of top Track Objects related to the artist specified by its id
-        in a given market
-        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks
+    def get_artist_top_tracks(
+        self, artist_id: str, market: str | None = None
+    ) -> list[Track] | None:
+        """returns a list of top Track Objects related to the artist specified by its id in a given market<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks)
 
-        :param id: Spotify id of the artist
-        :type id: str
-        :param market: ISO 2 character country code of the market
-        :type market: str
-        :returns:  list of Tracks objects or None if id does not match an artist
+        Parameters:
+            artist_id: Spotify id of the artist
+            market: ISO 2 character country code of the market
+
+        Returns:
+            list of Tracks objects or None if id does not match an artist
         """
-        url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", id) + add_market(market, self.markets)
+        url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", artist_id) + add_market(
+            market, self.markets
+        )
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_tracks_list(response.content)
         return None
 
-    def get_artist_related_artists(self, id: str) -> list[Artist] | None:
-        """returns a list of Artist Objects related to the artist specified by its id
-        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists
+    def get_artist_related_artists(self, artist_id: str) -> list[Artist] | None:
+        """returns a list of Artist Objects related to the artist specified by its id<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists)
 
-        :param id: Spotify id of the artist
-        :type id: str
-        :returns:  list of Artist objects or None if id does not match an artist
+        Parameters:
+            artist_id: Spotify id of the artist
+
+        Returns:
+            list of Artist objects or None if id does not match an artist
         """
-        url = HTTP_GET_RELATED_ARTISTS.replace("{id}", id)
+        url = HTTP_GET_RELATED_ARTISTS.replace("{id}", artist_id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artists_list(response.content)
         return None
 
-    def get_track(self, id: str, market: str | None = None) -> Track | None:
-        """returns the details of a track specified by its id
-        https://developer.spotify.com/documentation/web-api/reference/get-track
+    def get_track(self, track_id: str, market: str | None = None) -> Track | None:
+        """returns the details of a track specified by its id<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-track](https://developer.spotify.com/documentation/web-api/reference/get-track)
 
-        :param id: Spotify id of the track
-        :type id: str
-        :param market: Market to search in
-        :type market: str
-        :returns:  Track object or None if id does not match a track
+        Parameters:
+            track_id: Spotify id of the track
+            market: Market to search in
+
+        Returns:
+            Track object or None if id does not match a track
         """
-        url = HTTP_GET_TRACK.replace("{id}", id) + add_market(market, self.markets)
+        url = HTTP_GET_TRACK.replace("{id}", track_id) + add_market(market, self.markets)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_track(response.content)
         return None
 
-    def get_several_tracks(self, ids: list[str], market: str | None = None) -> list[Track]:
-        """returns a list of Track Objects specified by a list of their ids
-        https://developer.spotify.com/documentation/web-api/reference/get-several-tracks
+    def get_several_tracks(self, track_ids: list[str], market: str | None = None) -> list[Track]:
+        """returns a list of Track Objects specified by a list of their ids<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-several-tracks](https://developer.spotify.com/documentation/web-api/reference/get-several-tracks)
 
-        :param ids: list of tracks ids
-        :type ids: list[str]
-        :param market: Market to search in
-        :type market: str
-        :returns:  list of Tracks objects
+        Parameters:
+            track_ids: list of tracks ids
+            market: Market to search in
+
+        Returns:
+            list of Tracks objects
         """
-        url = HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(ids)) + add_market(
+        url = HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(track_ids)) + add_market(
             market, self.markets
         )
         response = self._get_api_response_with_access_token(url)
         return self.__make_tracks_list(response.content)
 
-    def get_track_audio_features(self, id: str) -> Audio_features | None:
-        """returns a Audio_features Object specified by its ids
-        https://developer.spotify.com/documentation/web-api/reference/get-audio-features
+    def get_track_audio_features(self, track_id: str) -> Audio_features | None:
+        """returns a Audio_features Object specified by its ids<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-audio-features](https://developer.spotify.com/documentation/web-api/reference/get-audio-features)
 
-        :param id: track id
-        :type id: str
-        :returns:  List of Audio_features object
+        Parameters:
+            track_id: Spotify id of the track
+
+        Returns:
+            List of Audio_features object
         """
-        url = HTTP_GET_TRACK_AUDIO_FEATURES.replace("{id}", id)
+        url = HTTP_GET_TRACK_AUDIO_FEATURES.replace("{id}", track_id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_audio_features(response.content)
         return None
 
-    def get_several_track_audio_features(self, ids: list[str]) -> list[Audio_features]:
-        """returns a list of Audio_features Object specified by a list of their ids
-        https://developer.spotify.com/documentation/web-api/reference/get-several-audio-features
+    def get_several_track_audio_features(self, track_ids: list[str]) -> list[Audio_features]:
+        """returns a list of Audio_features Object specified by a list of their ids<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-several-audio-features](https://developer.spotify.com/documentation/web-api/reference/get-several-audio-features)
 
-        :param ids: list of tracks ids
-        :type ids: list[str]
-        :returns:  Audio_features object
+        Parameters
+            track_ids: list of tracks ids
+
+        Returns:
+            List of Audio_features objects
         """
-        url = HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(ids))
+        url = HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(track_ids))
         response = self._get_api_response_with_access_token(url)
         return self.__make_audio_features_list(response.content)
 
-    def get_album(self, id: str, market: str | None = None) -> Album | None:
-        """returns the details of an album specified by its id
-        https://developer.spotify.com/documentation/web-api/reference/get-an-album
+    def get_album(self, album_id: str, market: str | None = None) -> Album | None:
+        """returns the details of an album specified by its id<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-an-album](https://developer.spotify.com/documentation/web-api/reference/get-an-album)
 
-        :param id: Spotify id of the album
-        :type id: str
-        :param market: Market to search in
-        :type market: str
-        :returns:  Album object or None if id does not match a track
+        Parameters:
+            album_id: Spotify id of the album
+            market: Market to search in
+
+        Returns:
+            Album object or None if id does not match a track
         """
-        url = HTTP_GET_ALBUM.replace("{id}", id) + add_market(market, self.markets)
+        url = HTTP_GET_ALBUM.replace("{id}", album_id) + add_market(market, self.markets)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_album(response.content)
         return None
 
-    def get_several_albums(self, ids: list[str], market: str | None = None) -> list[Album]:
-        """returns a list of Album Objects specified by a list of their ids
-        https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums
+    def get_several_albums(self, album_ids: list[str], market: str | None = None) -> list[Album]:
+        """returns a list of Album Objects specified by a list of their ids<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums](https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums)
 
-        :param ids: list of albums ids
-        :type ids: list[str]
-        :param market: Market to search in
-        :type market: str
-        :returns:  list of Albums objects
+        Parameters:
+            album_ids: list of albums ids
+            market: Market to search in
+
+        Returns
+            list of Albums objects
         """
-        url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(ids)) + add_market(
+        url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(album_ids)) + add_market(
             market, self.markets
         )
         response = self._get_api_response_with_access_token(url)
         return self.__make_albums_list(response.content)
 
     def get_markets(self) -> set[str]:
-        """returns the list of markets where Spotify is available.
-        https://developer.spotify.com/documentation/web-api/reference/get-available-markets
-        https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+        """returns the list of markets where Spotify is available.<br>
+        Please use the [markets property](sympyfy.md#sympyfy.Sympyfy.markets), this method is public only to match the Spotify API<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-available-markets](https://developer.spotify.com/documentation/web-api/reference/get-available-markets)<br>
+        [https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
 
-        :returns:  list of ISO 3166-1 alpha-2 country codes
+        Returns:
+            list of ISO 3166-1 alpha-2 country codes
         """
         url = HTTP_GET_MARKETS
         response = self._get_api_response_with_access_token(url)
@@ -307,11 +324,11 @@ class Sympyfy:
 
     @property
     def markets(self) -> set[str]:
-        """returns the list of markets where Spotify is available.
-        This is the preferred way to get this information since it is lazy loaded
-        from the api via the method 'get_markets'
+        """returns the list of markets where Spotify is available.<br>
+        This is the preferred way to get this information since it is lazy loaded from the api via the method [get_markets](sympyfy.md#sympyfy.Sympyfy.get_markets)
 
-        :returns:  list of ISO 3166-1 alpha-2 country codes
+        Returns:
+            list of ISO 3166-1 alpha-2 country codes
         """
         if not self._spotify_markets:
             # lazy loading of markets
