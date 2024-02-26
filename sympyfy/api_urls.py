@@ -12,6 +12,7 @@ HTTP_GET_ARTIST = HTTP_API_ROOT + "/artists/{id}"
 HTTP_GET_SEVERAL_ARTISTS = HTTP_API_ROOT + "/artists?ids={ids}"
 HTTP_GET_RELATED_ARTISTS = HTTP_API_ROOT + "/artists/{id}/related-artists"
 HTTP_GET_ARTIST_ALBUMS = HTTP_API_ROOT + "/artists/{id}/albums"
+HTTP_GET_ARTIST_TOP_TRACKS = HTTP_API_ROOT + "/artists/{id}/top-tracks"
 
 # tracks
 HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"

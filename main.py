@@ -19,13 +19,12 @@ def main() -> None:
     # test = spotify.get_several_tracks(["3EEd6ldsPat620GVYMEhOP", "2fKdsBazcOLLIzDiZUQCih"])
     # test = spotify.get_track_audio_features("6Ft7UiAv5SCfK7ZkqVmOCQ")
     # test = spotify.get_several_track_audio_features(["3EEd6ldsPat620GVYMEhOP", "2fKdsBazcOLLIzDiZUQCih"])
-    test_albums = spotify.get_artist_albums("7bu3H8JO7d0UbMoVzbo70s")
-    if test_albums:
-        test, nav = test_albums
+    # test_albums = spotify.get_artist_albums("7bu3H8JO7d0UbMoVzbo70s")
+    test = spotify.get_several_track_audio_features(["xyz"])
 
     print("*" * 20)
     print(f"{test=}")
-    print(f"{nav=}")
+    # print(f"{nav=}")
 
 
 if __name__ == "__main__":

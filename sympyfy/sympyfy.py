@@ -138,37 +138,6 @@ class Sympyfy:
         response = self._get_api_response_with_access_token(url)
         return self.__make_artists_list(response.content)
 
-    def get_artist_related_artists(self, id: str) -> list[Artist] | None:
-        """returns a list of Artist Objects related to the artist specified by its id
-        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists
-
-        :param id: Spotify id of the artist
-        :type id: str
-        :returns:  list of Artist objects or None if id does not match an artist
-        """
-        url = HTTP_GET_RELATED_ARTISTS.replace("{id}", id)
-        response = self._get_api_response_with_access_token(url)
-        if response.status_code == 200:
-            return self.__make_artists_list(response.content)
-        return None
-
-    def get_artist_top_tracks(self, id: str, market: str | None = None) -> list[Track] | None:
-        """returns a list of top Track Objects related to the artist specified by its id
-        in a given market
-        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks
-
-        :param id: Spotify id of the artist
-        :type id: str
-        :param market: ISO 2 character country code of the market
-        :type market: str
-        :returns:  list of Tracks objects or None if id does not match an artist
-        """
-        url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", id) + add_market(market)
-        response = self._get_api_response_with_access_token(url)
-        if response.status_code == 200:
-            return self.__make_tracks_list(response.content)
-        return None
-
     def get_artist_albums(
         self,
         id: str,
@@ -199,8 +168,38 @@ class Sympyfy:
         )
         response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
-            print(response.content)
             return self.__make_artist_albums(response.content)
+        return None
+
+    def get_artist_top_tracks(self, id: str, market: str | None = None) -> list[Track] | None:
+        """returns a list of top Track Objects related to the artist specified by its id
+        in a given market
+        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks
+
+        :param id: Spotify id of the artist
+        :type id: str
+        :param market: ISO 2 character country code of the market
+        :type market: str
+        :returns:  list of Tracks objects or None if id does not match an artist
+        """
+        url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", id) + add_market(market)
+        response = self._get_api_response_with_access_token(url)
+        if response.status_code == 200:
+            return self.__make_tracks_list(response.content)
+        return None
+
+    def get_artist_related_artists(self, id: str) -> list[Artist] | None:
+        """returns a list of Artist Objects related to the artist specified by its id
+        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists
+
+        :param id: Spotify id of the artist
+        :type id: str
+        :returns:  list of Artist objects or None if id does not match an artist
+        """
+        url = HTTP_GET_RELATED_ARTISTS.replace("{id}", id)
+        response = self._get_api_response_with_access_token(url)
+        if response.status_code == 200:
+            return self.__make_artists_list(response.content)
         return None
 
     def get_track(self, id: str, market: str | None = None) -> Track | None:
@@ -231,7 +230,6 @@ class Sympyfy:
         """
         url = HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(ids)) + add_market(market)
         response = self._get_api_response_with_access_token(url)
-        print(response.content)
         return self.__make_tracks_list(response.content)
 
     def get_track_audio_features(self, id: str) -> Audio_features | None:
@@ -248,7 +246,7 @@ class Sympyfy:
             return self.__make_audio_features(response.content)
         return None
 
-    def get_several_track_audio_features(self, ids: list[str]) -> list[Audio_features] | None:
+    def get_several_track_audio_features(self, ids: list[str]) -> list[Audio_features]:
         """returns a list of Audio_features Object specified by a list of their ids
         https://developer.spotify.com/documentation/web-api/reference/get-several-audio-features
 
@@ -258,10 +256,7 @@ class Sympyfy:
         """
         url = HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(ids))
         response = self._get_api_response_with_access_token(url)
-        if response.status_code == 200:
-            print(response.content)
-            return self.__make_audio_features_list(response.content)
-        return None
+        return self.__make_audio_features_list(response.content)
 
     def get_album(self, id: str, market: str | None = None) -> Album | None:
         """returns the details of an album specified by its id
@@ -354,10 +349,13 @@ class Sympyfy:
 
         available_markets = []
         ext_ids = []
+        restrictions = ""
         if "available_markets" in _dict:
             available_markets = [x for x in _dict["available_markets"]]
         if "external_ids" in _dict:
             ext_ids = [{x: _dict["external_ids"][x]} for x in _dict["external_ids"]]
+        if "restrictions" in _dict and "reason" in _dict["restrictions"]:
+            restrictions = _dict["restrictions"]["reason"]
 
         ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
         artists = [self.__make_artist(x) for x in _dict["artists"]]
@@ -382,6 +380,8 @@ class Sympyfy:
             artists=artists,
             available_markets=available_markets,
             album=album,
+            linked_from=value_or_default("linked_from", _dict, None),
+            restrictions=restrictions,
         )
 
     def __make_tracks_list(self, json_content: bytes) -> list[Track]:

@@ -7,7 +7,7 @@ test for sympyfy.get_several_track_audio_features
 from sympyfy import Sympyfy
 
 
-def test_get_known_track_audio_features() -> None:
+def test_get_several_track_audio_features_ok() -> None:
     test = Sympyfy()
     test.load_credentials()
 
@@ -23,7 +23,7 @@ def test_get_known_track_audio_features() -> None:
     assert 188693 in test_duration_ms
 
 
-def test_get_unknown_track_audio_features() -> None:
+def test_get_several_track_audio_features_one_unknown() -> None:
     test = Sympyfy()
     test.load_credentials()
 
@@ -38,3 +38,12 @@ def test_get_unknown_track_audio_features() -> None:
 
     assert 186038 in test_duration_ms
     assert 188693 not in test_duration_ms
+
+
+def test_get_several_track_audio_features_no_tracks() -> None:
+    test = Sympyfy()
+    test.load_credentials()
+
+    test_audio_features_list = test.get_several_track_audio_features(["xyz"])
+
+    assert test_audio_features_list == []

@@ -5,7 +5,7 @@ contains the data structures for the spotify API
 """
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -49,6 +49,8 @@ class Track:
     artists: list[Artist]
     available_markets: list[str]
     album: Optional["Album"]
+    linked_from: Optional[dict[str, Any]]
+    restrictions: str
 
 
 @dataclass

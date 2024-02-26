@@ -34,3 +34,12 @@ def test_get_unknown_track() -> None:
 
     assert "Goo Goo Muck" in test_tracks_names
     assert "Novocaine For The Soul" not in test_tracks_names
+
+
+def test_get_none_track() -> None:
+    test = Sympyfy()
+    test.load_credentials()
+
+    test_tracks_list = test.get_several_tracks(["abc", "xyz"])
+
+    assert not test_tracks_list
