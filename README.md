@@ -18,7 +18,7 @@ API implemented so far:
 **Artists**
 - [x] Get Artist ⮕ **GET** `/artists/{id}`
 - [x] Get Several Artists ⮕ **GET** `/artists?ids={ids}`
-- [ ] Get Artist's Albums ⮕ **GET** `/artists/{id}/albums`
+- [x] Get Artist's Albums ⮕ **GET** `/artists/{id}/albums`
 - [ ] Get Artist's Top Tracks ⮕ **GET** `/artists/{id}/top-tracks`
 - [x] Get Artist's Related Artists ⮕ **GET** `/artists/{id}/related-artists`
 

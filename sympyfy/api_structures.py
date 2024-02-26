@@ -82,6 +82,7 @@ class Album:
     popularity: int
     type: str
     album_type: str
+    album_group: str
     release_date: str
     release_date_precision: str
     available_markets: list[str]
@@ -94,3 +95,13 @@ class Album:
     artists: list[Artist]
     tracks_total: int
     tracks: list[Track]
+
+
+@dataclass
+class Navigation:
+    href: str
+    next: str | None
+    previous: str | None
+    limit: int
+    offset: int
+    total: int

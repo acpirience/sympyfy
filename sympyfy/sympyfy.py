@@ -12,11 +12,12 @@ from typing import Any
 from dotenv import dotenv_values
 from requests import Response, get, post
 
-from sympyfy.api_structures import Album, Artist, Audio_features, Image, Track
+from sympyfy.api_structures import Album, Artist, Audio_features, Image, Navigation, Track
 from sympyfy.api_urls import (
     HTTP_GET_ALBUM,
     HTTP_GET_APP_TOKEN,
     HTTP_GET_ARTIST,
+    HTTP_GET_ARTIST_ALBUMS,
     HTTP_GET_ARTIST_TOP_TRACKS,
     HTTP_GET_RELATED_ARTISTS,
     HTTP_GET_SEVERAL_ALBUMS,
@@ -26,7 +27,14 @@ from sympyfy.api_urls import (
     HTTP_GET_TRACK,
     HTTP_GET_TRACK_AUDIO_FEATURES,
 )
-from sympyfy.common import add_market, value_or_default
+from sympyfy.common import (
+    INCLUDE_GROUPS,
+    add_include_groups,
+    add_market,
+    add_pagination,
+    sanitize,
+    value_or_default,
+)
 from sympyfy.tokens.access_token import Access_token
 
 
@@ -152,13 +160,47 @@ class Sympyfy:
         :param id: Spotify id of the artist
         :type id: str
         :param market: ISO 2 character country code of the market
-        :type id: str
+        :type market: str
         :returns:  list of Tracks objects or None if id does not match an artist
         """
         url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", id) + add_market(market)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_tracks_list(response.content)
+        return None
+
+    def get_artist_albums(
+        self,
+        id: str,
+        market: str | None = None,
+        include_groups: list[str] = INCLUDE_GROUPS,
+        limit: int = 20,
+        offset: int = 0,
+    ) -> tuple[list[Album], Navigation] | None:
+        """returns a list of album Objects related to the artist its id in a given market.
+        Result is paginated.
+        https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks
+
+        :param id: Spotify id of the artist
+        :type id: str
+        :param market: ISO 2 character country code of the market
+        :type market: str
+        :param limit: maximum number of album appearing
+        :type limit: int
+        :param offset: index of first album to return
+        :type offset: int
+        :returns:  Navigation Object and list of Album objects or None if id does not match an artist
+        """
+        url = (
+            HTTP_GET_ARTIST_ALBUMS.replace("{id}", id)
+            + add_market(market)
+            + add_pagination(limit, offset)
+            + add_include_groups(include_groups)
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            print(response.content)
+            return self.__make_artist_albums(response.content)
         return None
 
     def get_track(self, id: str, market: str | None = None) -> Track | None:
@@ -291,6 +333,19 @@ class Sympyfy:
                 artists_list.append(self.__make_artist(artist))
         return artists_list
 
+    def __make_artist_albums(self, json_content: bytes) -> tuple[list[Album], Navigation]:
+        _dict = json.loads(json_content)
+        navigation = Navigation(
+            href=_dict["href"],
+            next=_dict["next"],
+            previous=_dict["previous"],
+            limit=_dict["limit"],
+            offset=_dict["offset"],
+            total=_dict["total"],
+        )
+
+        return self.__make_albums_list({"albums": _dict["items"]}), navigation
+
     def __make_track(self, json_content: bytes | Any) -> Track:
         if isinstance(json_content, bytes):
             _dict = json.loads(json_content)
@@ -339,7 +394,6 @@ class Sympyfy:
 
     def __make_album(self, json_content: bytes | Any) -> Album:
         if isinstance(json_content, bytes):
-            print(json_content)
             _dict = json.loads(json_content)
         else:
             _dict = json_content
@@ -377,6 +431,7 @@ class Sympyfy:
             popularity=value_or_default("popularity", _dict, 0),
             type=_dict["type"],
             album_type=_dict["type"],
+            album_group=value_or_default("album_group", _dict, "album"),
             release_date=_dict["release_date"],
             release_date_precision=_dict["release_date_precision"],
             available_markets=available_markets,
@@ -391,8 +446,11 @@ class Sympyfy:
             tracks=tracks,
         )
 
-    def __make_albums_list(self, json_content: bytes) -> list[Album]:
-        _dict = json.loads(json_content)
+    def __make_albums_list(self, json_content: bytes | Any) -> list[Album]:
+        if isinstance(json_content, bytes):
+            _dict = json.loads(json_content)
+        else:
+            _dict = json_content
         albums_list = []
         for album in _dict["albums"]:
             if album:
