@@ -37,6 +37,11 @@
     options:
       heading_level: 3
 
+## CATEGORIES ##
+::: sympyfy.Sympyfy.get_browse_category
+    options:
+      heading_level: 3
+
 ## MARKETS ##
 ::: sympyfy.Sympyfy.markets
     options:

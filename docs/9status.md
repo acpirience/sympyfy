@@ -21,6 +21,11 @@
 - [x] Get Artist's Related Artists ⮕ **GET** `/artists/{id}/related-artists`
 
 
+###Categories
+- [x] Get Single Browse Category ⮕ **GET** `/browse/categories/{category_id}`
+- [ ] Get Several Browse Categories ⮕ **GET** `/browse/categories`
+
+
 ###Markets
 
 - [x] Get Available Markets ⮕ **GET** `/markets`

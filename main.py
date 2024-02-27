@@ -22,13 +22,15 @@ def main() -> None:
     # test_albums = spotify.get_artist_albums("7bu3H8JO7d0UbMoVzbo70s")
     # test = spotify.get_several_track_audio_features(["xyz"])
     # xxx = spotify.get_album_tracks("2ANVost0y2y52ema1E9xAZ")
-    xxx = spotify.get_new_releases()
-    if xxx:
-        test, nav = xxx
+    # xxx = spotify.get_new_releases()
+    test = spotify.get_browse_category("dinner")
+
+    # if xxx:
+    #     test, nav = xxx
 
     print("*" * 20)
     print(f"{test=}")
-    print(f"{nav=}")
+    # print(f"{nav=}")
 
 
 if __name__ == "__main__":

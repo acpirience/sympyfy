@@ -220,3 +220,21 @@ class Navigation:
     limit: int
     offset: int
     total: int
+
+
+@dataclass
+class Category:
+    """
+    Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).
+
+    Parameters:
+        id: The Spotify category ID of the category.
+        name: The name of the category.
+        href: A link to the Web API endpoint returning full details of the category.
+        icons: The category icon, in various sizes.
+    """
+
+    id: str
+    name: str
+    href: str
+    icons: list[Image]

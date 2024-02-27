@@ -24,8 +24,14 @@ def sanitize(url: str) -> str:
 def add_market(market: str | None, markets: set[str]) -> str:
     if market:
         if market in markets:
-            return "?market=" + market
+            return "&market=" + market
         print("Warning: Wrong market, switching to default")
+    return ""
+
+
+def add_url_parameter(param_name: str, param_value: str | None) -> str:
+    if param_value:
+        return f"&{param_name}={param_value}"
     return ""
 
 

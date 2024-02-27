@@ -13,12 +13,13 @@ from dotenv import dotenv_values
 from requests import Response, get, post
 
 import sympyfy.api_urls as api
-from sympyfy.api_structures import Album, Artist, Audio_features, Image, Navigation, Track
+from sympyfy.api_structures import Album, Artist, Audio_features, Category, Image, Navigation, Track
 from sympyfy.common import (
     INCLUDE_GROUPS,
     add_include_groups,
     add_market,
     add_pagination,
+    add_url_parameter,
     sanitize,
     value_or_default,
 )
@@ -109,7 +110,7 @@ class Sympyfy:
             Artist object or None if id does not match an artist
         """
         url = api.HTTP_GET_ARTIST.replace("{id}", artist_id)
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
             return self.__make_artist(response.content)
         return None
@@ -125,7 +126,7 @@ class Sympyfy:
             list of Artist objects
         """
         url = api.HTTP_GET_SEVERAL_ARTISTS.replace("{ids}", "%2C".join(artist_ids))
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_artists_list(response.content)
 
     def get_artist_albums(
@@ -176,7 +177,7 @@ class Sympyfy:
         url = api.HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", artist_id) + add_market(
             market, self.markets
         )
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
             return self.__make_tracks_list(response.content)
         return None
@@ -192,7 +193,7 @@ class Sympyfy:
             list of Artist objects or None if id does not match an artist
         """
         url = api.HTTP_GET_RELATED_ARTISTS.replace("{id}", artist_id)
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
             return self.__make_artists_list(response.content)
         return None
@@ -209,7 +210,7 @@ class Sympyfy:
             Album object or None if id does not match a track
         """
         url = api.HTTP_GET_ALBUM.replace("{id}", album_id) + add_market(market, self.markets)
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
             return self.__make_album(response.content)
         return None
@@ -228,7 +229,7 @@ class Sympyfy:
         url = api.HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(album_ids)) + add_market(
             market, self.markets
         )
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_albums_list(response.content)
 
     def get_album_tracks(
@@ -268,7 +269,7 @@ class Sympyfy:
             List of Track object plus a Navigation object
         """
         url = api.HTTP_GET_NEW_RELEASES
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         print(response.content)
         return self.__make_new_releases(response.content)
 
@@ -284,7 +285,7 @@ class Sympyfy:
             Track object or None if id does not match a track
         """
         url = api.HTTP_GET_TRACK.replace("{id}", track_id) + add_market(market, self.markets)
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
             return self.__make_track(response.content)
         return None
@@ -303,7 +304,7 @@ class Sympyfy:
         url = api.HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(track_ids)) + add_market(
             market, self.markets
         )
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_tracks_list(response.content)
 
     def get_track_audio_features(self, track_id: str) -> Audio_features | None:
@@ -317,7 +318,7 @@ class Sympyfy:
             List of Audio_features object
         """
         url = api.HTTP_GET_TRACK_AUDIO_FEATURES.replace("{id}", track_id)
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
             return self.__make_audio_features(response.content)
         return None
@@ -333,7 +334,7 @@ class Sympyfy:
             List of Audio_features objects
         """
         url = api.HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(track_ids))
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_audio_features_list(response.content)
 
     def get_markets(self) -> set[str]:
@@ -346,13 +347,15 @@ class Sympyfy:
             list of ISO 3166-1 alpha-2 country codes
         """
         url = api.HTTP_GET_MARKETS
-        response = self._get_api_response_with_access_token(url)
+        response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_markets(response.content)
 
     @property
     def markets(self) -> set[str]:
         """returns the list of markets where Spotify is available.<br>
         This is the preferred way to get this information since it is lazy loaded from the api via the method [get_markets](0sympyfy.md#sympyfy.Sympyfy.get_markets)
+        [https://developer.spotify.com/documentation/web-api/reference/get-available-markets](https://developer.spotify.com/documentation/web-api/reference/get-available-markets)<br>
+        [https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
 
         Returns:
             list of ISO 3166-1 alpha-2 country codes
@@ -361,6 +364,25 @@ class Sympyfy:
             # lazy loading of markets
             self._spotify_markets = self.get_markets()
         return self._spotify_markets
+
+    def get_browse_category(self, category_id: str, locale: str | None = None) -> Category | None:
+        """Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-a-category](https://developer.spotify.com/documentation/web-api/reference/get-a-category)
+
+        Parameters:
+            category_id: The Spotify category ID for the category.
+            locale: The desired language, consisting of an ISO 639-1 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore. For example: es_MX, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note: if locale is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).
+
+        Returns:
+            a Category object or None if if the id is unknown
+        """
+        url = api.HTTP_GET_BROWSE_CATEGORY.replace("{id}", category_id) + add_url_parameter(
+            "locale", locale
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_category(response.content)
+        return None
 
     def __make_artist(self, json_content: bytes | Any) -> Artist:
         if isinstance(json_content, bytes):
@@ -593,3 +615,11 @@ class Sympyfy:
     def __make_markets(self, json_content: bytes) -> set[str]:
         _dict = json.loads(json_content)
         return set(_dict["markets"])
+
+    def __make_category(self, json_content: bytes) -> Category:
+        _dict = json.loads(json_content)
+        icons: list[Image] = []
+        if "icons" in _dict:
+            icons = [Image(x["url"], x["height"], x["width"]) for x in _dict["icons"]]
+
+        return Category(id=_dict["id"], name=_dict["name"], href=_dict["href"], icons=icons)

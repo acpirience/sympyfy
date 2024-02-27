@@ -22,4 +22,4 @@ def test_add_market_incorrect_country() -> None:
 def test_add_market_correct_country() -> None:
     test = add_market("FR", {"FR", "US"})
 
-    assert test == "?market=FR"
+    assert test == "&market=FR"

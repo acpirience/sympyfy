@@ -28,3 +28,6 @@ HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"
 HTTP_GET_SEVERAL_TRACKS = HTTP_API_ROOT + "/tracks?ids={ids}"
 HTTP_GET_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features/{id}"
 HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features?ids={ids}"
+
+# categories
+HTTP_GET_BROWSE_CATEGORY = HTTP_API_ROOT + "/browse/categories/{id}"
