@@ -17,10 +17,12 @@ class Image:
         url: The source URL of the image.
         height: The image height in pixels.
         width: The image width in pixels.
-     """
+    """
+
     url: str
     height: int
     width: int
+
 
 @dataclass
 class Artist:
@@ -38,7 +40,8 @@ class Artist:
         genres: A list of the genres the artist is associated with. If not yet classified, the array is empty.
         external_urls: Known external URLs for this artist.
         images: Images of the artist in various sizes, widest first.
-     """
+    """
+
     id: str
     name: str
     href: str
@@ -77,7 +80,8 @@ class Track:
         album: The album on which the track appears.
         linked_from: Part of the response when Track Relinking is applied, and the requested track has been replaced with different track. The track in the linked_from object contains information about the originally requested track.
         restrictions: Included in the response when a content restriction is applied.
-     """
+    """
+
     id: str
     name: str
     href: str
@@ -125,6 +129,7 @@ class Audio_features:
         valence: A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry). Range: 0 - 1
         tempo: The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
     """
+
     id: str
     track_href: str
     uri: str
@@ -172,6 +177,7 @@ class Album:
         tracks_total: The total number of items available to return.
         tracks: The tracks of the album.
     """
+
     id: str
     name: str
     href: str
@@ -207,6 +213,7 @@ class Navigation:
         offset: The offset of the items returned (as set in the query or by default)
         total: The total number of items available to return.
     """
+
     href: str
     next: str | None
     previous: str | None

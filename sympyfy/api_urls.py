@@ -11,6 +11,7 @@ HTTP_API_ROOT = "https://api.spotify.com/v1"
 HTTP_GET_ALBUM = HTTP_API_ROOT + "/albums/{id}"
 HTTP_GET_SEVERAL_ALBUMS = HTTP_API_ROOT + "/albums?ids={ids}"
 HTTP_GET_ALBUM_TRACKS = HTTP_API_ROOT + "/albums/{id}/tracks"
+HTTP_GET_NEW_RELEASES = HTTP_API_ROOT + "/browse/new-releases"
 
 # artists
 HTTP_GET_ARTIST = HTTP_API_ROOT + "/artists/{id}"

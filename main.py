@@ -21,7 +21,8 @@ def main() -> None:
     # test = spotify.get_several_track_audio_features(["3EEd6ldsPat620GVYMEhOP", "2fKdsBazcOLLIzDiZUQCih"])
     # test_albums = spotify.get_artist_albums("7bu3H8JO7d0UbMoVzbo70s")
     # test = spotify.get_several_track_audio_features(["xyz"])
-    xxx = spotify.get_album_tracks("2ANVost0y2y52ema1E9xAZ")
+    # xxx = spotify.get_album_tracks("2ANVost0y2y52ema1E9xAZ")
+    xxx = spotify.get_new_releases()
     if xxx:
         test, nav = xxx
 

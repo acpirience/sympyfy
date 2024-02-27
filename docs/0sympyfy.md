@@ -33,6 +33,9 @@
 ::: sympyfy.Sympyfy.get_album_tracks
     options:
       heading_level: 3
+::: sympyfy.Sympyfy.get_new_releases
+    options:
+      heading_level: 3
 
 ## MARKETS ##
 ::: sympyfy.Sympyfy.markets
@@ -42,7 +45,7 @@
     options:
       heading_level: 3
 
-###TRACKS ##
+## TRACKS ##
 ::: sympyfy.Sympyfy.get_track
     options:
       heading_level: 3

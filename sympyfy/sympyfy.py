@@ -21,6 +21,7 @@ from sympyfy.api_urls import (
     HTTP_GET_ARTIST_ALBUMS,
     HTTP_GET_ARTIST_TOP_TRACKS,
     HTTP_GET_MARKETS,
+    HTTP_GET_NEW_RELEASES,
     HTTP_GET_RELATED_ARTISTS,
     HTTP_GET_SEVERAL_ALBUMS,
     HTTP_GET_SEVERAL_ARTISTS,
@@ -275,6 +276,18 @@ class Sympyfy:
             return self.__make_album_tracks(response.content)
         return None
 
+    def get_new_releases(self) -> tuple[list[Track], Navigation]:
+        """Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-new-releases](https://developer.spotify.com/documentation/web-api/reference/get-new-releases)
+
+        Returns:
+            List of Track object plus a Navigation object
+        """
+        url = HTTP_GET_NEW_RELEASES
+        response = self._get_api_response_with_access_token(url)
+        print(response.content)
+        return self.__make_new_releases(response.content)
+
     def get_track(self, track_id: str, market: str | None = None) -> Track | None:
         """returns the details of a track specified by its id<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-track](https://developer.spotify.com/documentation/web-api/reference/get-track)
@@ -446,11 +459,11 @@ class Sympyfy:
             popularity=value_or_default("popularity", _dict, 0),
             type=_dict["type"],
             preview_url=value_or_default("preview_url", _dict, None),
-            disc_number=_dict["disc_number"],
-            track_number=_dict["track_number"],
-            duration_ms=_dict["duration_ms"],
-            explicit=_dict["explicit"],
-            is_local=_dict["is_local"],
+            disc_number=value_or_default("disc_number", _dict, 0),
+            track_number=value_or_default("track_number", _dict, 0),
+            duration_ms=value_or_default("duration_ms", _dict, 0),
+            explicit=value_or_default("explicit", _dict, False),
+            is_local=value_or_default("is_local", _dict, False),
             is_playable=value_or_default("is_playable", _dict, True),
             external_ids=ext_ids,
             external_urls=ext_urls,
@@ -537,8 +550,11 @@ class Sympyfy:
                 albums_list.append(self.__make_album(album))
         return albums_list
 
-    def __make_album_tracks(self, json_content: bytes) -> tuple[list[Track], Navigation]:
-        _dict = json.loads(json_content)
+    def __make_album_tracks(self, json_content: bytes | Any) -> tuple[list[Track], Navigation]:
+        if isinstance(json_content, bytes):
+            _dict = json.loads(json_content)
+        else:
+            _dict = json_content
         navigation = Navigation(
             href=_dict["href"],
             next=_dict["next"],
@@ -549,6 +565,10 @@ class Sympyfy:
         )
 
         return self.__make_tracks_list({"tracks": _dict["items"]}), navigation
+
+    def __make_new_releases(self, json_content: bytes) -> tuple[list[Track], Navigation]:
+        _dict = json.loads(json_content)
+        return self.__make_album_tracks(_dict["albums"])
 
     def __make_audio_features(self, json_content: bytes | Any) -> Audio_features:
         if isinstance(json_content, bytes):
