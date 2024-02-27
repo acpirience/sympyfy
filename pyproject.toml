@@ -6,13 +6,13 @@ authors = ["acpirience <acpirience@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
-requests = "^2.31.0"
-python-dotenv = "^1.0.1"
+python = ">=3.11"
+requests = ">=2.31.0"
+python-dotenv = ">=1.0.1"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.1"
-pytest-cov = "^4.1.0"
+pytest = ">=8.0.0"
+pytest-cov = ">=4.0.0"
 mkdocs-material = "^9.5.11"
 mkdocstrings = {extras = ["python"], version = "^0.24.0"}
 
