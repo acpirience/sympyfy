@@ -270,7 +270,6 @@ class Sympyfy:
         """
         url = api.HTTP_GET_NEW_RELEASES
         response = self._get_api_response_with_access_token(sanitize(url))
-        print(response.content)
         return self.__make_new_releases(response.content)
 
     def get_track(self, track_id: str, market: str | None = None) -> Track | None:
@@ -383,6 +382,32 @@ class Sympyfy:
         if response.status_code == 200:
             return self.__make_category(response.content)
         return None
+
+    def get_several_browse_categories(
+        self,
+        locale: str | None = None,
+        limit: int = 20,
+        offset: int = 0,
+    ) -> tuple[list[Category], Navigation]:
+        """Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-categories](https://developer.spotify.com/documentation/web-api/reference/get-categories)
+
+        Parameters:
+            locale: The desired language, consisting of an ISO 639-1 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore. For example: es_MX, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note: if locale is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).
+            limit: The maximum number of Categories to return. Default: 20. Minimum: 1. Maximum: 50.
+            offset: The index of the first Category to return. Default: 0 (the first Category). Use with limit to get the next set of Categories.
+
+        Returns:
+            a list of Category objects and a Navigation Object
+        """
+        url = (
+            api.HTTP_GET_SEVERAL_BROWSE_CATEGORIES
+            + add_url_parameter("locale", locale)
+            + add_pagination(limit, offset)
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        print(response.content)
+        return self.__make_categories_list(response.content)
 
     def __make_artist(self, json_content: bytes | Any) -> Artist:
         if isinstance(json_content, bytes):
@@ -616,10 +641,32 @@ class Sympyfy:
         _dict = json.loads(json_content)
         return set(_dict["markets"])
 
-    def __make_category(self, json_content: bytes) -> Category:
-        _dict = json.loads(json_content)
+    def __make_category(self, json_content: bytes | Any) -> Category:
+        if isinstance(json_content, bytes):
+            print(json_content)
+            _dict = json.loads(json_content)
+        else:
+            _dict = json_content
+
         icons: list[Image] = []
         if "icons" in _dict:
             icons = [Image(x["url"], x["height"], x["width"]) for x in _dict["icons"]]
 
         return Category(id=_dict["id"], name=_dict["name"], href=_dict["href"], icons=icons)
+
+    def __make_categories_list(self, json_content: bytes) -> tuple[list[Category], Navigation]:
+        _dict = json.loads(json_content)["categories"]
+        navigation = Navigation(
+            href=_dict["href"],
+            next=_dict["next"],
+            previous=_dict["previous"],
+            limit=_dict["limit"],
+            offset=_dict["offset"],
+            total=_dict["total"],
+        )
+
+        categories_list = []
+        for category in _dict["items"]:
+            if category:
+                categories_list.append(self.__make_category(category))
+        return categories_list, navigation

@@ -31,3 +31,4 @@ HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features?ids={id
 
 # categories
 HTTP_GET_BROWSE_CATEGORY = HTTP_API_ROOT + "/browse/categories/{id}"
+HTTP_GET_SEVERAL_BROWSE_CATEGORIES = HTTP_API_ROOT + "/browse/categories"

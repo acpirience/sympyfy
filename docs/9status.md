@@ -23,7 +23,7 @@
 
 ###Categories
 - [x] Get Single Browse Category ⮕ **GET** `/browse/categories/{category_id}`
-- [ ] Get Several Browse Categories ⮕ **GET** `/browse/categories`
+- [x] Get Several Browse Categories ⮕ **GET** `/browse/categories`
 
 
 ###Markets
