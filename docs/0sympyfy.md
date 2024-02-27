@@ -45,6 +45,14 @@
     options:
       heading_level: 3
 
+## GENRES ##
+::: sympyfy.Sympyfy.genres
+    options:
+      heading_level: 3
+::: sympyfy.Sympyfy.get_genres
+    options:
+      heading_level: 3
+
 ## MARKETS ##
 ::: sympyfy.Sympyfy.markets
     options:

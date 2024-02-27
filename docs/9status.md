@@ -11,6 +11,10 @@
 - [ ] Check User's Saved Albums ⮕ **GET** `/me/albums/contains?ids={ids}` 🔒
 - [x] Get New Releases ⮕ **GET** `/browse/new-releases`
 
+###Audiobooks
+
+_Since audiobooks are not available in my country, I won't implement this part of the API_
+
 
 ###Artists
 
@@ -24,6 +28,15 @@
 ###Categories
 - [x] Get Single Browse Category ⮕ **GET** `/browse/categories/{category_id}`
 - [x] Get Several Browse Categories ⮕ **GET** `/browse/categories`
+
+
+###Chapters
+
+_Since audiobooks are not available in my country, I won't implement this part of the API_
+
+
+###Genres
+- [x] Get Available Genre Seeds ⮕ **GET** `/recommendations/available-genre-seeds`
 
 
 ###Markets

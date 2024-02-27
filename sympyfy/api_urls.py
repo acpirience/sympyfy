@@ -20,6 +20,13 @@ HTTP_GET_ARTIST_ALBUMS = HTTP_API_ROOT + "/artists/{id}/albums"
 HTTP_GET_ARTIST_TOP_TRACKS = HTTP_API_ROOT + "/artists/{id}/top-tracks"
 HTTP_GET_RELATED_ARTISTS = HTTP_API_ROOT + "/artists/{id}/related-artists"
 
+# categories
+HTTP_GET_BROWSE_CATEGORY = HTTP_API_ROOT + "/browse/categories/{id}"
+HTTP_GET_SEVERAL_BROWSE_CATEGORIES = HTTP_API_ROOT + "/browse/categories"
+
+# genres
+HTTP_GET_GENRES = HTTP_API_ROOT + "/recommendations/available-genre-seeds"
+
 # markets
 HTTP_GET_MARKETS = HTTP_API_ROOT + "/markets"
 
@@ -28,7 +35,3 @@ HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"
 HTTP_GET_SEVERAL_TRACKS = HTTP_API_ROOT + "/tracks?ids={ids}"
 HTTP_GET_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features/{id}"
 HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features?ids={ids}"
-
-# categories
-HTTP_GET_BROWSE_CATEGORY = HTTP_API_ROOT + "/browse/categories/{id}"
-HTTP_GET_SEVERAL_BROWSE_CATEGORIES = HTTP_API_ROOT + "/browse/categories"

@@ -32,6 +32,7 @@ class Sympyfy:
         self._spotify_credentials: dict[str, str]
         self._access_token: Access_token
         self._spotify_markets: set[str] = set()
+        self._genre_seeds: set[str] = set()
 
     def load_credentials(self) -> None:
         """Load Spotify credential request for an Access Token<br>
@@ -336,6 +337,32 @@ class Sympyfy:
         response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_audio_features_list(response.content)
 
+    def get_genres(self) -> set[str]:
+        """Retrieve a list of available genres seed parameter values for recommendations.<br>
+        Please use the [genres property](0sympyfy.md#sympyfy.Sympyfy.genres), this method is public only to match the Spotify API<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres](https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres)
+
+        Returns:
+            list of genres seeds. Example: ["alternative","samba"]
+        """
+        url = api.HTTP_GET_GENRES
+        response = self._get_api_response_with_access_token(sanitize(url))
+        return self.__make_simple_set(response.content, "genres")
+
+    @property
+    def genres(self) -> set[str]:
+        """Retrieve a list of available genres seed parameter values for recommendations.<br>
+        This is the preferred way to get this information since it is lazy loaded from the api via the method [get_markets](0sympyfy.md#sympyfy.Sympyfy.get_genres)
+        [https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres](https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres)
+
+        Returns:
+            list of genres seeds. Example: ["alternative","samba"]
+        """
+        if not self._genre_seeds:
+            # lazy loading of genres
+            self._genre_seeds = self.get_genres()
+        return self._genre_seeds
+
     def get_markets(self) -> set[str]:
         """returns the list of markets where Spotify is available.<br>
         Please use the [markets property](0sympyfy.md#sympyfy.Sympyfy.markets), this method is public only to match the Spotify API<br>
@@ -347,7 +374,7 @@ class Sympyfy:
         """
         url = api.HTTP_GET_MARKETS
         response = self._get_api_response_with_access_token(sanitize(url))
-        return self.__make_markets(response.content)
+        return self.__make_simple_set(response.content, "markets")
 
     @property
     def markets(self) -> set[str]:
@@ -637,9 +664,9 @@ class Sympyfy:
                 audio_features_list.append(self.__make_audio_features(audio_feature))
         return audio_features_list
 
-    def __make_markets(self, json_content: bytes) -> set[str]:
+    def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         _dict = json.loads(json_content)
-        return set(_dict["markets"])
+        return set(_dict[key])
 
     def __make_category(self, json_content: bytes | Any) -> Category:
         if isinstance(json_content, bytes):
