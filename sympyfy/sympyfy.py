@@ -12,24 +12,8 @@ from typing import Any
 from dotenv import dotenv_values
 from requests import Response, get, post
 
+import sympyfy.api_urls as api
 from sympyfy.api_structures import Album, Artist, Audio_features, Image, Navigation, Track
-from sympyfy.api_urls import (
-    HTTP_GET_ALBUM,
-    HTTP_GET_ALBUM_TRACKS,
-    HTTP_GET_APP_TOKEN,
-    HTTP_GET_ARTIST,
-    HTTP_GET_ARTIST_ALBUMS,
-    HTTP_GET_ARTIST_TOP_TRACKS,
-    HTTP_GET_MARKETS,
-    HTTP_GET_NEW_RELEASES,
-    HTTP_GET_RELATED_ARTISTS,
-    HTTP_GET_SEVERAL_ALBUMS,
-    HTTP_GET_SEVERAL_ARTISTS,
-    HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES,
-    HTTP_GET_SEVERAL_TRACKS,
-    HTTP_GET_TRACK,
-    HTTP_GET_TRACK_AUDIO_FEATURES,
-)
 from sympyfy.common import (
     INCLUDE_GROUPS,
     add_include_groups,
@@ -99,7 +83,7 @@ class Sympyfy:
         }
         data = {"grant_type": "client_credentials"}
 
-        response = post(HTTP_GET_APP_TOKEN, headers=headers, data=data)
+        response = post(api.HTTP_GET_APP_TOKEN, headers=headers, data=data)
         response_json = json.loads(response.content)
 
         self._access_token = Access_token(
@@ -124,7 +108,7 @@ class Sympyfy:
         Returns:
             Artist object or None if id does not match an artist
         """
-        url = HTTP_GET_ARTIST.replace("{id}", artist_id)
+        url = api.HTTP_GET_ARTIST.replace("{id}", artist_id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artist(response.content)
@@ -140,7 +124,7 @@ class Sympyfy:
         Returns:
             list of Artist objects
         """
-        url = HTTP_GET_SEVERAL_ARTISTS.replace("{ids}", "%2C".join(artist_ids))
+        url = api.HTTP_GET_SEVERAL_ARTISTS.replace("{ids}", "%2C".join(artist_ids))
         response = self._get_api_response_with_access_token(url)
         return self.__make_artists_list(response.content)
 
@@ -166,7 +150,7 @@ class Sympyfy:
             Navigation Object and list of Album objects or None if id does not match an artist
         """
         url = (
-            HTTP_GET_ARTIST_ALBUMS.replace("{id}", artist_id)
+            api.HTTP_GET_ARTIST_ALBUMS.replace("{id}", artist_id)
             + add_market(market, self.markets)
             + add_pagination(limit, offset)
             + add_include_groups(include_groups)
@@ -189,7 +173,7 @@ class Sympyfy:
         Returns:
             list of Tracks objects or None if id does not match an artist
         """
-        url = HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", artist_id) + add_market(
+        url = api.HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", artist_id) + add_market(
             market, self.markets
         )
         response = self._get_api_response_with_access_token(url)
@@ -207,7 +191,7 @@ class Sympyfy:
         Returns:
             list of Artist objects or None if id does not match an artist
         """
-        url = HTTP_GET_RELATED_ARTISTS.replace("{id}", artist_id)
+        url = api.HTTP_GET_RELATED_ARTISTS.replace("{id}", artist_id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artists_list(response.content)
@@ -224,7 +208,7 @@ class Sympyfy:
         Returns:
             Album object or None if id does not match a track
         """
-        url = HTTP_GET_ALBUM.replace("{id}", album_id) + add_market(market, self.markets)
+        url = api.HTTP_GET_ALBUM.replace("{id}", album_id) + add_market(market, self.markets)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_album(response.content)
@@ -241,7 +225,7 @@ class Sympyfy:
         Returns:
             list of Albums objects
         """
-        url = HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(album_ids)) + add_market(
+        url = api.HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(album_ids)) + add_market(
             market, self.markets
         )
         response = self._get_api_response_with_access_token(url)
@@ -267,7 +251,7 @@ class Sympyfy:
             Navigation Object and list of track objects or None if id does not match an album
         """
         url = (
-            HTTP_GET_ALBUM_TRACKS.replace("{id}", album_id)
+            api.HTTP_GET_ALBUM_TRACKS.replace("{id}", album_id)
             + add_market(market, self.markets)
             + add_pagination(limit, offset)
         )
@@ -283,7 +267,7 @@ class Sympyfy:
         Returns:
             List of Track object plus a Navigation object
         """
-        url = HTTP_GET_NEW_RELEASES
+        url = api.HTTP_GET_NEW_RELEASES
         response = self._get_api_response_with_access_token(url)
         print(response.content)
         return self.__make_new_releases(response.content)
@@ -299,7 +283,7 @@ class Sympyfy:
         Returns:
             Track object or None if id does not match a track
         """
-        url = HTTP_GET_TRACK.replace("{id}", track_id) + add_market(market, self.markets)
+        url = api.HTTP_GET_TRACK.replace("{id}", track_id) + add_market(market, self.markets)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_track(response.content)
@@ -316,7 +300,7 @@ class Sympyfy:
         Returns:
             list of Tracks objects
         """
-        url = HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(track_ids)) + add_market(
+        url = api.HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(track_ids)) + add_market(
             market, self.markets
         )
         response = self._get_api_response_with_access_token(url)
@@ -332,7 +316,7 @@ class Sympyfy:
         Returns:
             List of Audio_features object
         """
-        url = HTTP_GET_TRACK_AUDIO_FEATURES.replace("{id}", track_id)
+        url = api.HTTP_GET_TRACK_AUDIO_FEATURES.replace("{id}", track_id)
         response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_audio_features(response.content)
@@ -348,7 +332,7 @@ class Sympyfy:
         Returns:
             List of Audio_features objects
         """
-        url = HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(track_ids))
+        url = api.HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(track_ids))
         response = self._get_api_response_with_access_token(url)
         return self.__make_audio_features_list(response.content)
 
@@ -361,7 +345,7 @@ class Sympyfy:
         Returns:
             list of ISO 3166-1 alpha-2 country codes
         """
-        url = HTTP_GET_MARKETS
+        url = api.HTTP_GET_MARKETS
         response = self._get_api_response_with_access_token(url)
         return self.__make_markets(response.content)
 

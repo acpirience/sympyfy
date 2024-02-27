@@ -9,7 +9,7 @@
 - [ ] Save Albums for Current User ⮕ **PUT** `/me/albums` 🔒
 - [ ] Remove Users' Saved Albums ⮕ **DELETE** `/me/albums` 🔒
 - [ ] Check User's Saved Albums ⮕ **GET** `/me/albums/contains?ids={ids}` 🔒
-- [ ] Get New Releases ⮕ **GET** `/browse/new-releases`
+- [x] Get New Releases ⮕ **GET** `/browse/new-releases`
 
 
 ###Artists
