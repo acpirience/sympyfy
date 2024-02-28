@@ -13,7 +13,16 @@ from dotenv import dotenv_values
 from requests import Response, get, post
 
 import sympyfy.api_urls as api
-from sympyfy.api_structures import Album, Artist, Audio_features, Category, Image, Navigation, Track
+from sympyfy.api_structures import (
+    Album,
+    Artist,
+    Audio_features,
+    Category,
+    Image,
+    Navigation,
+    Track,
+    User,
+)
 from sympyfy.common import (
     INCLUDE_GROUPS,
     add_include_groups,
@@ -273,6 +282,51 @@ class Sympyfy:
         response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_new_releases(response.content)
 
+    def get_browse_category(self, category_id: str, locale: str | None = None) -> Category | None:
+        """Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-a-category](https://developer.spotify.com/documentation/web-api/reference/get-a-category)
+
+        Parameters:
+            category_id: The Spotify category ID for the category.
+            locale: The desired language, consisting of an ISO 639-1 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore. For example: es_MX, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note: if locale is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).
+
+        Returns:
+            a Category object or None if its the id is unknown
+        """
+        url = api.HTTP_GET_BROWSE_CATEGORY.replace("{id}", category_id) + add_url_parameter(
+            "locale", locale
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_category(response.content)
+        return None
+
+    def get_several_browse_categories(
+        self,
+        locale: str | None = None,
+        limit: int = 20,
+        offset: int = 0,
+    ) -> tuple[list[Category], Navigation]:
+        """Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-categories](https://developer.spotify.com/documentation/web-api/reference/get-categories)
+
+        Parameters:
+            locale: The desired language, consisting of an ISO 639-1 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore. For example: es_MX, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note: if locale is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).
+            limit: The maximum number of Categories to return. Default: 20. Minimum: 1. Maximum: 50.
+            offset: The index of the first Category to return. Default: 0 (the first Category). Use with limit to get the next set of Categories.
+
+        Returns:
+            a list of Category objects and a Navigation Object
+        """
+        url = (
+            api.HTTP_GET_SEVERAL_BROWSE_CATEGORIES
+            + add_url_parameter("locale", locale)
+            + add_pagination(limit, offset)
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        print(response.content)
+        return self.__make_categories_list(response.content)
+
     def get_track(self, track_id: str, market: str | None = None) -> Track | None:
         """returns the details of a track specified by its id<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-track](https://developer.spotify.com/documentation/web-api/reference/get-track)
@@ -391,50 +445,22 @@ class Sympyfy:
             self._spotify_markets = self.get_markets()
         return self._spotify_markets
 
-    def get_browse_category(self, category_id: str, locale: str | None = None) -> Category | None:
-        """Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
-        [https://developer.spotify.com/documentation/web-api/reference/get-a-category](https://developer.spotify.com/documentation/web-api/reference/get-a-category)
+    def get_user_profile(self, user_id: str) -> User | None:
+        """Get public profile information about a Spotify user specified by its id<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-users-profile](https://developer.spotify.com/documentation/web-api/reference/get-users-profile)
 
         Parameters:
-            category_id: The Spotify category ID for the category.
-            locale: The desired language, consisting of an ISO 639-1 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore. For example: es_MX, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note: if locale is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).
+            user_id: The user's Spotify user ID.
 
         Returns:
-            a Category object or None if if the id is unknown
+            User Object
         """
-        url = api.HTTP_GET_BROWSE_CATEGORY.replace("{id}", category_id) + add_url_parameter(
-            "locale", locale
-        )
+        url = api.HTTP_GET_USER_PROFILE.replace("{id}", user_id)
         response = self._get_api_response_with_access_token(sanitize(url))
+        print(f"{response.status_code=} {response.content=}")
         if response.status_code == 200:
-            return self.__make_category(response.content)
+            return self.__make_user(response.content)
         return None
-
-    def get_several_browse_categories(
-        self,
-        locale: str | None = None,
-        limit: int = 20,
-        offset: int = 0,
-    ) -> tuple[list[Category], Navigation]:
-        """Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
-        [https://developer.spotify.com/documentation/web-api/reference/get-categories](https://developer.spotify.com/documentation/web-api/reference/get-categories)
-
-        Parameters:
-            locale: The desired language, consisting of an ISO 639-1 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore. For example: es_MX, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note: if locale is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).
-            limit: The maximum number of Categories to return. Default: 20. Minimum: 1. Maximum: 50.
-            offset: The index of the first Category to return. Default: 0 (the first Category). Use with limit to get the next set of Categories.
-
-        Returns:
-            a list of Category objects and a Navigation Object
-        """
-        url = (
-            api.HTTP_GET_SEVERAL_BROWSE_CATEGORIES
-            + add_url_parameter("locale", locale)
-            + add_pagination(limit, offset)
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
-        print(response.content)
-        return self.__make_categories_list(response.content)
 
     def __make_artist(self, json_content: bytes | Any) -> Artist:
         if isinstance(json_content, bytes):
@@ -442,7 +468,7 @@ class Sympyfy:
         else:
             _dict = json_content
 
-        # some values maybe present or not depending on the api call (eg. /Artists and /tracks)
+        # some values maybe present or not depending on the api call (e.g. /Artists and /tracks)
         genres: list[str] = []
         images: list[Image] = []
         followers = 0
@@ -697,3 +723,26 @@ class Sympyfy:
             if category:
                 categories_list.append(self.__make_category(category))
         return categories_list, navigation
+
+    def __make_user(self, json_content: bytes | Any) -> User:
+        _dict = json.loads(json_content)
+
+        images: list[Image] = []
+        followers = 0
+        if "images" in _dict:
+            images = [Image(x["url"], x["height"], x["width"]) for x in _dict["images"]]
+        if "followers" in _dict and "total" in _dict["followers"]:
+            followers = _dict["followers"]["total"]
+
+        ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
+
+        return User(
+            id=_dict["id"],
+            display_name=_dict["display_name"],
+            href=_dict["href"],
+            uri=_dict["uri"],
+            type=_dict["type"],
+            followers=followers,
+            external_urls=ext_urls,
+            images=images,
+        )

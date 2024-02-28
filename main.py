@@ -25,8 +25,8 @@ def main() -> None:
     # xxx = spotify.get_new_releases()
     # test = spotify.get_browse_category("dinner")
     # xxx = spotify.get_several_browse_categories()
-    test = spotify.get_genres()
-
+    # test = spotify.get_genres()
+    test = spotify.get_user_profile("xxx")
     # if xxx:
     #     test, nav = xxx
 

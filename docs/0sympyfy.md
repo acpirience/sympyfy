@@ -74,3 +74,8 @@
 ::: sympyfy.Sympyfy.get_several_track_audio_features
     options:
       heading_level: 3
+
+## USERS ##
+::: sympyfy.Sympyfy.get_user_profile
+    options:
+      heading_level: 3

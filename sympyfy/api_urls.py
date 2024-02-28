@@ -30,8 +30,14 @@ HTTP_GET_GENRES = HTTP_API_ROOT + "/recommendations/available-genre-seeds"
 # markets
 HTTP_GET_MARKETS = HTTP_API_ROOT + "/markets"
 
+# playlists
+# HTTP_GET_PLAYLIST = HTTP_API_ROOT + "/playlists/{id}"
+
 # tracks
 HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"
 HTTP_GET_SEVERAL_TRACKS = HTTP_API_ROOT + "/tracks?ids={ids}"
 HTTP_GET_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features/{id}"
 HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features?ids={ids}"
+
+# Users
+HTTP_GET_USER_PROFILE = HTTP_API_ROOT + "/users/{id}"

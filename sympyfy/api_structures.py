@@ -238,3 +238,29 @@ class Category:
     name: str
     href: str
     icons: list[Image]
+
+
+@dataclass
+class User:
+    """
+    Get public profile information about a Spotify user.
+
+    Parameters:
+        id: The user's Spotify user ID.
+        display_name: The name displayed on the user's profile. null if not available.
+        href: A link to the Web API endpoint for this user.
+        uri: The Spotify URI for this user.
+        type: The object type. Allowed values: "user"
+        followers: Information about the followers of this user.
+        external_urls: Known public external URLs for this user.
+        images: The user's profile image.
+    """
+
+    id: str
+    display_name: str
+    href: str
+    uri: str
+    type: str
+    followers: int
+    external_urls: list[dict[str, str]]
+    images: list[Image]
