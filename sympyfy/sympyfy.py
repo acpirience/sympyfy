@@ -14,6 +14,7 @@ from requests import Response, get, post
 
 import sympyfy.api_urls as api
 from sympyfy.api_structures import (
+    EMPTY_NAVIGATION,
     Album,
     Artist,
     Audio_features,
@@ -344,6 +345,22 @@ class Sympyfy:
         if response.status_code == 200:
             return self.__make_show(response.content)
         return None
+
+    def get_several_shows(self, show_ids: list[str], market: str | None = None) -> list[Show]:
+        """Get Spotify catalog information for several shows based on their Spotify IDs.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-multiple-shows](https://developer.spotify.com/documentation/web-api/reference/get-multiple-shows)
+
+        Parameters:
+            show_ids: A list of the Spotify IDs for the shows. Maximum: 50 IDs.
+
+        Returns:
+            list of Show object
+        """
+        url = api.HTTP_GET_SEVERAL_SHOWS.replace("{ids}", "%2C".join(show_ids)) + add_market(
+            market, self.markets
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        return self.__make_shows_list(response.content)
 
     def get_track(self, track_id: str, market: str | None = None) -> Track | None:
         """returns the details of a track specified by its id<br>
@@ -781,25 +798,26 @@ class Sympyfy:
             resume_point=None,  # we need Oauth User for that
         )
 
-    def __make_episodes_list(self, json_content: bytes | Any) -> list[Episode]:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
+    def __make_episodes_list(self, dict_content: dict[str, Any]) -> list[Episode]:
         episode_list = []
         for episode in dict_content["episodes"]:
             if episode:
                 episode_list.append(self.__make_episode(episode))
         return episode_list
 
-    def __make_show(self, json_content: bytes) -> tuple[Show, Navigation]:
-        dict_content = json.loads(json_content)
-        navigation = self.__make_navigation(dict_content["episodes"])
+    def __make_show(self, json_content: bytes | Any) -> tuple[Show, Navigation]:
+        if isinstance(json_content, bytes):
+            print(json_content)
+            dict_content = json.loads(json_content)
+        else:
+            dict_content = json_content
 
+        navigation = EMPTY_NAVIGATION
         images: list[Image] = []
         available_markets: list[str] = []
         copyrights = []
         languages: list[str] = []
+        episodes = []
         if "images" in dict_content:
             images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
         if "available_markets" in dict_content:
@@ -808,6 +826,9 @@ class Sympyfy:
             copyrights = [x for x in dict_content["copyrights"]]
         if "languages" in dict_content:
             languages = [x for x in dict_content["languages"]]
+        if "episodes" in dict_content:
+            navigation = self.__make_navigation(dict_content["episodes"])
+            episodes = self.__make_episodes_list({"episodes": dict_content["episodes"]["items"]})
 
         show = Show(
             id=dict_content["id"],
@@ -829,9 +850,18 @@ class Sympyfy:
             ],
             copyrights=copyrights,
             images=images,
-            episodes=self.__make_episodes_list({"episodes": dict_content["episodes"]["items"]}),
+            episodes=episodes,
         )
         return show, navigation
+
+    def __make_shows_list(self, json_content: bytes) -> list[Show]:
+        print(json_content)
+        dict_content = json.loads(json_content)
+        show_list = []
+        for show in dict_content["shows"]:
+            if show:
+                show_list.append(self.__make_show(show)[0])
+        return show_list
 
     def __make_navigation(self, dict_content: dict[str, Any]) -> Navigation:
         return Navigation(

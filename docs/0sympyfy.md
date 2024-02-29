@@ -66,6 +66,9 @@
 ::: sympyfy.Sympyfy.get_show
     options:
       heading_level: 3
+::: sympyfy.Sympyfy.get_several_shows
+    options:
+      heading_level: 3
 
 
 ## TRACKS ##

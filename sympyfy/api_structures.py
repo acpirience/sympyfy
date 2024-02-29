@@ -222,6 +222,16 @@ class Navigation:
     total: int
 
 
+EMPTY_NAVIGATION = Navigation(
+    href="",
+    next=None,
+    previous=None,
+    limit=20,
+    offset=0,
+    total=0,
+)
+
+
 @dataclass
 class Category:
     """
