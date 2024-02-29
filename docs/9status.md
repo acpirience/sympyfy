@@ -101,7 +101,7 @@ _Since audiobooks are not available in my country, I won't implement this part o
 
 - [x] Get Show ⮕ **GET** `/shows/{id}` 🔒 (partial, resume_point not implemented)
 - [x] Get Several Shows ⮕ **GET** `/shows`
-- [ ] Get Show Episodes ⮕ **GET** `/shows/{id}/episodes` 🔒 (?)
+- [x] Get Show Episodes ⮕ **GET** `/shows/{id}/episodes` 🔒  (partial, resume_point not implemented)
 - [ ] Get User's Saved Shows ⮕ **GET** `/me/shows` 🔒
 - [ ] Save Shows for Current User ⮕ **PUT** `/me/shows` 🔒
 - [ ] Remove User's Saved Shows ⮕ **DELETE** `/me/shows` 🔒

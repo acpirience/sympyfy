@@ -28,14 +28,18 @@ def main() -> None:
     # test = spotify.get_genres()
     # test = spotify.get_user_profile("xxx")
     # xxx = spotify.get_show("6Ol9sx1lONDxBSffLW9qcZ")
-    test = spotify.get_several_shows(["6Ol9sx1lONDxBSffLW9qcZ", "4GC4FMJmYDDrqJI5t8I1Yy"])
+    # test = spotify.get_several_shows(["6Ol9sx1lONDxBSffLW9qcZ", "4GC4FMJmYDDrqJI5t8I1Yy"])
+    xxx = spotify.get_show_episodes("6Ol9sx1lONDxBSffLW9qcZ", limit=2)
 
-    # if xxx:
-    #     test, nav = xxx
+    if xxx:
+        test, nav = xxx
 
     print("*" * 20)
-    print(f"{test=}")
-    # print(f"{nav=}")
+    # print(f"{test=}")
+    print(f"{nav=}")
+
+    for episode in test:
+        print(episode)
 
 
 if __name__ == "__main__":
