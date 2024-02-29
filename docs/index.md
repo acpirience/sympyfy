@@ -1,5 +1,21 @@
 # Home
 
+
+###Pre-requisite
+A pre-requisite for using this library is to get a Spotify access token: [https://developer.spotify.com/documentation/web-api/tutorials/getting-started#request-an-access-token](https://developer.spotify.com/documentation/web-api/tutorials/getting-started#request-an-access-token).
+
+Sympyfy needs either:  
+
+- The client_id and client_secret environment variables present.
+- a .env file creating those variables
+
+Exemple:
+```
+client_id="MY_CLIENT_ID"
+client_secret="MY_CLIENT_SECRET"
+```
+
+###Usage
 ``` py title="USAGE"
 from sympyfy import Sympyfy
 import pprint

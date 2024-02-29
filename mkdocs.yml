@@ -46,10 +46,11 @@ plugins:
           docstring_section_style: table
 
 markdown_extensions:
-  - pymdownx.snippets
-  - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.snippets
+  - pymdownx.superfences
+
 
 copyright: |
   &copy; 2024 <a href="https://github.com/acpirience"  target="_blank" rel="noopener">Acpirience</a>
