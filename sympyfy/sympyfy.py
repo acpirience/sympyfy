@@ -8,6 +8,8 @@ import json
 import os
 import sys
 from typing import Any
+from rich.console import Console
+console = Console()
 
 from dotenv import dotenv_values
 from requests import Response, get, post
@@ -55,7 +57,7 @@ class Sympyfy:
 
     def _load_spotify_credentials(self) -> None:
         if "client_id" in os.environ and "client_secret" in os.environ:
-            print("Spotify credentials loaded from environment variableS")
+            console.print("Spotify credentials loaded from environment variableS", style="light_slate_blue")
             self._spotify_credentials = {
                 "client_id": os.environ["client_id"],
                 "client_secret": os.environ["client_secret"],
@@ -63,18 +65,18 @@ class Sympyfy:
             return
 
         if not os.path.isfile(".env"):
-            print(
-                "Error: can't find client_id / client_secret environment variableS or an .env file"
+            console.print(
+                "Error: can't find client_id / client_secret environment variableS or an .env file", style="red on white"
             )
             sys.exit(1)
         env_config = dotenv_values(".env")
         if "client_id" not in env_config:
-            print("Missing client_id variable from .env file")
+            console.print("Error: Missing client_id variable from .env file", style = "red on white")
             sys.exit(1)
         if "client_secret" not in env_config:
-            print("Missing client_secret variable from .env file")
+            console.print("Error: Missing client_secret variable from .env file", style = "red one white")
             sys.exit(1)
-        print("Spotify credentials loaded from .env file")
+        console.print("Spotify credentials loaded from .env file", style="light_slate_blue")
         self._spotify_credentials = {
             "client_id": env_config["client_id"],
             "client_secret": env_config["client_secret"],
@@ -103,7 +105,7 @@ class Sympyfy:
         self._access_token = Access_token(
             response_json["access_token"], response_json["expires_in"]
         )
-        print(f"Access Token received, valid until {self._access_token.expiry}")
+        console.print(f"Access Token received, valid until {self._access_token.expiry}", style="light_slate_blue")
 
     def _get_api_response_with_access_token(self, url: str) -> Response:
         # Generic function that returns the json response
@@ -516,7 +518,6 @@ class Sympyfy:
         """
         url = api.HTTP_GET_USER_PROFILE.replace("{id}", user_id)
         response = self._get_api_response_with_access_token(sanitize(url))
-        print(f"{response.status_code=} {response.content=}")
         if response.status_code == 200:
             return self.__make_user(response.content)
         return None
@@ -884,7 +885,6 @@ class Sympyfy:
         return show_list
 
     def __make_show_episodes(self, json_content: bytes) -> tuple[list[Episode], Navigation]:
-        print(json_content)
         dict_content = json.loads(json_content)
         navigation = self.__make_navigation(dict_content)
         episode_list = []
