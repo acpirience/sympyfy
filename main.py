@@ -26,13 +26,14 @@ def main() -> None:
     # test = spotify.get_browse_category("dinner")
     # xxx = spotify.get_several_browse_categories()
     # test = spotify.get_genres()
-    test = spotify.get_user_profile("xxx")
-    # if xxx:
-    #     test, nav = xxx
+    # test = spotify.get_user_profile("xxx")
+    xxx = spotify.get_show("6Ol9sx1lONDxBSffLW9qcZ")
+    if xxx:
+        test, nav = xxx
 
     print("*" * 20)
     print(f"{test=}")
-    # print(f"{nav=}")
+    print(f"{nav=}")
 
 
 if __name__ == "__main__":

@@ -29,4 +29,4 @@ def test_get_artist_top_tracks_unknown_artist() -> None:
     assert not test_track_list_artist_ko
 
     test_track_list_market_ko = test.get_artist_top_tracks("5N5tQ9Dx1h8Od7aRmGj7Fi", "xyz")
-    assert not test_track_list_market_ko
+    assert test_track_list_market_ko

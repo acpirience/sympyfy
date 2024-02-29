@@ -33,6 +33,9 @@ HTTP_GET_MARKETS = HTTP_API_ROOT + "/markets"
 # playlists
 # HTTP_GET_PLAYLIST = HTTP_API_ROOT + "/playlists/{id}"
 
+# shows
+HTTP_GET_SHOW = HTTP_API_ROOT + "/shows/{id}"
+
 # tracks
 HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"
 HTTP_GET_SEVERAL_TRACKS = HTTP_API_ROOT + "/tracks?ids={ids}"

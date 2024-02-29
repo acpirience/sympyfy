@@ -264,3 +264,97 @@ class User:
     followers: int
     external_urls: list[dict[str, str]]
     images: list[Image]
+
+
+@dataclass
+class Episode:
+    """
+    Get Spotify catalog information for a single show.
+
+    Parameters:
+        id: The Spotify ID for the episode.
+        name: The name of the episode.
+        href: A link to the Web API endpoint providing full details of the episode.
+        uri: The Spotify URI for the episode.
+        type: The object type. Allowed values: "episode"
+        description: A description of the episode. HTML tags are stripped away from this field, use html_description field in case HTML tags are needed.
+        html_description: A description of the episode. This field may contain HTML tags.
+        audio_preview_url: A URL to a 30 second preview (MP3 format) of the episode. null if not available.
+        release_date: The date the episode was first released, for example "1981-12-15". Depending on the precision, it might be shown as "1981" or "1981-12".
+        release_date_precision: The precision with which release_date value is known. Allowed values: "year", "month", "day"
+        duration_ms : The episode length in milliseconds.
+        explicit: Whether or not the episode has explicit content (true = yes it does; false = no it does not OR unknown).
+        is_externally_hosted: True if the episode is hosted outside of Spotify's CDN.
+        is_playable: True if the episode is playable in the given market. Otherwise false.
+        languages: A list of the languages used in the episode, identified by their ISO 639-1 code.
+        restrictions: Included in the response when a content restriction is applied.
+        external_urls :External URLs for this episode.
+        images: The cover art for the episode in various sizes, widest first.
+        resume_point: The user's most recent position in the episode. Set if the supplied access token is a user token and has the scope 'user-read-playback-position'.
+    """
+
+    id: str
+    name: str
+    href: str
+    uri: str
+    type: str
+    description: str
+    html_description: str
+    audio_preview_url: str
+    release_date: str
+    release_date_precision: str
+    duration_ms: int
+    explicit: bool
+    is_externally_hosted: bool
+    is_playable: bool
+    languages: list[str]
+    restrictions: str
+    external_urls: list[dict[str, str]]
+    images: list[Image]
+    resume_point: str | None
+
+
+@dataclass
+class Show:
+    """
+    Get Spotify catalog information for a single show.
+
+    Parameters:
+        id: The Spotify ID for the show.
+        name: The name of the show.
+        href: A link to the Web API endpoint providing full details of the show.
+        uri: The Spotify URI for the show.
+        type: The object type. Allowed values: "show"
+        media_type: The media type of the show.
+        publisher: The publisher of the show.
+        description: A description of the show. HTML tags are stripped away from this field, use html_description field in case HTML tags are needed.
+        html_description : A description of the show. This field may contain HTML tags.
+        total_episodes: The total number of episodes in the show.
+        available_markets: A list of the countries in which the show can be played, identified by their ISO 3166-1 alpha-2 code.
+        explicit: Whether or not the show has explicit content (true = yes it does; false = no it does not OR unknown).
+        is_externally_hosted: True if all of the shows episodes are hosted outside of Spotify's CDN. This field might be null in some cases.
+        languages: A list of the languages used in the show, identified by their ISO 639 code.
+        external_urls: External URLs for this show.
+        copyrights: The copyright statements of the show.
+        images: The cover art for the show in various sizes, widest first.
+        episodes: The episodes of the show.
+    """
+
+    id: str
+    name: str
+    href: str
+    uri: str
+    type: str
+    media_type: str
+    publisher: str
+    description: str
+    html_description: str
+    total_episodes: int
+    available_markets: list[str]
+    explicit: bool
+    is_externally_hosted: bool
+    languages: list[str]
+    external_urls: list[dict[str, str]]
+    copyrights: list[str]
+    images: list[Image]
+    episodes: list[Episode]

@@ -18,8 +18,10 @@ from sympyfy.api_structures import (
     Artist,
     Audio_features,
     Category,
+    Episode,
     Image,
     Navigation,
+    Show,
     Track,
     User,
 )
@@ -327,6 +329,22 @@ class Sympyfy:
         print(response.content)
         return self.__make_categories_list(response.content)
 
+    def get_show(self, show_id: str, market: str | None = None) -> tuple[Show, Navigation] | None:
+        """Get Spotify catalog information for a single show identified by its unique Spotify ID.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-a-show](https://developer.spotify.com/documentation/web-api/reference/get-a-show)
+
+        Parameters:
+            show_id: Spotify id of the track
+
+        Returns:
+            Show object or None if id does not match a show
+        """
+        url = api.HTTP_GET_SHOW.replace("{id}", show_id) + add_market(market, self.markets)
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_show(response.content)
+        return None
+
     def get_track(self, track_id: str, market: str | None = None) -> Track | None:
         """returns the details of a track specified by its id<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-track](https://developer.spotify.com/documentation/web-api/reference/get-track)
@@ -464,285 +482,363 @@ class Sympyfy:
 
     def __make_artist(self, json_content: bytes | Any) -> Artist:
         if isinstance(json_content, bytes):
-            _dict = json.loads(json_content)
+            dict_content = json.loads(json_content)
         else:
-            _dict = json_content
+            dict_content = json_content
 
         # some values maybe present or not depending on the api call (e.g. /Artists and /tracks)
         genres: list[str] = []
         images: list[Image] = []
         followers = 0
-        if "genres" in _dict:
-            genres = [x for x in _dict["genres"]]
-        if "images" in _dict:
-            images = [Image(x["url"], x["height"], x["width"]) for x in _dict["images"]]
-        if "followers" in _dict and "total" in _dict["followers"]:
-            followers = _dict["followers"]["total"]
-
-        ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
+        if "genres" in dict_content:
+            genres = [x for x in dict_content["genres"]]
+        if "images" in dict_content:
+            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
+        if "followers" in dict_content and "total" in dict_content["followers"]:
+            followers = dict_content["followers"]["total"]
 
         return Artist(
-            id=_dict["id"],
-            name=_dict["name"],
-            href=_dict["href"],
-            uri=_dict["uri"],
-            popularity=value_or_default("popularity", _dict, 0),
-            type=_dict["type"],
+            id=dict_content["id"],
+            name=dict_content["name"],
+            href=dict_content["href"],
+            uri=dict_content["uri"],
+            popularity=value_or_default("popularity", dict_content, 0),
+            type=dict_content["type"],
             followers=followers,
             genres=genres,
-            external_urls=ext_urls,
+            external_urls=[
+                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
+            ],
             images=images,
         )
 
-    def __make_artists_list(self, json_content: bytes) -> list[Artist]:
-        _dict = json.loads(json_content)
+    def __make_artists_list(self, json_content: bytes | Any) -> list[Artist]:
+        if isinstance(json_content, bytes):
+            dict_content = json.loads(json_content)
+        else:
+            dict_content = json_content
         artists_list = []
-        for artist in _dict["artists"]:
+        for artist in dict_content["artists"]:
             if artist:
                 artists_list.append(self.__make_artist(artist))
         return artists_list
 
     def __make_artist_albums(self, json_content: bytes) -> tuple[list[Album], Navigation]:
-        _dict = json.loads(json_content)
-        navigation = Navigation(
-            href=_dict["href"],
-            next=_dict["next"],
-            previous=_dict["previous"],
-            limit=_dict["limit"],
-            offset=_dict["offset"],
-            total=_dict["total"],
-        )
+        dict_content = json.loads(json_content)
+        navigation = self.__make_navigation(dict_content)
 
-        return self.__make_albums_list({"albums": _dict["items"]}), navigation
+        return self.__make_albums_list({"albums": dict_content["items"]}), navigation
 
     def __make_track(self, json_content: bytes | Any) -> Track:
         if isinstance(json_content, bytes):
-            _dict = json.loads(json_content)
+            dict_content = json.loads(json_content)
         else:
-            _dict = json_content
+            dict_content = json_content
 
-        available_markets = []
-        ext_ids = []
+        available_markets: list[str] = []
+        ext_ids: list[dict[str, str]] = []
         restrictions = ""
-        if "available_markets" in _dict:
-            available_markets = [x for x in _dict["available_markets"]]
-        if "external_ids" in _dict:
-            ext_ids = [{x: _dict["external_ids"][x]} for x in _dict["external_ids"]]
-        if "restrictions" in _dict and "reason" in _dict["restrictions"]:
-            restrictions = _dict["restrictions"]["reason"]
-
-        ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
-        artists = [self.__make_artist(x) for x in _dict["artists"]]
-        album = self.__make_album(_dict["album"]) if "album" in _dict else None
+        if "available_markets" in dict_content:
+            available_markets = [x for x in dict_content["available_markets"]]
+        if "external_ids" in dict_content:
+            ext_ids = [{x: dict_content["external_ids"][x]} for x in dict_content["external_ids"]]
+        if "restrictions" in dict_content and "reason" in dict_content["restrictions"]:
+            restrictions = dict_content["restrictions"]["reason"]
 
         return Track(
-            id=_dict["id"],
-            name=_dict["name"],
-            href=_dict["href"],
-            uri=_dict["uri"],
-            popularity=value_or_default("popularity", _dict, 0),
-            type=_dict["type"],
-            preview_url=value_or_default("preview_url", _dict, None),
-            disc_number=value_or_default("disc_number", _dict, 0),
-            track_number=value_or_default("track_number", _dict, 0),
-            duration_ms=value_or_default("duration_ms", _dict, 0),
-            explicit=value_or_default("explicit", _dict, False),
-            is_local=value_or_default("is_local", _dict, False),
-            is_playable=value_or_default("is_playable", _dict, True),
+            id=dict_content["id"],
+            name=dict_content["name"],
+            href=dict_content["href"],
+            uri=dict_content["uri"],
+            popularity=value_or_default("popularity", dict_content, 0),
+            type=dict_content["type"],
+            preview_url=value_or_default("preview_url", dict_content, None),
+            disc_number=value_or_default("disc_number", dict_content, 0),
+            track_number=value_or_default("track_number", dict_content, 0),
+            duration_ms=value_or_default("duration_ms", dict_content, 0),
+            explicit=value_or_default("explicit", dict_content, False),
+            is_local=value_or_default("is_local", dict_content, False),
+            is_playable=value_or_default("is_playable", dict_content, True),
             external_ids=ext_ids,
-            external_urls=ext_urls,
-            artists=artists,
+            external_urls=[
+                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
+            ],
+            artists=self.__make_artists_list({"artists": dict_content["artists"]}),
             available_markets=available_markets,
-            album=album,
-            linked_from=value_or_default("linked_from", _dict, None),
+            album=self.__make_album(dict_content["album"]) if "album" in dict_content else None,
+            linked_from=value_or_default("linked_from", dict_content, None),
             restrictions=restrictions,
         )
 
     def __make_tracks_list(self, json_content: bytes | Any) -> list[Track]:
         if isinstance(json_content, bytes):
-            _dict = json.loads(json_content)
+            dict_content = json.loads(json_content)
         else:
-            _dict = json_content
+            dict_content = json_content
         track_list = []
-        for track in _dict["tracks"]:
+        for track in dict_content["tracks"]:
             if track:
                 track_list.append(self.__make_track(track))
         return track_list
 
     def __make_album(self, json_content: bytes | Any) -> Album:
         if isinstance(json_content, bytes):
-            _dict = json.loads(json_content)
+            dict_content = json.loads(json_content)
         else:
-            _dict = json_content
+            dict_content = json_content
 
         genres: list[str] = []
-        available_markets = []
+        available_markets: list[str] = []
         images: list[Image] = []
         ext_ids = []
         copyrights = []
         tracks = []
         tracks_total = 0
-        if "genres" in _dict:
-            genres = [x for x in _dict["genres"]]
-        if "available_markets" in _dict:
-            available_markets = [x for x in _dict["available_markets"]]
-        if "images" in _dict:
-            images = [Image(x["url"], x["height"], x["width"]) for x in _dict["images"]]
-        if "external_ids" in _dict:
-            ext_ids = [{x: _dict["external_ids"][x]} for x in _dict["external_ids"]]
-        if "copyrights" in _dict:
-            copyrights = [x for x in _dict["copyrights"]]
-        if "tracks" in _dict and "items" in _dict["tracks"]:
-            tracks = [self.__make_track(x) for x in _dict["tracks"]["items"]]
-        if "tracks" in _dict and "total" in _dict["tracks"]:
-            tracks_total = _dict["tracks"]["total"]
-
-        ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
-        artists = [self.__make_artist(x) for x in _dict["artists"]]
+        if "genres" in dict_content:
+            genres = [x for x in dict_content["genres"]]
+        if "available_markets" in dict_content:
+            available_markets = [x for x in dict_content["available_markets"]]
+        if "images" in dict_content:
+            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
+        if "external_ids" in dict_content:
+            ext_ids = [{x: dict_content["external_ids"][x]} for x in dict_content["external_ids"]]
+        if "copyrights" in dict_content:
+            copyrights = [x for x in dict_content["copyrights"]]
+        if "tracks" in dict_content:
+            tracks = self.__make_tracks_list({"tracks": dict_content["tracks"]["items"]})
+        if "tracks" in dict_content and "total" in dict_content["tracks"]:
+            tracks_total = dict_content["tracks"]["total"]
 
         return Album(
-            id=_dict["id"],
-            name=_dict["name"],
-            href=_dict["href"],
-            uri=_dict["uri"],
-            popularity=value_or_default("popularity", _dict, 0),
-            type=_dict["type"],
-            album_type=_dict["type"],
-            album_group=value_or_default("album_group", _dict, "album"),
-            release_date=_dict["release_date"],
-            release_date_precision=_dict["release_date_precision"],
+            id=dict_content["id"],
+            name=dict_content["name"],
+            href=dict_content["href"],
+            uri=dict_content["uri"],
+            popularity=value_or_default("popularity", dict_content, 0),
+            type=dict_content["type"],
+            album_type=dict_content["type"],
+            album_group=value_or_default("album_group", dict_content, "album"),
+            release_date=dict_content["release_date"],
+            release_date_precision=dict_content["release_date_precision"],
             available_markets=available_markets,
             genres=genres,
-            label=value_or_default("label", _dict, ""),
-            external_urls=ext_urls,
+            label=value_or_default("label", dict_content, ""),
+            external_urls=[
+                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
+            ],
             external_ids=ext_ids,
             copyrights=copyrights,
             images=images,
-            artists=artists,
+            artists=self.__make_artists_list({"artists": dict_content["artists"]}),
             tracks_total=tracks_total,
             tracks=tracks,
         )
 
     def __make_albums_list(self, json_content: bytes | Any) -> list[Album]:
         if isinstance(json_content, bytes):
-            _dict = json.loads(json_content)
+            dict_content = json.loads(json_content)
         else:
-            _dict = json_content
+            dict_content = json_content
         albums_list = []
-        for album in _dict["albums"]:
+        for album in dict_content["albums"]:
             if album:
                 albums_list.append(self.__make_album(album))
         return albums_list
 
     def __make_album_tracks(self, json_content: bytes | Any) -> tuple[list[Track], Navigation]:
         if isinstance(json_content, bytes):
-            _dict = json.loads(json_content)
+            dict_content = json.loads(json_content)
         else:
-            _dict = json_content
-        navigation = Navigation(
-            href=_dict["href"],
-            next=_dict["next"],
-            previous=_dict["previous"],
-            limit=_dict["limit"],
-            offset=_dict["offset"],
-            total=_dict["total"],
-        )
+            dict_content = json_content
+        navigation = self.__make_navigation(dict_content)
 
-        return self.__make_tracks_list({"tracks": _dict["items"]}), navigation
+        return self.__make_tracks_list({"tracks": dict_content["items"]}), navigation
 
     def __make_new_releases(self, json_content: bytes) -> tuple[list[Track], Navigation]:
-        _dict = json.loads(json_content)
-        return self.__make_album_tracks(_dict["albums"])
+        dict_content = json.loads(json_content)
+        return self.__make_album_tracks(dict_content["albums"])
 
     def __make_audio_features(self, json_content: bytes | Any) -> Audio_features:
         if isinstance(json_content, bytes):
             print(json_content)
-            _dict = json.loads(json_content)
+            dict_content = json.loads(json_content)
         else:
-            _dict = json_content
+            dict_content = json_content
 
         return Audio_features(
-            id=_dict["id"],
-            track_href=_dict["track_href"],
-            uri=_dict["uri"],
-            analysis_url=_dict["analysis_url"],
-            type=_dict["type"],
-            key=_dict["key"],
-            mode=_dict["mode"],
-            time_signature=_dict["time_signature"],
-            duration_ms=_dict["duration_ms"],
-            danceability=_dict["danceability"],
-            energy=_dict["energy"],
-            loudness=_dict["loudness"],
-            speechiness=_dict["speechiness"],
-            acousticness=_dict["acousticness"],
-            instrumentalness=_dict["instrumentalness"],
-            liveness=_dict["liveness"],
-            valence=_dict["valence"],
-            tempo=_dict["tempo"],
+            id=dict_content["id"],
+            track_href=dict_content["track_href"],
+            uri=dict_content["uri"],
+            analysis_url=dict_content["analysis_url"],
+            type=dict_content["type"],
+            key=dict_content["key"],
+            mode=dict_content["mode"],
+            time_signature=dict_content["time_signature"],
+            duration_ms=dict_content["duration_ms"],
+            danceability=dict_content["danceability"],
+            energy=dict_content["energy"],
+            loudness=dict_content["loudness"],
+            speechiness=dict_content["speechiness"],
+            acousticness=dict_content["acousticness"],
+            instrumentalness=dict_content["instrumentalness"],
+            liveness=dict_content["liveness"],
+            valence=dict_content["valence"],
+            tempo=dict_content["tempo"],
         )
 
     def __make_audio_features_list(self, json_content: bytes) -> list[Audio_features]:
-        _dict = json.loads(json_content)
+        dict_content = json.loads(json_content)
         audio_features_list = []
-        for audio_feature in _dict["audio_features"]:
+        for audio_feature in dict_content["audio_features"]:
             if audio_feature:
                 audio_features_list.append(self.__make_audio_features(audio_feature))
         return audio_features_list
 
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
-        _dict = json.loads(json_content)
-        return set(_dict[key])
+        dict_content = json.loads(json_content)
+        return set(dict_content[key])
 
     def __make_category(self, json_content: bytes | Any) -> Category:
         if isinstance(json_content, bytes):
             print(json_content)
-            _dict = json.loads(json_content)
+            dict_content = json.loads(json_content)
         else:
-            _dict = json_content
+            dict_content = json_content
 
         icons: list[Image] = []
-        if "icons" in _dict:
-            icons = [Image(x["url"], x["height"], x["width"]) for x in _dict["icons"]]
+        if "icons" in dict_content:
+            icons = [Image(x["url"], x["height"], x["width"]) for x in dict_content["icons"]]
 
-        return Category(id=_dict["id"], name=_dict["name"], href=_dict["href"], icons=icons)
-
-    def __make_categories_list(self, json_content: bytes) -> tuple[list[Category], Navigation]:
-        _dict = json.loads(json_content)["categories"]
-        navigation = Navigation(
-            href=_dict["href"],
-            next=_dict["next"],
-            previous=_dict["previous"],
-            limit=_dict["limit"],
-            offset=_dict["offset"],
-            total=_dict["total"],
+        return Category(
+            id=dict_content["id"], name=dict_content["name"], href=dict_content["href"], icons=icons
         )
 
+    def __make_categories_list(self, json_content: bytes) -> tuple[list[Category], Navigation]:
+        dict_content = json.loads(json_content)["categories"]
+        navigation = self.__make_navigation(dict_content)
+
         categories_list = []
-        for category in _dict["items"]:
+        for category in dict_content["items"]:
             if category:
                 categories_list.append(self.__make_category(category))
         return categories_list, navigation
 
-    def __make_user(self, json_content: bytes | Any) -> User:
-        _dict = json.loads(json_content)
+    def __make_user(self, json_content: bytes) -> User:
+        dict_content = json.loads(json_content)
 
         images: list[Image] = []
         followers = 0
-        if "images" in _dict:
-            images = [Image(x["url"], x["height"], x["width"]) for x in _dict["images"]]
-        if "followers" in _dict and "total" in _dict["followers"]:
-            followers = _dict["followers"]["total"]
-
-        ext_urls = [{x: _dict["external_urls"][x]} for x in _dict["external_urls"]]
+        if "images" in dict_content:
+            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
+        if "followers" in dict_content and "total" in dict_content["followers"]:
+            followers = dict_content["followers"]["total"]
 
         return User(
-            id=_dict["id"],
-            display_name=_dict["display_name"],
-            href=_dict["href"],
-            uri=_dict["uri"],
-            type=_dict["type"],
+            id=dict_content["id"],
+            display_name=dict_content["display_name"],
+            href=dict_content["href"],
+            uri=dict_content["uri"],
+            type=dict_content["type"],
             followers=followers,
-            external_urls=ext_urls,
+            external_urls=[
+                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
+            ],
             images=images,
+        )
+
+    def __make_episode(self, dict_content: dict[str, Any]) -> Episode:
+        restrictions = ""
+        languages: list[str] = []
+        images: list[Image] = []
+        if "restrictions" in dict_content and "reason" in dict_content["restrictions"]:
+            restrictions = dict_content["restrictions"]["reason"]
+        if "images" in dict_content:
+            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
+        if "languages" in dict_content:
+            languages = [x for x in dict_content["languages"]]
+
+        return Episode(
+            id=dict_content["id"],
+            name=dict_content["name"],
+            href=dict_content["href"],
+            uri=dict_content["uri"],
+            type=dict_content["type"],
+            description=dict_content["description"],
+            html_description=dict_content["html_description"],
+            audio_preview_url=dict_content["audio_preview_url"],
+            release_date=dict_content["release_date"],
+            release_date_precision=dict_content["release_date_precision"],
+            duration_ms=dict_content["duration_ms"],
+            explicit=dict_content["explicit"],
+            is_externally_hosted=dict_content["is_externally_hosted"],
+            is_playable=dict_content["is_playable"],
+            languages=languages,
+            restrictions=restrictions,
+            external_urls=[
+                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
+            ],
+            images=images,
+            resume_point=None,  # we need Oauth User for that
+        )
+
+    def __make_episodes_list(self, json_content: bytes | Any) -> list[Episode]:
+        if isinstance(json_content, bytes):
+            dict_content = json.loads(json_content)
+        else:
+            dict_content = json_content
+        episode_list = []
+        for episode in dict_content["episodes"]:
+            if episode:
+                episode_list.append(self.__make_episode(episode))
+        return episode_list
+
+    def __make_show(self, json_content: bytes) -> tuple[Show, Navigation]:
+        dict_content = json.loads(json_content)
+        navigation = self.__make_navigation(dict_content["episodes"])
+
+        images: list[Image] = []
+        available_markets: list[str] = []
+        copyrights = []
+        languages: list[str] = []
+        if "images" in dict_content:
+            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
+        if "available_markets" in dict_content:
+            available_markets = [x for x in dict_content["available_markets"]]
+        if "copyrights" in dict_content:
+            copyrights = [x for x in dict_content["copyrights"]]
+        if "languages" in dict_content:
+            languages = [x for x in dict_content["languages"]]
+
+        show = Show(
+            id=dict_content["id"],
+            name=dict_content["name"],
+            href=dict_content["href"],
+            uri=dict_content["uri"],
+            type=dict_content["type"],
+            media_type=dict_content["media_type"],
+            publisher=dict_content["publisher"],
+            description=dict_content["description"],
+            html_description=dict_content["html_description"],
+            total_episodes=dict_content["total_episodes"],
+            available_markets=available_markets,
+            explicit=dict_content["explicit"],
+            is_externally_hosted=dict_content["is_externally_hosted"],
+            languages=languages,
+            external_urls=[
+                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
+            ],
+            copyrights=copyrights,
+            images=images,
+            episodes=self.__make_episodes_list({"episodes": dict_content["episodes"]["items"]}),
+        )
+        return show, navigation
+
+    def __make_navigation(self, dict_content: dict[str, Any]) -> Navigation:
+        return Navigation(
+            href=dict_content["href"],
+            next=dict_content["next"],
+            previous=dict_content["previous"],
+            limit=dict_content["limit"],
+            offset=dict_content["offset"],
+            total=dict_content["total"],
         )

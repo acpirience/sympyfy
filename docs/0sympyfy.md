@@ -61,6 +61,13 @@
     options:
       heading_level: 3
 
+
+## SHOWS ##
+::: sympyfy.Sympyfy.get_show
+    options:
+      heading_level: 3
+
+
 ## TRACKS ##
 ::: sympyfy.Sympyfy.get_track
     options:

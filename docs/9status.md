@@ -99,7 +99,7 @@ _Since audiobooks are not available in my country, I won't implement this part o
 
 ###Shows
 
-- [ ] Get Show ⮕ **GET** `/shows/{id}` 🔒 (?)
+- [x] Get Show ⮕ **GET** `/shows/{id}` 🔒 (partial, resume_point not implemented)
 - [ ] Get Several Shows ⮕ **GET** `/shows`
 - [ ] Get Show Episodes ⮕ **GET** `/shows/{id}/episodes` 🔒 (?)
 - [ ] Get User's Saved Shows ⮕ **GET** `/me/shows` 🔒
