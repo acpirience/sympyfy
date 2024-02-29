@@ -36,6 +36,8 @@ HTTP_GET_MARKETS = HTTP_API_ROOT + "/markets"
 # shows
 HTTP_GET_SHOW = HTTP_API_ROOT + "/shows/{id}"
 HTTP_GET_SEVERAL_SHOWS = HTTP_API_ROOT + "/shows?ids={ids}"
+HTTP_GET_SHOW_EPISODES = HTTP_API_ROOT + "/shows/{id}/episodes"
+
 
 # tracks
 HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"

@@ -150,18 +150,18 @@ class Sympyfy:
         limit: int = 20,
         offset: int = 0,
     ) -> tuple[list[Album], Navigation] | None:
-        """returns a list of album Objects related to the artist specified by its id in a given market. Result is paginated.<br>
+        """Get Spotify catalog information about an artist's albums.<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums)
 
         Parameters:
-            artist_id: Spotify id of the artist
-            market: ISO 2 character country code of the market
+            artist_id: The Spotify ID of the artist.
+            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
             include_groups: A list of keywords that will be used to filter the response. Valid values are: album, single, appears_on, compilation.
-            limit: Maximum number of albums appearing
-            offset: Index of first album to return
+            limit: The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+            offset: The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
 
         Returns:
-            Navigation Object and list of Album objects or None if id does not match an artist
+            list of Album objects and Navigation Object or None if id does not match an artist
         """
         url = (
             api.HTTP_GET_ARTIST_ALBUMS.replace("{id}", artist_id)
@@ -327,7 +327,6 @@ class Sympyfy:
             + add_pagination(limit, offset)
         )
         response = self._get_api_response_with_access_token(sanitize(url))
-        print(response.content)
         return self.__make_categories_list(response.content)
 
     def get_show(self, show_id: str, market: str | None = None) -> tuple[Show, Navigation] | None:
@@ -361,6 +360,31 @@ class Sympyfy:
         )
         response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_shows_list(response.content)
+
+    def get_show_episodes(
+        self, show_id: str, market: str | None = None, limit: int = 20, offset: int = 0
+    ) -> tuple[list[Episode], Navigation] | None:
+        """Get Spotify catalog information about an show’s episodes. Optional parameters can be used to limit the number of episodes returned.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-a-shows-episodes](https://developer.spotify.com/documentation/web-api/reference/get-a-shows-episodes)
+
+        Parameters:
+            show_id: The Spotify ID for the show.
+            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+            limit: The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+            offset: The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
+
+        Returns:
+            list of Episode objects and a navigation Objet or None if id does not match a show
+        """
+        url = (
+            api.HTTP_GET_SHOW_EPISODES.replace("{id}", show_id)
+            + add_market(market, self.markets)
+            + add_pagination(limit, offset)
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_show_episodes(response.content)
+        return None
 
     def get_track(self, track_id: str, market: str | None = None) -> Track | None:
         """returns the details of a track specified by its id<br>
@@ -677,7 +701,6 @@ class Sympyfy:
 
     def __make_audio_features(self, json_content: bytes | Any) -> Audio_features:
         if isinstance(json_content, bytes):
-            print(json_content)
             dict_content = json.loads(json_content)
         else:
             dict_content = json_content
@@ -717,7 +740,6 @@ class Sympyfy:
 
     def __make_category(self, json_content: bytes | Any) -> Category:
         if isinstance(json_content, bytes):
-            print(json_content)
             dict_content = json.loads(json_content)
         else:
             dict_content = json_content
@@ -807,7 +829,6 @@ class Sympyfy:
 
     def __make_show(self, json_content: bytes | Any) -> tuple[Show, Navigation]:
         if isinstance(json_content, bytes):
-            print(json_content)
             dict_content = json.loads(json_content)
         else:
             dict_content = json_content
@@ -855,13 +876,22 @@ class Sympyfy:
         return show, navigation
 
     def __make_shows_list(self, json_content: bytes) -> list[Show]:
-        print(json_content)
         dict_content = json.loads(json_content)
         show_list = []
         for show in dict_content["shows"]:
             if show:
                 show_list.append(self.__make_show(show)[0])
         return show_list
+
+    def __make_show_episodes(self, json_content: bytes) -> tuple[list[Episode], Navigation]:
+        print(json_content)
+        dict_content = json.loads(json_content)
+        navigation = self.__make_navigation(dict_content)
+        episode_list = []
+        for episode in dict_content["items"]:
+            if episode:
+                episode_list.append(self.__make_episode(episode))
+        return episode_list, navigation
 
     def __make_navigation(self, dict_content: dict[str, Any]) -> Navigation:
         return Navigation(
