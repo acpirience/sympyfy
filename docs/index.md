@@ -6,6 +6,7 @@ A pre-requisite for using this library is to get a Spotify access token: [https:
 
 Sympyfy needs either:  
 
+- The client_id and client_secret passed as parameters of the `load_credentials()` method.
 - The client_id and client_secret environment variables present.
 - a .env file creating those variables
 

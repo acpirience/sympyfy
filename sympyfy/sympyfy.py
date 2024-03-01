@@ -49,17 +49,32 @@ class Sympyfy:
         self._spotify_markets: set[str] = set()
         self._genre_seeds: set[str] = set()
 
-    def load_credentials(self) -> None:
-        """Load Spotify credential request for an Access Token<br>
+    def load_credentials(
+        self, client_id: str | None = None, client_secret: str | None = None
+    ) -> None:
+        """Load Spotify credential request for an Access Token. If parameters are provided, they will be used; else environment variables will be used, else we will try in the .env file<br>
         See: [https://developer.spotify.com/documentation/web-api/concepts/access-token](https://developer.spotify.com/documentation/web-api/concepts/access-token)
+
+        Parameters:
+            client_id: Client Id of the application, provided by Spotify.
+            client_secret: Client secret of the application, provided by Spotify.
         """
-        self._load_spotify_credentials()
+        self._load_spotify_credentials(client_id, client_secret)
         self._load_access_token()
 
-    def _load_spotify_credentials(self) -> None:
+    def _load_spotify_credentials(
+        self, client_id: str | None = None, client_secret: str | None = None
+    ) -> None:
+        if client_id and client_secret:
+            console.print(
+                "Spotify credentials loaded from method parameters", style="light_slate_blue"
+            )
+            self._spotify_credentials = {"client_id": client_id, "client_secret": client_secret}
+            return
+
         if "client_id" in os.environ and "client_secret" in os.environ:
             console.print(
-                "Spotify credentials loaded from environment variableS", style="light_slate_blue"
+                "Spotify credentials loaded from environment variables", style="light_slate_blue"
             )
             self._spotify_credentials = {
                 "client_id": os.environ["client_id"],
