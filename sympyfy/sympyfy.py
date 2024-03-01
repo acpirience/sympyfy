@@ -8,11 +8,10 @@ import json
 import os
 import sys
 from typing import Any
-from rich.console import Console
-console = Console()
 
 from dotenv import dotenv_values
 from requests import Response, get, post
+from rich.console import Console
 
 import sympyfy.api_urls as api
 from sympyfy.api_structures import (
@@ -39,6 +38,8 @@ from sympyfy.common import (
 )
 from sympyfy.tokens.access_token import Access_token
 
+console = Console()
+
 
 class Sympyfy:
     # main sympyfy class
@@ -57,7 +58,9 @@ class Sympyfy:
 
     def _load_spotify_credentials(self) -> None:
         if "client_id" in os.environ and "client_secret" in os.environ:
-            console.print("Spotify credentials loaded from environment variableS", style="light_slate_blue")
+            console.print(
+                "Spotify credentials loaded from environment variableS", style="light_slate_blue"
+            )
             self._spotify_credentials = {
                 "client_id": os.environ["client_id"],
                 "client_secret": os.environ["client_secret"],
@@ -66,15 +69,18 @@ class Sympyfy:
 
         if not os.path.isfile(".env"):
             console.print(
-                "Error: can't find client_id / client_secret environment variableS or an .env file", style="red on white"
+                "Error: can't find client_id / client_secret environment variableS or an .env file",
+                style="red on white",
             )
             sys.exit(1)
         env_config = dotenv_values(".env")
         if "client_id" not in env_config:
-            console.print("Error: Missing client_id variable from .env file", style = "red on white")
+            console.print("Error: Missing client_id variable from .env file", style="red on white")
             sys.exit(1)
         if "client_secret" not in env_config:
-            console.print("Error: Missing client_secret variable from .env file", style = "red one white")
+            console.print(
+                "Error: Missing client_secret variable from .env file", style="red one white"
+            )
             sys.exit(1)
         console.print("Spotify credentials loaded from .env file", style="light_slate_blue")
         self._spotify_credentials = {
@@ -100,12 +106,20 @@ class Sympyfy:
         data = {"grant_type": "client_credentials"}
 
         response = post(api.HTTP_GET_APP_TOKEN, headers=headers, data=data)
-        response_json = json.loads(response.content)
+        if response.status_code == 200:
+            console.print(response.content)
+            self._access_token = Access_token(response.content)
+        else:
+            console.print(
+                f"Error: can't get access token ([{response.status_code}] {response.reason})",
+                style="red on white",
+            )
+            sys.exit(1)
 
-        self._access_token = Access_token(
-            response_json["access_token"], response_json["expires_in"]
+        console.print(
+            f"Access Token received, valid until {self._access_token.expiry}",
+            style="light_slate_blue",
         )
-        console.print(f"Access Token received, valid until {self._access_token.expiry}", style="light_slate_blue")
 
     def _get_api_response_with_access_token(self, url: str) -> Response:
         # Generic function that returns the json response

@@ -4,17 +4,17 @@ Access_token: used for api call not needing oauth
 
 """
 
+import json
 from datetime import datetime, timedelta
 
 
 class Access_token:
-    def __init__(self, token: str, expires_in: int):
+    def __init__(self, json_content: bytes) -> None:
         # Token: token content passed to the API
-        # expires_in: duration in seconds of the token validity
         # expiry: datetime when the token becomes invalid
-
-        self.token = token
-        self.expiry: datetime = datetime.today() + timedelta(seconds=expires_in)
+        response_json = json.loads(json_content)
+        self.token = response_json["access_token"]
+        self.expiry: datetime = datetime.today() + timedelta(seconds=response_json["expires_in"])
 
     def is_valid(self) -> bool:
         # token is invalid if current date > expiry
