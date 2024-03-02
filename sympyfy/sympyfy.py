@@ -7,7 +7,6 @@ import base64
 import json
 import os
 import sys
-from typing import Any
 
 from dotenv import dotenv_values
 from requests import Response, get, post
@@ -15,13 +14,11 @@ from rich.console import Console
 
 import sympyfy.api_urls as api
 from sympyfy.api_structures import (
-    EMPTY_NAVIGATION,
     Album,
     Artist,
     Audio_features,
     Category,
     Episode,
-    Image,
     Navigation,
     Show,
     Track,
@@ -34,7 +31,6 @@ from sympyfy.common import (
     add_pagination,
     add_url_parameter,
     sanitize,
-    value_or_default,
 )
 from sympyfy.tokens.access_token import Access_token
 
@@ -122,7 +118,6 @@ class Sympyfy:
 
         response = post(api.HTTP_GET_APP_TOKEN, headers=headers, data=data)
         if response.status_code == 200:
-            console.print(response.content)
             self._access_token = Access_token(response.content)
         else:
             console.print(
@@ -173,36 +168,20 @@ class Sympyfy:
         response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_artists_list(response.content)
 
-    def get_artist_albums(
-        self,
-        artist_id: str,
-        market: str | None = None,
-        include_groups: list[str] = INCLUDE_GROUPS,
-        limit: int = 20,
-        offset: int = 0,
-    ) -> tuple[list[Album], Navigation] | None:
-        """Get Spotify catalog information about an artist's albums.<br>
-        [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums)
+    def get_artist_related_artists(self, artist_id: str) -> list[Artist] | None:
+        """returns a list of Artist Objects related to the artist specified by its id<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists)
 
         Parameters:
-            artist_id: The Spotify ID of the artist.
-            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
-            include_groups: A list of keywords that will be used to filter the response. Valid values are: album, single, appears_on, compilation.
-            limit: The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
-            offset: The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
+            artist_id: Spotify id of the artist
 
         Returns:
-            list of Album objects and Navigation Object or None if id does not match an artist
+            list of Artist objects or None if id does not match an artist
         """
-        url = (
-            api.HTTP_GET_ARTIST_ALBUMS.replace("{id}", artist_id)
-            + add_market(market, self.markets)
-            + add_pagination(limit, offset)
-            + add_include_groups(include_groups)
-        )
+        url = api.HTTP_GET_RELATED_ARTISTS.replace("{id}", artist_id)
         response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
-            return self.__make_artist_albums(response.content)
+            return self.__make_artists_list(response.content)
         return None
 
     def get_artist_top_tracks(
@@ -226,20 +205,36 @@ class Sympyfy:
             return self.__make_tracks_list(response.content)
         return None
 
-    def get_artist_related_artists(self, artist_id: str) -> list[Artist] | None:
-        """returns a list of Artist Objects related to the artist specified by its id<br>
-        [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists)
+    def get_artist_albums(
+        self,
+        artist_id: str,
+        market: str | None = None,
+        include_groups: list[str] = INCLUDE_GROUPS,
+        limit: int = 20,
+        offset: int = 0,
+    ) -> Navigation | None:
+        """Get Spotify catalog information about an artist's albums.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums](https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums)
 
         Parameters:
-            artist_id: Spotify id of the artist
+            artist_id: The Spotify ID of the artist.
+            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+            include_groups: A list of keywords that will be used to filter the response. Valid values are: album, single, appears_on, compilation.
+            limit: The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+            offset: The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
 
         Returns:
-            list of Artist objects or None if id does not match an artist
+            A Navigation Object of Album Objects
         """
-        url = api.HTTP_GET_RELATED_ARTISTS.replace("{id}", artist_id)
+        url = (
+            api.HTTP_GET_ARTIST_ALBUMS.replace("{id}", artist_id)
+            + add_market(market, self.markets)
+            + add_pagination(limit, offset)
+            + add_include_groups(include_groups)
+        )
         response = self._get_api_response_with_access_token(sanitize(url))
         if response.status_code == 200:
-            return self.__make_artists_list(response.content)
+            return self.__make_artist_albums(response.content)
         return None
 
     def get_album(self, album_id: str, market: str | None = None) -> Album | None:
@@ -248,7 +243,7 @@ class Sympyfy:
 
         Parameters:
             album_id: Spotify id of the album
-            market: Market to search in
+            market: Market to search in²
 
         Returns:
             Album object or None if id does not match a track
@@ -274,6 +269,7 @@ class Sympyfy:
             market, self.markets
         )
         response = self._get_api_response_with_access_token(sanitize(url))
+        console.print(response.json())
         return self.__make_albums_list(response.content)
 
     def get_album_tracks(
@@ -282,7 +278,7 @@ class Sympyfy:
         market: str | None = None,
         limit: int = 20,
         offset: int = 0,
-    ) -> tuple[list[Track], Navigation] | None:
+    ) -> Navigation | None:
         """returns a list of track Objects related to the album specified by its id in a given market. Result is paginated.<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks](https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks)
 
@@ -293,7 +289,7 @@ class Sympyfy:
             offset: Index of first track to return
 
         Returns:
-            Navigation Object and list of track objects or None if id does not match an album
+            A Navigation Object of Track Objects
         """
         url = (
             api.HTTP_GET_ALBUM_TRACKS.replace("{id}", album_id)
@@ -305,12 +301,12 @@ class Sympyfy:
             return self.__make_album_tracks(response.content)
         return None
 
-    def get_new_releases(self) -> tuple[list[Track], Navigation]:
+    def get_new_releases(self) -> Navigation:
         """Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-new-releases](https://developer.spotify.com/documentation/web-api/reference/get-new-releases)
 
         Returns:
-            List of Track object plus a Navigation object
+            A Navigation object of Track Objects
         """
         url = api.HTTP_GET_NEW_RELEASES
         response = self._get_api_response_with_access_token(sanitize(url))
@@ -340,7 +336,7 @@ class Sympyfy:
         locale: str | None = None,
         limit: int = 20,
         offset: int = 0,
-    ) -> tuple[list[Category], Navigation]:
+    ) -> Navigation:
         """Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-categories](https://developer.spotify.com/documentation/web-api/reference/get-categories)
 
@@ -350,7 +346,7 @@ class Sympyfy:
             offset: The index of the first Category to return. Default: 0 (the first Category). Use with limit to get the next set of Categories.
 
         Returns:
-            a list of Category objects and a Navigation Object
+            a Navigation Object of Category Objects
         """
         url = (
             api.HTTP_GET_SEVERAL_BROWSE_CATEGORIES
@@ -360,7 +356,7 @@ class Sympyfy:
         response = self._get_api_response_with_access_token(sanitize(url))
         return self.__make_categories_list(response.content)
 
-    def get_show(self, show_id: str, market: str | None = None) -> tuple[Show, Navigation] | None:
+    def get_show(self, show_id: str, market: str | None = None) -> Show | None:
         """Get Spotify catalog information for a single show identified by its unique Spotify ID.<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-a-show](https://developer.spotify.com/documentation/web-api/reference/get-a-show)
 
@@ -384,7 +380,7 @@ class Sympyfy:
             show_ids: A list of the Spotify IDs for the shows. Maximum: 50 IDs.
 
         Returns:
-            list of Show object
+            list of Show objects
         """
         url = api.HTTP_GET_SEVERAL_SHOWS.replace("{ids}", "%2C".join(show_ids)) + add_market(
             market, self.markets
@@ -394,7 +390,7 @@ class Sympyfy:
 
     def get_show_episodes(
         self, show_id: str, market: str | None = None, limit: int = 20, offset: int = 0
-    ) -> tuple[list[Episode], Navigation] | None:
+    ) -> Navigation | None:
         """Get Spotify catalog information about an show’s episodes. Optional parameters can be used to limit the number of episodes returned.<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-a-shows-episodes](https://developer.spotify.com/documentation/web-api/reference/get-a-shows-episodes)
 
@@ -405,7 +401,7 @@ class Sympyfy:
             offset: The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
 
         Returns:
-            list of Episode objects and a navigation Objet or None if id does not match a show
+            A navigation Objet of Show Objects or None if id does not match a show
         """
         url = (
             api.HTTP_GET_SHOW_EPISODES.replace("{id}", show_id)
@@ -551,383 +547,107 @@ class Sympyfy:
             return self.__make_user(response.content)
         return None
 
-    def __make_artist(self, json_content: bytes | Any) -> Artist:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
-
-        # some values maybe present or not depending on the api call (e.g. /Artists and /tracks)
-        genres: list[str] = []
-        images: list[Image] = []
-        followers = 0
-        if "genres" in dict_content:
-            genres = [x for x in dict_content["genres"]]
-        if "images" in dict_content:
-            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
-        if "followers" in dict_content and "total" in dict_content["followers"]:
-            followers = dict_content["followers"]["total"]
-
-        return Artist(
-            id=dict_content["id"],
-            name=dict_content["name"],
-            href=dict_content["href"],
-            uri=dict_content["uri"],
-            popularity=value_or_default("popularity", dict_content, 0),
-            type=dict_content["type"],
-            followers=followers,
-            genres=genres,
-            external_urls=[
-                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
-            ],
-            images=images,
-        )
-
-    def __make_artists_list(self, json_content: bytes | Any) -> list[Artist]:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
-        artists_list = []
-        for artist in dict_content["artists"]:
-            if artist:
-                artists_list.append(self.__make_artist(artist))
-        return artists_list
-
-    def __make_artist_albums(self, json_content: bytes) -> tuple[list[Album], Navigation]:
-        dict_content = json.loads(json_content)
-        navigation = self.__make_navigation(dict_content)
-
-        return self.__make_albums_list({"albums": dict_content["items"]}), navigation
-
-    def __make_track(self, json_content: bytes | Any) -> Track:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
-
-        available_markets: list[str] = []
-        ext_ids: list[dict[str, str]] = []
-        restrictions = ""
-        if "available_markets" in dict_content:
-            available_markets = [x for x in dict_content["available_markets"]]
-        if "external_ids" in dict_content:
-            ext_ids = [{x: dict_content["external_ids"][x]} for x in dict_content["external_ids"]]
-        if "restrictions" in dict_content and "reason" in dict_content["restrictions"]:
-            restrictions = dict_content["restrictions"]["reason"]
-
-        return Track(
-            id=dict_content["id"],
-            name=dict_content["name"],
-            href=dict_content["href"],
-            uri=dict_content["uri"],
-            popularity=value_or_default("popularity", dict_content, 0),
-            type=dict_content["type"],
-            preview_url=value_or_default("preview_url", dict_content, None),
-            disc_number=value_or_default("disc_number", dict_content, 0),
-            track_number=value_or_default("track_number", dict_content, 0),
-            duration_ms=value_or_default("duration_ms", dict_content, 0),
-            explicit=value_or_default("explicit", dict_content, False),
-            is_local=value_or_default("is_local", dict_content, False),
-            is_playable=value_or_default("is_playable", dict_content, True),
-            external_ids=ext_ids,
-            external_urls=[
-                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
-            ],
-            artists=self.__make_artists_list({"artists": dict_content["artists"]}),
-            available_markets=available_markets,
-            album=self.__make_album(dict_content["album"]) if "album" in dict_content else None,
-            linked_from=value_or_default("linked_from", dict_content, None),
-            restrictions=restrictions,
-        )
-
-    def __make_tracks_list(self, json_content: bytes | Any) -> list[Track]:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
-        track_list = []
-        for track in dict_content["tracks"]:
-            if track:
-                track_list.append(self.__make_track(track))
-        return track_list
-
-    def __make_album(self, json_content: bytes | Any) -> Album:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
-
-        genres: list[str] = []
-        available_markets: list[str] = []
-        images: list[Image] = []
-        ext_ids = []
-        copyrights = []
-        tracks = []
-        tracks_total = 0
-        if "genres" in dict_content:
-            genres = [x for x in dict_content["genres"]]
-        if "available_markets" in dict_content:
-            available_markets = [x for x in dict_content["available_markets"]]
-        if "images" in dict_content:
-            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
-        if "external_ids" in dict_content:
-            ext_ids = [{x: dict_content["external_ids"][x]} for x in dict_content["external_ids"]]
-        if "copyrights" in dict_content:
-            copyrights = [x for x in dict_content["copyrights"]]
-        if "tracks" in dict_content:
-            tracks = self.__make_tracks_list({"tracks": dict_content["tracks"]["items"]})
-        if "tracks" in dict_content and "total" in dict_content["tracks"]:
-            tracks_total = dict_content["tracks"]["total"]
-
-        return Album(
-            id=dict_content["id"],
-            name=dict_content["name"],
-            href=dict_content["href"],
-            uri=dict_content["uri"],
-            popularity=value_or_default("popularity", dict_content, 0),
-            type=dict_content["type"],
-            album_type=dict_content["type"],
-            album_group=value_or_default("album_group", dict_content, "album"),
-            release_date=dict_content["release_date"],
-            release_date_precision=dict_content["release_date_precision"],
-            available_markets=available_markets,
-            genres=genres,
-            label=value_or_default("label", dict_content, ""),
-            external_urls=[
-                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
-            ],
-            external_ids=ext_ids,
-            copyrights=copyrights,
-            images=images,
-            artists=self.__make_artists_list({"artists": dict_content["artists"]}),
-            tracks_total=tracks_total,
-            tracks=tracks,
-        )
-
-    def __make_albums_list(self, json_content: bytes | Any) -> list[Album]:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
-        albums_list = []
-        for album in dict_content["albums"]:
-            if album:
-                albums_list.append(self.__make_album(album))
-        return albums_list
-
-    def __make_album_tracks(self, json_content: bytes | Any) -> tuple[list[Track], Navigation]:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
-        navigation = self.__make_navigation(dict_content)
-
-        return self.__make_tracks_list({"tracks": dict_content["items"]}), navigation
-
-    def __make_new_releases(self, json_content: bytes) -> tuple[list[Track], Navigation]:
-        dict_content = json.loads(json_content)
-        return self.__make_album_tracks(dict_content["albums"])
-
-    def __make_audio_features(self, json_content: bytes | Any) -> Audio_features:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
-
-        return Audio_features(
-            id=dict_content["id"],
-            track_href=dict_content["track_href"],
-            uri=dict_content["uri"],
-            analysis_url=dict_content["analysis_url"],
-            type=dict_content["type"],
-            key=dict_content["key"],
-            mode=dict_content["mode"],
-            time_signature=dict_content["time_signature"],
-            duration_ms=dict_content["duration_ms"],
-            danceability=dict_content["danceability"],
-            energy=dict_content["energy"],
-            loudness=dict_content["loudness"],
-            speechiness=dict_content["speechiness"],
-            acousticness=dict_content["acousticness"],
-            instrumentalness=dict_content["instrumentalness"],
-            liveness=dict_content["liveness"],
-            valence=dict_content["valence"],
-            tempo=dict_content["tempo"],
-        )
-
-    def __make_audio_features_list(self, json_content: bytes) -> list[Audio_features]:
-        dict_content = json.loads(json_content)
-        audio_features_list = []
-        for audio_feature in dict_content["audio_features"]:
-            if audio_feature:
-                audio_features_list.append(self.__make_audio_features(audio_feature))
-        return audio_features_list
-
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         dict_content = json.loads(json_content)
         return set(dict_content[key])
 
-    def __make_category(self, json_content: bytes | Any) -> Category:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
+    def __make_artist(self, json_content: bytes) -> Artist:
+        artist: Artist = Artist.model_validate_json(json_content)
+        return artist
 
-        icons: list[Image] = []
-        if "icons" in dict_content:
-            icons = [Image(x["url"], x["height"], x["width"]) for x in dict_content["icons"]]
-
-        return Category(
-            id=dict_content["id"], name=dict_content["name"], href=dict_content["href"], icons=icons
-        )
-
-    def __make_categories_list(self, json_content: bytes) -> tuple[list[Category], Navigation]:
-        dict_content = json.loads(json_content)["categories"]
-        navigation = self.__make_navigation(dict_content)
-
-        categories_list = []
-        for category in dict_content["items"]:
-            if category:
-                categories_list.append(self.__make_category(category))
-        return categories_list, navigation
-
-    def __make_user(self, json_content: bytes) -> User:
+    def __make_artists_list(self, json_content: bytes) -> list[Artist]:
         dict_content = json.loads(json_content)
+        artists_list: list[Artist] = []
+        for x in dict_content["artists"]:
+            if x:
+                artists_list.append(Artist.model_validate(x))
+        return artists_list
 
-        images: list[Image] = []
-        followers = 0
-        if "images" in dict_content:
-            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
-        if "followers" in dict_content and "total" in dict_content["followers"]:
-            followers = dict_content["followers"]["total"]
+    def __make_track(self, json_content: bytes) -> Track:
+        track: Track = Track.model_validate_json(json_content)
+        return track
 
-        return User(
-            id=dict_content["id"],
-            display_name=dict_content["display_name"],
-            href=dict_content["href"],
-            uri=dict_content["uri"],
-            type=dict_content["type"],
-            followers=followers,
-            external_urls=[
-                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
-            ],
-            images=images,
-        )
+    def __make_tracks_list(self, json_content: bytes) -> list[Track]:
+        dict_content = json.loads(json_content)
+        tracks_list: list[Track] = []
+        for x in dict_content["tracks"]:
+            if x:
+                tracks_list.append(Track.model_validate(x))
+        return tracks_list
 
-    def __make_episode(self, dict_content: dict[str, Any]) -> Episode:
-        restrictions = ""
-        languages: list[str] = []
-        images: list[Image] = []
-        if "restrictions" in dict_content and "reason" in dict_content["restrictions"]:
-            restrictions = dict_content["restrictions"]["reason"]
-        if "images" in dict_content:
-            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
-        if "languages" in dict_content:
-            languages = [x for x in dict_content["languages"]]
+    def __make_album(self, json_content: bytes) -> Album:
+        album: Album = Album.model_validate_json(json_content)
+        if album.tracks:
+            album.tracks.items = [Track.model_validate(x) for x in album.tracks.items]
+        return album
 
-        return Episode(
-            id=dict_content["id"],
-            name=dict_content["name"],
-            href=dict_content["href"],
-            uri=dict_content["uri"],
-            type=dict_content["type"],
-            description=dict_content["description"],
-            html_description=dict_content["html_description"],
-            audio_preview_url=dict_content["audio_preview_url"],
-            release_date=dict_content["release_date"],
-            release_date_precision=dict_content["release_date_precision"],
-            duration_ms=dict_content["duration_ms"],
-            explicit=dict_content["explicit"],
-            is_externally_hosted=dict_content["is_externally_hosted"],
-            is_playable=dict_content["is_playable"],
-            languages=languages,
-            restrictions=restrictions,
-            external_urls=[
-                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
-            ],
-            images=images,
-            resume_point=None,  # we need Oauth User for that
-        )
+    def __make_albums_list(self, json_content: bytes) -> list[Album]:
+        dict_content = json.loads(json_content)
+        albums_list: list[Album] = []
+        for x in dict_content["albums"]:
+            if x:
+                album = Album.model_validate(x)
+                album.tracks.items = [Track.model_validate(x) for x in album.tracks.items]
+                albums_list.append(album)
+        return albums_list
 
-    def __make_episodes_list(self, dict_content: dict[str, Any]) -> list[Episode]:
-        episode_list = []
-        for episode in dict_content["episodes"]:
-            if episode:
-                episode_list.append(self.__make_episode(episode))
-        return episode_list
+    def __make_artist_albums(self, json_content: bytes) -> Navigation:
+        navigation: Navigation = Navigation.model_validate_json(json_content)
+        navigation.items = [Album.model_validate(x) for x in navigation.items]
+        return navigation
 
-    def __make_show(self, json_content: bytes | Any) -> tuple[Show, Navigation]:
-        if isinstance(json_content, bytes):
-            dict_content = json.loads(json_content)
-        else:
-            dict_content = json_content
+    def __make_album_tracks(self, json_content: bytes) -> Navigation:
+        navigation: Navigation = Navigation.model_validate_json(json_content)
+        navigation.items = [Track.model_validate(x) for x in navigation.items]
+        return navigation
 
-        navigation = EMPTY_NAVIGATION
-        images: list[Image] = []
-        available_markets: list[str] = []
-        copyrights = []
-        languages: list[str] = []
-        episodes = []
-        if "images" in dict_content:
-            images = [Image(x["url"], x["height"], x["width"]) for x in dict_content["images"]]
-        if "available_markets" in dict_content:
-            available_markets = [x for x in dict_content["available_markets"]]
-        if "copyrights" in dict_content:
-            copyrights = [x for x in dict_content["copyrights"]]
-        if "languages" in dict_content:
-            languages = [x for x in dict_content["languages"]]
-        if "episodes" in dict_content:
-            navigation = self.__make_navigation(dict_content["episodes"])
-            episodes = self.__make_episodes_list({"episodes": dict_content["episodes"]["items"]})
+    def __make_new_releases(self, json_content: bytes) -> Navigation:
+        dict_content = json.loads(json_content)
+        navigation: Navigation = Navigation.model_validate(dict_content["albums"])
+        navigation.items = [Album.model_validate(x) for x in navigation.items]
+        return navigation
 
-        show = Show(
-            id=dict_content["id"],
-            name=dict_content["name"],
-            href=dict_content["href"],
-            uri=dict_content["uri"],
-            type=dict_content["type"],
-            media_type=dict_content["media_type"],
-            publisher=dict_content["publisher"],
-            description=dict_content["description"],
-            html_description=dict_content["html_description"],
-            total_episodes=dict_content["total_episodes"],
-            available_markets=available_markets,
-            explicit=dict_content["explicit"],
-            is_externally_hosted=dict_content["is_externally_hosted"],
-            languages=languages,
-            external_urls=[
-                {x: dict_content["external_urls"][x]} for x in dict_content["external_urls"]
-            ],
-            copyrights=copyrights,
-            images=images,
-            episodes=episodes,
-        )
-        return show, navigation
+    def __make_category(self, json_content) -> Category:
+        category: Category = Category.model_validate_json(json_content)
+        return category
+
+    def __make_categories_list(self, json_content: bytes) -> Navigation:
+        dict_content = json.loads(json_content)
+        navigation: Navigation = Navigation.model_validate(dict_content["categories"])
+        navigation.items = [Category.model_validate(x) for x in navigation.items]
+        return navigation
+
+    def __make_show(self, json_content: bytes) -> Show:
+        show: Show = Show.model_validate_json(json_content)
+        if show.episodes:
+            show.episodes.items = [Episode.model_validate(x) for x in show.episodes.items]
+        return show
 
     def __make_shows_list(self, json_content: bytes) -> list[Show]:
         dict_content = json.loads(json_content)
-        show_list = []
-        for show in dict_content["shows"]:
-            if show:
-                show_list.append(self.__make_show(show)[0])
-        return show_list
+        shows_list: list[Show] = []
+        for x in dict_content["shows"]:
+            if x:
+                shows_list.append(Show.model_validate(x))
+        return shows_list
 
-    def __make_show_episodes(self, json_content: bytes) -> tuple[list[Episode], Navigation]:
+    def __make_show_episodes(self, json_content: bytes) -> Navigation:
+        navigation: Navigation = Navigation.model_validate_json(json_content)
+        navigation.items = [Episode.model_validate(x) for x in navigation.items]
+        return navigation
+
+    def __make_audio_features(self, json_content: bytes) -> Audio_features:
+        audio_features = Audio_features.model_validate_json(json_content)
+        return audio_features
+
+    def __make_audio_features_list(self, json_content: bytes) -> list[Audio_features]:
         dict_content = json.loads(json_content)
-        navigation = self.__make_navigation(dict_content)
-        episode_list = []
-        for episode in dict_content["items"]:
-            if episode:
-                episode_list.append(self.__make_episode(episode))
-        return episode_list, navigation
+        audio_features_list: list[Audio_features] = []
+        for x in dict_content["audio_features"]:
+            if x:
+                audio_features_list.append(Audio_features.model_validate(x))
+        return audio_features_list
 
-    def __make_navigation(self, dict_content: dict[str, Any]) -> Navigation:
-        return Navigation(
-            href=dict_content["href"],
-            next=dict_content["next"],
-            previous=dict_content["previous"],
-            limit=dict_content["limit"],
-            offset=dict_content["offset"],
-            total=dict_content["total"],
-        )
+    def __make_user(self, json_content: bytes) -> User:
+        user: User = User.model_validate_json(json_content)
+        return user

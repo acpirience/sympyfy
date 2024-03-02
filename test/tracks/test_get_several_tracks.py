@@ -36,7 +36,7 @@ def test_get_unknown_track() -> None:
     assert "Novocaine For The Soul" not in test_tracks_names
 
 
-def test_get_none_track() -> None:
+def test_get_no_track() -> None:
     test = Sympyfy()
     test.load_credentials()
 

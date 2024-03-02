@@ -12,10 +12,8 @@ def test_make_artist_albums() -> None:
     test = Sympyfy()._Sympyfy__make_album_tracks(json_content)  # type: ignore
 
     assert test
-    test_albums, test_nav = test
+    assert test.total == 9
 
-    assert test_nav.total == 9
+    assert len(test.items) == 9
 
-    assert len(test_albums) == 9
-
-    assert test_albums[0].name == "Wanna Be Startin' Somethin'"
+    assert test.items[0].name == "Wanna Be Startin' Somethin'"

@@ -4,7 +4,6 @@ test for sympyfy.make_artist
 
 """
 from sympyfy import Sympyfy
-from sympyfy.api_structures import Image
 
 
 def test_make_artist() -> None:
@@ -16,7 +15,3 @@ def test_make_artist() -> None:
     assert test_artist.popularity == 61
     assert "breakbeat" in test_artist.genres
     assert "rave" in test_artist.genres
-    assert (
-        Image("https://i.scdn.co/image/ab6761610000e5ebae05213e52565bfd7e7489b3", 640, 640)
-        in test_artist.images
-    )

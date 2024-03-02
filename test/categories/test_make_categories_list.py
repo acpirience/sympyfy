@@ -12,10 +12,9 @@ def test_make_categories_list() -> None:
     test = Sympyfy()._Sympyfy__make_categories_list(json_content)  # type: ignore
 
     assert test
-    test_cat, test_nav = test
 
-    assert test_nav.total == 59
+    assert test.total == 59
 
-    assert len(test_cat) == 20
+    assert len(test.items) == 20
 
-    assert test_cat[0].name == "New Releases"
+    assert test.items[0].name == "New Releases"

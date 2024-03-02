@@ -12,10 +12,8 @@ def test_make_new_releases() -> None:
     test = Sympyfy()._Sympyfy__make_new_releases(json_content)  # type: ignore
 
     assert test
-    test_tracks, test_nav = test
+    assert test.total == 99
 
-    assert test_nav.total == 99
+    assert len(test.items) == 20
 
-    assert len(test_tracks) == 20
-
-    assert test_tracks[0].name == "Loss Of Life"
+    assert test.items[0].name == "Loss Of Life"

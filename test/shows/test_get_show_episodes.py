@@ -14,10 +14,9 @@ def test_get_show_episodes() -> None:
     test_show = test.get_show_episodes("6Ol9sx1lONDxBSffLW9qcZ", limit=2)
 
     assert test_show
-    test_list_show, nav = test_show
 
-    assert nav.limit == 2
-    assert len(test_list_show) == 2
+    assert test_show.limit == 2
+    assert len(test_show.items) == 2
 
 
 def test_get_show_unknown_show() -> None:

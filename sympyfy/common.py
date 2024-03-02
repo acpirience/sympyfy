@@ -4,15 +4,8 @@ common classes used by other objects
 
 """
 
-from typing import Any
 
 INCLUDE_GROUPS = ["album", "single", "appears_on", "compilation"]
-
-
-def value_or_default(key: str, _dict: dict[str, Any], default: Any) -> Any:
-    if key in _dict:
-        return _dict[key]
-    return default
 
 
 def sanitize(url: str) -> str:

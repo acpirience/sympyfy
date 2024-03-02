@@ -11,4 +11,4 @@ def test_make_user() -> None:
     test_user = Sympyfy()._Sympyfy__make_user(json_content)  # type: ignore
 
     assert test_user.display_name == "liam"
-    assert test_user.followers == 23
+    assert test_user.followers.total == 23
