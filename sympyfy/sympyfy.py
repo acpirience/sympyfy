@@ -412,12 +412,12 @@ class Sympyfy:
         return None
 
     def get_track(self, track_id: str, market: str | None = None) -> Track | None:
-        """returns the details of a track specified by its id<br>
+        """Get Spotify catalog information for a single track identified by its unique Spotify ID.<br>
         [https://developer.spotify.com/documentation/web-api/reference/get-track](https://developer.spotify.com/documentation/web-api/reference/get-track)
 
         Parameters:
             track_id: Spotify id of the track
-            market: Market to search in
+            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
 
         Returns:
             Track object or None if id does not match a track
@@ -545,6 +545,25 @@ class Sympyfy:
             return self.__make_user(response.content)
         return None
 
+    def get_users_follow_playlist(self, playlist_id: str, user_ids: list[str]) -> list[bool] | None:
+        """Check to see if one or more Spotify users are following a specified playlist.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-users-profile](https://developer.spotify.com/documentation/web-api/reference/get-users-profile)
+
+        Parameters:
+            playlist_id: The Spotify ID of the playlist.
+            user_ids: A  list of Spotify User IDs ; the ids of the users that you want to check to see if they follow the playlist. Maximum: 5 ids.
+
+        Returns:
+            list of bool
+        """
+        url = api.HTTP_GET_USERS_FOLLOW_PLAYLIST.replace("{id}", playlist_id).replace(
+            "{ids}", "%2C".join(user_ids)
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_users_follow_playlist(response.content)
+        return None
+
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         dict_content = json.loads(json_content)
         return set(dict_content[key])
@@ -649,3 +668,7 @@ class Sympyfy:
     def __make_user(self, json_content: bytes) -> User:
         user: User = User.model_validate_json(json_content)
         return user
+
+    def __make_users_follow_playlist(self, json_content: bytes) -> list[bool]:
+        dict_content = json.loads(json_content)
+        return dict_content

@@ -24,6 +24,11 @@ HTTP_GET_RELATED_ARTISTS = HTTP_API_ROOT + "/artists/{id}/related-artists"
 HTTP_GET_BROWSE_CATEGORY = HTTP_API_ROOT + "/browse/categories/{id}"
 HTTP_GET_SEVERAL_BROWSE_CATEGORIES = HTTP_API_ROOT + "/browse/categories"
 
+# episodes
+# HTTP_GET_EPISODE = HTTP_API_ROOT + "/episodes/{id}"
+# HTTP_GET_SEVERAL_EPISODES = HTTP_API_ROOT + "/episodes?ids={ids}"
+
+
 # genres
 HTTP_GET_GENRES = HTTP_API_ROOT + "/recommendations/available-genre-seeds"
 
@@ -47,3 +52,4 @@ HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features?ids={id
 
 # Users
 HTTP_GET_USER_PROFILE = HTTP_API_ROOT + "/users/{id}"
+HTTP_GET_USERS_FOLLOW_PLAYLIST = HTTP_API_ROOT + "/playlists/{id}/followers/contains?ids={ids}"
