@@ -133,4 +133,4 @@ _Since audiobooks are not available in my country, I won't implement this part o
 - [ ] Follow Artists or Users ⮕ **PUT** `/me/following` 🔒
 - [ ] Unfollow Artists or Users ⮕ **DELETE** `/me/following` 🔒
 - [ ] Check If User Follows Artists or Users ⮕ **GET** `/me/following/contains` 🔒
-- [ ] Check if Users Follow Playlist ⮕ **GET** `/playlists/{playlist_id}/followers/contains`
+- [x] Check if Users Follow Playlist ⮕ **GET** `/playlists/{playlist_id}/followers/contains`

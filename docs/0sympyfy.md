@@ -92,3 +92,6 @@
 ::: sympyfy.Sympyfy.get_user_profile
     options:
       heading_level: 3
+::: sympyfy.Sympyfy.get_users_follow_playlist
+    options:
+      heading_level: 3
