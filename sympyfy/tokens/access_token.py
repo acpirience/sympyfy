@@ -67,13 +67,13 @@ class Access_token:
     def load_access_token(self) -> None:
         # check for previously saved token on filesystem
         if os.path.isfile(ACCESS_TOKEN_FILE):
-            console.print("Loading from cache", style="light_slate_blue")
+            console.print("Loading Access Token from cache", style="light_slate_blue")
             self.make_access_token(self.load_token_from_file())
             if self.is_valid():
                 return
             console.print("Cache is expired", style="orange1")
 
-        console.print("Loading from Spotify API", style="light_slate_blue")
+        console.print("Loading Access Token from Spotify API", style="light_slate_blue")
         self.make_access_token(self.load_token_from_api())
 
     def load_token_from_file(self) -> bytes:
