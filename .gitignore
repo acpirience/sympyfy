@@ -10,7 +10,9 @@
 [Ss]cripts
 pyvenv.cfg
 .venv
+.access_token
 pip-selfcheck.json
+
 
 ### Python template
 # Byte-compiled / optimized / DLL files
