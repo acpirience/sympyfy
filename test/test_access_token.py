@@ -20,6 +20,6 @@ def test_access_token() -> None:
 
 def test_access_repr() -> None:
     test = Access_token(b'{"access_token":"test","token_type":"Bearer","expires_in":3600}')
-    test.expiry = datetime(2024, 2, 14, 0, 0, 1)
+    test._expiry = datetime(2024, 2, 14, 0, 0, 1)
 
     assert str(test) == ("(Token:'test', Expiry:'2024-02-14 00:00:01')")

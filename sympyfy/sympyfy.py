@@ -134,9 +134,7 @@ class Sympyfy:
     def _get_api_response_with_access_token(self, url: str) -> Response:
         # Generic function that returns the json response
         # of an API call using access token
-        headers = {"Authorization": "Bearer " + self._access_token.token}
-        response = get(url, headers=headers)
-        return response
+        return get(url, headers=self._access_token.headers)
 
     def get_artist(self, artist_id: str) -> Artist | None:
         """returns an Artist Object specified by its id<br>

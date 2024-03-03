@@ -13,8 +13,20 @@ class Access_token:
         # Token: token content passed to the API
         # expiry: datetime when the token becomes invalid
         response_json = json.loads(json_content)
-        self.token = response_json["access_token"]
-        self.expiry: datetime = datetime.today() + timedelta(seconds=response_json["expires_in"])
+        self._token = response_json["access_token"]
+        self._expiry: datetime = datetime.today() + timedelta(seconds=response_json["expires_in"])
+
+    @property
+    def token(self) -> str:
+        return self._token
+
+    @property
+    def expiry(self) -> datetime:
+        return self._expiry
+
+    @property
+    def headers(self) -> dict[str, str]:
+        return {"Authorization": "Bearer " + self.token}
 
     def is_valid(self) -> bool:
         # token is invalid if current date > expiry
