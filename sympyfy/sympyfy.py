@@ -3,13 +3,9 @@
 main sympyfy class
 
 """
-import base64
 import json
-import os
-import sys
 
-from dotenv import dotenv_values
-from requests import Response, get, post
+from requests import Response, get
 from rich.console import Console
 
 import sympyfy.api_urls as api
@@ -40,14 +36,11 @@ console = Console()
 class Sympyfy:
     # main sympyfy class
     def __init__(self) -> None:
-        self._spotify_credentials: dict[str, str]
         self._access_token: Access_token
         self._spotify_markets: set[str] = set()
         self._genre_seeds: set[str] = set()
 
-    def load_credentials(
-        self, client_id: str | None = None, client_secret: str | None = None
-    ) -> None:
+    def load_credentials(self, client_id: str = "", client_secret: str = "") -> None:
         """Load Spotify credential request for an Access Token. If parameters are provided, they will be used; else environment variables will be used, else we will try in the .env file<br>
         See: [https://developer.spotify.com/documentation/web-api/concepts/access-token](https://developer.spotify.com/documentation/web-api/concepts/access-token)
 
@@ -55,81 +48,9 @@ class Sympyfy:
             client_id: Client Id of the application, provided by Spotify.
             client_secret: Client secret of the application, provided by Spotify.
         """
-        self._load_spotify_credentials(client_id, client_secret)
-        self._load_access_token()
-
-    def _load_spotify_credentials(
-        self, client_id: str | None = None, client_secret: str | None = None
-    ) -> None:
-        if client_id and client_secret:
-            console.print(
-                "Spotify credentials loaded from method parameters", style="light_slate_blue"
-            )
-            self._spotify_credentials = {"client_id": client_id, "client_secret": client_secret}
-            return
-
-        if "client_id" in os.environ and "client_secret" in os.environ:
-            console.print(
-                "Spotify credentials loaded from environment variables", style="light_slate_blue"
-            )
-            self._spotify_credentials = {
-                "client_id": os.environ["client_id"],
-                "client_secret": os.environ["client_secret"],
-            }
-            return
-
-        if not os.path.isfile(".env"):
-            console.print(
-                "Error: can't find client_id / client_secret environment variableS or an .env file",
-                style="red on white",
-            )
-            sys.exit(1)
-        env_config = dotenv_values(".env")
-        if "client_id" not in env_config:
-            console.print("Error: Missing client_id variable from .env file", style="red on white")
-            sys.exit(1)
-        if "client_secret" not in env_config:
-            console.print(
-                "Error: Missing client_secret variable from .env file", style="red one white"
-            )
-            sys.exit(1)
-        console.print("Spotify credentials loaded from .env file", style="light_slate_blue")
-        self._spotify_credentials = {
-            "client_id": env_config["client_id"],
-            "client_secret": env_config["client_secret"],
-        }
-
-    def _load_access_token(self) -> None:
-        # get access token used when user identification is not needed
-        auth_str = (
-            self._spotify_credentials["client_id"]
-            + ":"
-            + self._spotify_credentials["client_secret"]
-        )
-        auth_bytes = auth_str.encode("utf-8")
-        base64_bytes = base64.b64encode(auth_bytes)
-        base64_str = base64_bytes.decode("utf-8")
-
-        headers = {
-            "Authorization": "Basic " + base64_str,
-            "Content-Type": "application/x-www-form-urlencoded",
-        }
-        data = {"grant_type": "client_credentials"}
-
-        response = post(api.HTTP_GET_APP_TOKEN, headers=headers, data=data)
-        if response.status_code == 200:
-            self._access_token = Access_token(response.content)
-        else:
-            console.print(
-                f"Error: can't get access token ([{response.status_code}] {response.reason})",
-                style="red on white",
-            )
-            sys.exit(1)
-
-        console.print(
-            f"Access Token received, valid until {self._access_token.expiry}",
-            style="light_slate_blue",
-        )
+        self._access_token = Access_token(client_id, client_secret)
+        self._access_token.load_spotify_credentials()
+        self._access_token.load_access_token()
 
     def _get_api_response_with_access_token(self, url: str) -> Response:
         # Generic function that returns the json response
