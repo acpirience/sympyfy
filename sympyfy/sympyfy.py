@@ -4,6 +4,8 @@ main sympyfy class
 
 """
 import json
+from html import escape
+from typing import Any
 
 from requests import Response, get
 from rich.console import Console
@@ -24,14 +26,8 @@ from sympyfy.api_structures import (
     Track,
     User,
 )
-from sympyfy.common import (
-    INCLUDE_GROUPS,
-    add_include_groups,
-    add_market,
-    add_pagination,
-    add_url_parameter,
-    sanitize,
-)
+
+INCLUDE_GROUPS = ["album", "single", "appears_on", "compilation"]
 
 console = Console()
 
@@ -70,8 +66,9 @@ class Sympyfy:
         Returns:
             Artist object or None if id does not match an artist
         """
-        url = api.HTTP_GET_ARTIST.replace("{id}", artist_id)
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": artist_id}
+        url = self.__make_url(api.HTTP_GET_ARTIST, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artist(response.content)
         return None
@@ -86,8 +83,9 @@ class Sympyfy:
         Returns:
             list of Artist objects
         """
-        url = api.HTTP_GET_SEVERAL_ARTISTS.replace("{ids}", "%2C".join(artist_ids))
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"ids": artist_ids}
+        url = self.__make_url(api.HTTP_GET_SEVERAL_ARTISTS, params)
+        response = self._get_api_response_with_access_token(url)
         return self.__make_artists_list(response.content)
 
     def get_artist_related_artists(self, artist_id: str) -> list[Artist] | None:
@@ -100,8 +98,9 @@ class Sympyfy:
         Returns:
             list of Artist objects or None if id does not match an artist
         """
-        url = api.HTTP_GET_RELATED_ARTISTS.replace("{id}", artist_id)
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": artist_id}
+        url = self.__make_url(api.HTTP_GET_RELATED_ARTISTS, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artists_list(response.content)
         return None
@@ -119,10 +118,9 @@ class Sympyfy:
         Returns:
             list of Tracks objects or None if id does not match an artist
         """
-        url = api.HTTP_GET_ARTIST_TOP_TRACKS.replace("{id}", artist_id) + add_market(
-            market, self.markets
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": artist_id, "market": market}
+        url = self.__make_url(api.HTTP_GET_ARTIST_TOP_TRACKS, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_tracks_list(response.content)
         return None
@@ -148,13 +146,15 @@ class Sympyfy:
         Returns:
             A Navigation Object of Album Objects
         """
-        url = (
-            api.HTTP_GET_ARTIST_ALBUMS.replace("{id}", artist_id)
-            + add_market(market, self.markets)
-            + add_pagination(limit, offset)
-            + add_include_groups(include_groups)
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {
+            "id": artist_id,
+            "market": market,
+            "limit": limit,
+            "offset": offset,
+            "include_groups": include_groups,
+        }
+        url = self.__make_url(api.HTTP_GET_ARTIST_ALBUMS, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_artist_albums(response.content)
         return None
@@ -170,8 +170,9 @@ class Sympyfy:
         Returns:
             Album object or None if id does not match a track
         """
-        url = api.HTTP_GET_ALBUM.replace("{id}", album_id) + add_market(market, self.markets)
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": album_id, "market": market}
+        url = self.__make_url(api.HTTP_GET_ALBUM, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_album(response.content)
         return None
@@ -187,10 +188,9 @@ class Sympyfy:
         Returns:
             list of Albums objects
         """
-        url = api.HTTP_GET_SEVERAL_ALBUMS.replace("{ids}", "%2C".join(album_ids)) + add_market(
-            market, self.markets
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"ids": album_ids, "market": market}
+        url = self.__make_url(api.HTTP_GET_SEVERAL_ALBUMS, params)
+        response = self._get_api_response_with_access_token(url)
         console.print(response.json())
         return self.__make_albums_list(response.content)
 
@@ -213,12 +213,9 @@ class Sympyfy:
         Returns:
             A Navigation Object of Track Objects
         """
-        url = (
-            api.HTTP_GET_ALBUM_TRACKS.replace("{id}", album_id)
-            + add_market(market, self.markets)
-            + add_pagination(limit, offset)
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": album_id, "market": market, "limit": limit, "offset": offset}
+        url = self.__make_url(api.HTTP_GET_ALBUM_TRACKS, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_album_tracks(response.content)
         return None
@@ -231,7 +228,7 @@ class Sympyfy:
             A Navigation object of Track Objects
         """
         url = api.HTTP_GET_NEW_RELEASES
-        response = self._get_api_response_with_access_token(sanitize(url))
+        response = self._get_api_response_with_access_token(url)
         return self.__make_new_releases(response.content)
 
     def get_browse_category(self, category_id: str, locale: str | None = None) -> Category | None:
@@ -245,10 +242,9 @@ class Sympyfy:
         Returns:
             a Category object or None if its the id is unknown
         """
-        url = api.HTTP_GET_BROWSE_CATEGORY.replace("{id}", category_id) + add_url_parameter(
-            "locale", locale
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": category_id, "locale": locale}
+        url = self.__make_url(api.HTTP_GET_BROWSE_CATEGORY, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_category(response.content)
         return None
@@ -270,12 +266,9 @@ class Sympyfy:
         Returns:
             a Navigation Object of Category Objects
         """
-        url = (
-            api.HTTP_GET_SEVERAL_BROWSE_CATEGORIES
-            + add_url_parameter("locale", locale)
-            + add_pagination(limit, offset)
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"locale": locale, "limit": limit, "offset": offset}
+        url = self.__make_url(api.HTTP_GET_SEVERAL_BROWSE_CATEGORIES, params)
+        response = self._get_api_response_with_access_token(url)
         return self.__make_categories_list(response.content)
 
     def get_show(self, show_id: str, market: str | None = None) -> Show | None:
@@ -288,8 +281,9 @@ class Sympyfy:
         Returns:
             Show object or None if id does not match a show
         """
-        url = api.HTTP_GET_SHOW.replace("{id}", show_id) + add_market(market, self.markets)
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": show_id, "market": market}
+        url = self.__make_url(api.HTTP_GET_SHOW, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_show(response.content)
         return None
@@ -304,10 +298,9 @@ class Sympyfy:
         Returns:
             list of Show objects
         """
-        url = api.HTTP_GET_SEVERAL_SHOWS.replace("{ids}", "%2C".join(show_ids)) + add_market(
-            market, self.markets
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"ids": show_ids, "market": market}
+        url = self.__make_url(api.HTTP_GET_SEVERAL_SHOWS, params)
+        response = self._get_api_response_with_access_token(url)
         return self.__make_shows_list(response.content)
 
     def get_show_episodes(
@@ -325,12 +318,9 @@ class Sympyfy:
         Returns:
             A navigation Objet of Show Objects or None if id does not match a show
         """
-        url = (
-            api.HTTP_GET_SHOW_EPISODES.replace("{id}", show_id)
-            + add_market(market, self.markets)
-            + add_pagination(limit, offset)
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": show_id, "market": market, "limit": limit, "offset": offset}
+        url = self.__make_url(api.HTTP_GET_SHOW_EPISODES, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_show_episodes(response.content)
         return None
@@ -346,8 +336,9 @@ class Sympyfy:
         Returns:
             Track object or None if id does not match a track
         """
-        url = api.HTTP_GET_TRACK.replace("{id}", track_id) + add_market(market, self.markets)
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": track_id, "market": market}
+        url = self.__make_url(api.HTTP_GET_TRACK, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_track(response.content)
         return None
@@ -363,10 +354,9 @@ class Sympyfy:
         Returns:
             list of Tracks objects
         """
-        url = api.HTTP_GET_SEVERAL_TRACKS.replace("{ids}", "%2C".join(track_ids)) + add_market(
-            market, self.markets
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"ids": track_ids, "market": market}
+        url = self.__make_url(api.HTTP_GET_SEVERAL_TRACKS, params)
+        response = self._get_api_response_with_access_token(url)
         return self.__make_tracks_list(response.content)
 
     def get_track_audio_features(self, track_id: str) -> Audio_features | None:
@@ -379,8 +369,9 @@ class Sympyfy:
         Returns:
             List of Audio_features object
         """
-        url = api.HTTP_GET_TRACK_AUDIO_FEATURES.replace("{id}", track_id)
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": track_id}
+        url = self.__make_url(api.HTTP_GET_TRACK_AUDIO_FEATURES, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_audio_features(response.content)
         return None
@@ -395,8 +386,9 @@ class Sympyfy:
         Returns:
             List of Audio_features objects
         """
-        url = api.HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES.replace("{ids}", "%2C".join(track_ids))
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"ids": track_ids}
+        url = self.__make_url(api.HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES, params)
+        response = self._get_api_response_with_access_token(url)
         return self.__make_audio_features_list(response.content)
 
     def get_genres(self) -> set[str]:
@@ -408,7 +400,7 @@ class Sympyfy:
             list of genres seeds. Example: ["alternative","samba"]
         """
         url = api.HTTP_GET_GENRES
-        response = self._get_api_response_with_access_token(sanitize(url))
+        response = self._get_api_response_with_access_token(url)
         return self.__make_simple_set(response.content, "genres")
 
     @property
@@ -435,7 +427,7 @@ class Sympyfy:
             list of ISO 3166-1 alpha-2 country codes
         """
         url = api.HTTP_GET_MARKETS
-        response = self._get_api_response_with_access_token(sanitize(url))
+        response = self._get_api_response_with_access_token(url)
         return self.__make_simple_set(response.content, "markets")
 
     @property
@@ -463,8 +455,9 @@ class Sympyfy:
         Returns:
             User Object
         """
-        url = api.HTTP_GET_USER_PROFILE.replace("{id}", user_id)
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": user_id}
+        url = self.__make_url(api.HTTP_GET_USER_PROFILE, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_user(response.content)
         return None
@@ -480,10 +473,9 @@ class Sympyfy:
         Returns:
             list of bool
         """
-        url = api.HTTP_GET_USERS_FOLLOW_PLAYLIST.replace("{id}", playlist_id).replace(
-            "{ids}", "%2C".join(user_ids)
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": playlist_id, "ids": user_ids}
+        url = self.__make_url(api.HTTP_GET_USERS_FOLLOW_PLAYLIST, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_users_follow_playlist(response.content)
         return None
@@ -509,19 +501,11 @@ class Sympyfy:
         Returns:
             Playlist Object
         """
-        if additional_types is None:
-            additional_types = []
-        url = (
-            api.HTTP_GET_PLAYLIST.replace("{id}", playlist_id)
-            + add_market(market, self.markets)
-            + add_url_parameter("fields", fields)
-            + (
-                add_url_parameter("additional_types", ",".join(additional_types))
-                if additional_types
-                else ""
-            )
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": playlist_id, "market": market, "fields": fields}
+        if additional_types:
+            params["additional_types"] = ",".join(additional_types)
+        url = self.__make_url(api.HTTP_GET_PLAYLIST, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_playlist(response.content)
         return None
@@ -536,8 +520,9 @@ class Sympyfy:
         Returns:
             List of Image Objects
         """
-        url = api.HTTP_GET_PLAYLIST_COVER_IMAGE.replace("{id}", playlist_id)
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": playlist_id}
+        url = self.__make_url(api.HTTP_GET_PLAYLIST_COVER_IMAGE, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_playlist_cover_image(response.content)
         return None
@@ -556,17 +541,12 @@ class Sympyfy:
         Returns:
             A string containing the localized message of a playlist and a Navigation Object of Playlist Objects.
         """
-        url = api.HTTP_GET_PLAYLISTS_BY_CATEGORY.replace("{id}", category_id) + add_pagination(
-            limit, offset
-        )
-        response = self._get_api_response_with_access_token(sanitize(url))
+        params = {"id": category_id, "limit": limit, "offset": offset}
+        url = self.__make_url(api.HTTP_GET_PLAYLISTS_BY_CATEGORY, params)
+        response = self._get_api_response_with_access_token(url)
         if response.status_code == 200:
             return self.__make_playlists_by_category(response.content)
         return None
-
-    def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
-        dict_content = json.loads(json_content)
-        return set(dict_content[key])
 
     def __make_artist(self, json_content: bytes) -> Artist:
         artist: Artist = Artist.model_validate_json(json_content)
@@ -695,3 +675,51 @@ class Sympyfy:
         navigation = Navigation.model_validate(dict_content["playlists"])
         navigation.items = [Playlist.model_validate(x) for x in navigation.items]
         return message, navigation
+
+    def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
+        dict_content = json.loads(json_content)
+        return set(dict_content[key])
+
+    def __make_url(self, base_url: str, param_list: dict[str, Any]) -> str:
+        url = base_url
+        params = ""
+
+        for param in param_list:
+            match param:
+                case "id":
+                    url = url.replace("{id}", param_list["id"])
+                case "ids":
+                    url = url.replace("{ids}", "%2C".join(param_list["ids"]))
+                case "market":
+                    if param_list["market"] and param_list["market"] in self.markets:
+                        params += "&market=" + param_list["market"]
+                case "limit":
+                    limit = param_list["limit"]
+                    if limit < 1:
+                        limit = 1
+                    if limit > 50:
+                        limit = 50
+                    params += f"&{limit=}"
+                case "offset":
+                    offset = param_list["offset"]
+                    if offset < 0:
+                        offset = 0
+                    params += f"&{offset=}"
+                case "include_groups":
+                    param_groups = []
+                    for group in param_list["include_groups"]:
+                        if group in INCLUDE_GROUPS:
+                            param_groups.append(group)
+                    if param_groups:
+                        params += "&include_groups=" + "%2C".join(param_groups)
+                    else:
+                        params += "&include_groups=" + "%2C".join(INCLUDE_GROUPS)
+                case _:
+                    if param_list[param]:
+                        params += f"&{param}={escape(param_list[param])}"
+
+        url = url + params
+        if "?" not in url:
+            url = url.replace("&", "?", 1)
+
+        return url
