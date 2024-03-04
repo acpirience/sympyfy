@@ -6,7 +6,7 @@ test for sympyfy.load_spotify_credentials
 
 import os
 
-from sympyfy.tokens.access_token import Access_token
+from sympyfy.access_token import Access_token
 
 
 def test_load_spotify_credentials_parameters() -> None:

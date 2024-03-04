@@ -8,7 +8,7 @@ import os
 
 import pytest
 
-from sympyfy.tokens.access_token import ACCESS_TOKEN_FILE, Access_token
+from sympyfy.access_token import ACCESS_TOKEN_FILE, Access_token
 
 
 def test_load_access_token_bad_credentials() -> None:

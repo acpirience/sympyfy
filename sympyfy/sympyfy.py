@@ -9,6 +9,7 @@ from requests import Response, get
 from rich.console import Console
 
 import sympyfy.api_urls as api
+from sympyfy.access_token import Access_token
 from sympyfy.api_structures import (
     Album,
     Artist,
@@ -31,7 +32,6 @@ from sympyfy.common import (
     add_url_parameter,
     sanitize,
 )
-from sympyfy.tokens.access_token import Access_token
 
 console = Console()
 
