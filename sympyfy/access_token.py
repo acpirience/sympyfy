@@ -15,6 +15,7 @@ from requests import post
 from rich.console import Console
 
 from sympyfy.api_urls import HTTP_GET_APP_TOKEN
+from sympyfy.consts import STYLE
 
 console = Console()
 
@@ -32,14 +33,12 @@ class Access_token:
 
     def load_spotify_credentials(self) -> None:
         if self._client_id != "" and self._client_secret != "":
-            console.print(
-                "Spotify credentials loaded from method parameters", style="light_slate_blue"
-            )
+            console.print("Spotify credentials loaded from method parameters", style=STYLE["INFO"])
             return
 
         if "client_id" in os.environ and "client_secret" in os.environ:
             console.print(
-                "Spotify credentials loaded from environment variables", style="light_slate_blue"
+                "Spotify credentials loaded from environment variables", style=STYLE["INFO"]
             )
             self._client_id = os.environ["client_id"]
             self._client_secret = os.environ["client_secret"]
@@ -47,33 +46,35 @@ class Access_token:
 
         if not os.path.isfile(".env"):
             console.print(
-                "Error: can't find client_id / client_secret environment variableS or an .env file",
-                style="red on white",
+                "Error: can't find client_id / client_secret environment variables or an .env file",
+                style=STYLE["CRITICAL"],
             )
             sys.exit(1)
         env_config = dotenv_values(".env")
         if "client_id" not in env_config:
-            console.print("Error: Missing client_id variable from .env file", style="red on white")
+            console.print(
+                "Error: Missing client_id variable from .env file", style=STYLE["CRITICAL"]
+            )
             sys.exit(1)
         if "client_secret" not in env_config:
             console.print(
-                "Error: Missing client_secret variable from .env file", style="red one white"
+                "Error: Missing client_secret variable from .env file", style=STYLE["CRITICAL"]
             )
             sys.exit(1)
-        console.print("Spotify credentials loaded from .env file", style="light_slate_blue")
+        console.print("Spotify credentials loaded from .env file", style=STYLE["INFO"])
         self._client_id = env_config["client_id"]
         self._client_secret = env_config["client_secret"]
 
     def load_access_token(self) -> None:
         # check for previously saved token on filesystem
         if os.path.isfile(ACCESS_TOKEN_FILE):
-            console.print("Loading Access Token from cache", style="light_slate_blue")
+            console.print("Loading Access Token from cache", style=STYLE["INFO"])
             self.make_access_token(self.load_token_from_file())
             if self.is_valid():
                 return
-            console.print("Cache is expired", style="orange1")
+            console.print("Cache is expired", style=STYLE["NOTICE"])
 
-        console.print("Loading Access Token from Spotify API", style="light_slate_blue")
+        console.print("Loading Access Token from Spotify API", style=STYLE["INFO"])
         self.make_access_token(self.load_token_from_api())
 
     def load_token_from_file(self) -> bytes:
@@ -98,8 +99,8 @@ class Access_token:
             return response.content
         else:
             console.print(
-                f"Error: can't get access token ([{response.status_code}] {response.reason})",
-                style="red on white",
+                f"Error: can't get access token ([{response.status_code}] {response.reason}",
+                style=STYLE["CRITICAL"],
             )
             sys.exit(1)
 
@@ -112,7 +113,7 @@ class Access_token:
             self._expiry = datetime.fromisoformat(response_json["expire_date"])
         console.print(
             f"Access Token loaded, valid until {self.expiry}",
-            style="light_slate_blue",
+            style=STYLE["INFO"],
         )
 
         save_dict = {"access_token": self._token, "expire_date": self._expiry.isoformat()}

@@ -42,7 +42,6 @@ def main() -> None:
     # test = spotify.get_playlist("2LbyMChvxpn1emaIiDKKnT")
     # test = spotify.get_playlist_cover_image("2LbyMChvxpn1emaIiDKKnT")
     # test = spotify.get_playlists_by_category("0JQ5DAqbMKFCuoRTxhYWow", limit=3)
-    # test = spotify._Sympyfy__make_url("http://{id}", {"id":"test"})
     test = spotify.get_playlist("2LbyMChvxpn1emaIiDKKnT", additional_types=["track", "episode"])
 
     console.print(test)
