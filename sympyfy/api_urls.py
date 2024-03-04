@@ -36,7 +36,7 @@ HTTP_GET_GENRES = HTTP_API_ROOT + "/recommendations/available-genre-seeds"
 HTTP_GET_MARKETS = HTTP_API_ROOT + "/markets"
 
 # playlists
-# HTTP_GET_PLAYLIST = HTTP_API_ROOT + "/playlists/{id}"
+HTTP_GET_PLAYLIST = HTTP_API_ROOT + "/playlists/{id}"
 
 # shows
 HTTP_GET_SHOW = HTTP_API_ROOT + "/shows/{id}"

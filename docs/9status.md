@@ -77,7 +77,7 @@ _Since audiobooks are not available in my country, I won't implement this part o
 
 ###Playlists
 
-- [ ] Get Playlist ⮕ **GET** `/playlists/{playlist_id}`
+- [x] Get Playlist ⮕ **GET** `/playlists/{playlist_id}`
 - [ ] Change Playlist Details ⮕ **PUT** `/playlists/{playlist_id}` 🔒
 - [ ] Get Playlist Items ⮕ **GET** `/playlists/{playlist_id}/tracks` 🔒
 - [ ] Update Playlist Items ⮕ **PUT** `/playlists/{playlist_id}/tracks` 🔒

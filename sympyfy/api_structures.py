@@ -15,13 +15,15 @@ class Image(BaseModel):
 
     Parameters:
         url (str): The source URL of the image.
-        height (int): The image height in pixels.
-        width (int): The image width in pixels.
+        height (int): The image height in pixels.<br>
+            Optional, default = None
+        width (int): The image width in pixels.<br>
+            Optional, default = None
     """
 
     url: str
-    height: int
-    width: int
+    height: int | None = None
+    width: int | None = None
 
 
 class Followers(BaseModel):
@@ -303,7 +305,8 @@ class User(BaseModel):
             Optional, default = None
         external_urls (dict[str, str]): Known public external URLs for this user.<br>
             Optional, default = {}
-        images (list[Image]): The user's profile image.
+        images (list[Image]): The user's profile image.<br>
+            Optional, default = []
     """
 
     id: str
@@ -313,7 +316,7 @@ class User(BaseModel):
     type: str = "user"
     followers: Followers | None = None
     external_urls: dict[str, str] = {}
-    images: list[Image]
+    images: list[Image] = []
 
 
 class Resume_point(BaseModel):
@@ -426,3 +429,62 @@ class Show(BaseModel):
     copyrights: list[dict[str, str]] = []
     images: list[Image] = []
     episodes: Navigation | None = None
+
+
+class Playlist(BaseModel):
+    """
+    Get a playlist owned by a Spotify user. Every can be optional since they can be filtered by the 'fields' filter dor the query.<br>
+    See [https://developer.spotify.com/documentation/web-api/reference/get-playlist](https://developer.spotify.com/documentation/web-api/reference/get-playlist) for more explanations.
+
+    Parameters:
+        id (str): The Spotify ID for the playlist.
+        name (str): The name of the playlist.
+        owner (User) : The user who owns the playlist
+        href (str): A link to the Web API endpoint providing full details of the playlist.
+        uri (str): The Spotify URI for the playlist.
+        type (str): The object type: "playlist"
+        description (str): The playlist description. Only returned for modified, verified playlists,
+        followers (Followers): Information about the followers of the playlist.
+        snapshot_id (str) : The version identifier for the current playlist. Can be supplied in other requests to target a specific playlist version
+        public (bool): The playlist's public/private status: true the playlist is public, false the playlist is private, null the playlist status is not relevant. For more about public/private status, see Working with Playlists
+        collaborative (bool): True if the owner allows other users to modify the playlist. otherwise null.
+        external_urls (dict[str, str]): Known external URLs for this playlist.
+        images (list[Image]): Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See Working with Playlists. Note: If returned, the source URL for the image (url) is temporary and will expire in less than a day.
+        tracks (Navigation): The tracks of the playlist. A navigation Object of Playlist_item Objects
+    """
+
+    id: str = ""
+    name: str = ""
+    owner: User | None = None
+    href: str = ""
+    uri: str = ""
+    type: str = "playlist"
+    description: str = ""
+    followers: Followers | None = None
+    snapshot_id: str = ""
+    public: bool = False
+    collaborative: bool | None = None
+    external_urls: (dict[str, str]) = {}
+    images: list[Image] = []
+    tracks: Navigation
+
+
+class Playlist_item(BaseModel):
+    """
+    The tracks of the playlist.
+
+    Parameters:
+        added_at (str): The date and time the track or episode was added. Note: some very old playlists may return null in this field.<br>
+            Optional, default = None
+        added_by (User): The Spotify user who added the track or episode. Note: some very old playlists may return null in this field.<br>
+            Optional, default = None
+        is_local (bool): Whether this track or episode is a local file or not.<br>
+            Optional, default = False
+        track (Track | Episode): Either a Track object or an Episode Object<br>
+            Optional, default = None
+    """
+
+    added_at: str | None = None
+    added_by: User | None = None
+    is_local: bool = False
+    track: Track | Episode | None = None

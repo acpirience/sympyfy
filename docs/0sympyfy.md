@@ -62,6 +62,11 @@
       heading_level: 3
 
 
+## PLAYLISTS ##
+::: sympyfy.Sympyfy.get_playlist
+    options:
+      heading_level: 3
+
 ## SHOWS ##
 ::: sympyfy.Sympyfy.get_show
     options:
@@ -72,7 +77,6 @@
 ::: sympyfy.Sympyfy.get_show_episodes
     options:
       heading_level: 3
-
 
 ## TRACKS ##
 ::: sympyfy.Sympyfy.get_track

@@ -3,7 +3,7 @@
 common classes used by other objects
 
 """
-
+from html import escape
 
 INCLUDE_GROUPS = ["album", "single", "appears_on", "compilation"]
 
@@ -24,7 +24,7 @@ def add_market(market: str | None, markets: set[str]) -> str:
 
 def add_url_parameter(param_name: str, param_value: str | None) -> str:
     if param_value:
-        return f"&{param_name}={param_value}"
+        return f"&{param_name}={escape(param_value)}"
     return ""
 
 

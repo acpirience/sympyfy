@@ -16,6 +16,8 @@ from sympyfy.api_structures import (
     Category,
     Episode,
     Navigation,
+    Playlist,
+    Playlist_item,
     Show,
     Track,
     User,
@@ -485,6 +487,44 @@ class Sympyfy:
             return self.__make_users_follow_playlist(response.content)
         return None
 
+    def get_playlist(
+        self,
+        playlist_id: str,
+        market: str | None = None,
+        fields: str | None = None,
+        additional_types: list[str] | None = None,
+    ) -> Playlist | None:
+        """Get a playlist owned by a Spotify user.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-playlist](https://developer.spotify.com/documentation/web-api/reference/get-playlist)
+
+        Parameters:
+            playlist_id: The Spotify ID of the playlist.
+            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+            fields: Filters for the query: a comma-separated list of the fields to return. If omitted, all fields are returned. For example, to get just the playlist''s description and URI: fields=description,uri. A dot separator can be used to specify non-reoccurring fields, while parentheses can be used to specify reoccurring fields within objects. For example, to get just the added date and user ID of the adder: fields=tracks.items(added_at,added_by.id). Use multiple parentheses to drill down into nested objects, for example: fields=tracks.items(track(name,href,album(name,href))). Fields can be excluded by prefixing them with an exclamation mark, for example: fields=tracks.items(track(name,href,album(!name,href)))<br>
+                Example: fields=items(added_by.id,track(name,href,album(name,href)))
+            additional_types: A comma-separated list of item types that your client supports besides the default track type. Valid types are: track and episode.<br>
+                Note: This parameter was introduced to allow existing clients to maintain their current behaviour and might be deprecated in the future.
+
+        Returns:
+            Playlist Object
+        """
+        if additional_types is None:
+            additional_types = []
+        url = (
+            api.HTTP_GET_PLAYLIST.replace("{id}", playlist_id)
+            + add_market(market, self.markets)
+            + add_url_parameter("fields", fields)
+            + (
+                add_url_parameter("additional_types", ",".join(additional_types))
+                if additional_types
+                else ""
+            )
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_playlist(response.content)
+        return None
+
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         dict_content = json.loads(json_content)
         return set(dict_content[key])
@@ -593,3 +633,8 @@ class Sympyfy:
     def __make_users_follow_playlist(self, json_content: bytes) -> list[bool]:
         dict_content = json.loads(json_content)
         return dict_content
+
+    def __make_playlist(self, json_content: bytes) -> Playlist:
+        playlist = Playlist.model_validate_json(json_content)
+        playlist.tracks.items = [Playlist_item.model_validate(x) for x in playlist.tracks.items]
+        return playlist
