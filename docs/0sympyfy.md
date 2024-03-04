@@ -77,6 +77,9 @@
 ::: sympyfy.Sympyfy.get_playlist
     options:
       heading_level: 3
+::: sympyfy.Sympyfy.get_playlists_by_category
+    options:
+      heading_level: 3
 ::: sympyfy.Sympyfy.get_playlist_cover_image
     options:
       heading_level: 3

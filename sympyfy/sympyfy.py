@@ -542,6 +542,28 @@ class Sympyfy:
             return self.__make_playlist_cover_image(response.content)
         return None
 
+    def get_playlists_by_category(
+        self, category_id: str, limit: int = 20, offset: int = 0
+    ) -> tuple[str, Navigation] | None:
+        """Get a list of Spotify playlists tagged with a particular category.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover](https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover)
+
+        Parameters:
+            category_id: The Spotify category ID for the category.
+            limit: The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+            offset: The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
+
+        Returns:
+            A string containing the localized message of a playlist and a Navigation Object of Playlist Objects.
+        """
+        url = api.HTTP_GET_PLAYLISTS_BY_CATEGORY.replace("{id}", category_id) + add_pagination(
+            limit, offset
+        )
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_playlists_by_category(response.content)
+        return None
+
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         dict_content = json.loads(json_content)
         return set(dict_content[key])
@@ -572,7 +594,7 @@ class Sympyfy:
 
     def __make_album(self, json_content: bytes) -> Album:
         album: Album = Album.model_validate_json(json_content)
-        if album.tracks:
+        if album.tracks and album.tracks.items:
             album.tracks.items = [Track.model_validate(x) for x in album.tracks.items]
         return album
 
@@ -588,18 +610,21 @@ class Sympyfy:
 
     def __make_artist_albums(self, json_content: bytes) -> Navigation:
         navigation: Navigation = Navigation.model_validate_json(json_content)
-        navigation.items = [Album.model_validate(x) for x in navigation.items]
+        if navigation.items:
+            navigation.items = [Album.model_validate(x) for x in navigation.items]
         return navigation
 
     def __make_album_tracks(self, json_content: bytes) -> Navigation:
         navigation: Navigation = Navigation.model_validate_json(json_content)
-        navigation.items = [Track.model_validate(x) for x in navigation.items]
+        if navigation.items:
+            navigation.items = [Track.model_validate(x) for x in navigation.items]
         return navigation
 
     def __make_new_releases(self, json_content: bytes) -> Navigation:
         dict_content = json.loads(json_content)
         navigation: Navigation = Navigation.model_validate(dict_content["albums"])
-        navigation.items = [Album.model_validate(x) for x in navigation.items]
+        if navigation.items:
+            navigation.items = [Album.model_validate(x) for x in navigation.items]
         return navigation
 
     def __make_category(self, json_content) -> Category:
@@ -609,12 +634,13 @@ class Sympyfy:
     def __make_categories_list(self, json_content: bytes) -> Navigation:
         dict_content = json.loads(json_content)
         navigation: Navigation = Navigation.model_validate(dict_content["categories"])
-        navigation.items = [Category.model_validate(x) for x in navigation.items]
+        if navigation.items:
+            navigation.items = [Category.model_validate(x) for x in navigation.items]
         return navigation
 
     def __make_show(self, json_content: bytes) -> Show:
         show: Show = Show.model_validate_json(json_content)
-        if show.episodes:
+        if show.episodes and show.episodes.items:
             show.episodes.items = [Episode.model_validate(x) for x in show.episodes.items]
         return show
 
@@ -628,7 +654,8 @@ class Sympyfy:
 
     def __make_show_episodes(self, json_content: bytes) -> Navigation:
         navigation: Navigation = Navigation.model_validate_json(json_content)
-        navigation.items = [Episode.model_validate(x) for x in navigation.items]
+        if navigation.items:
+            navigation.items = [Episode.model_validate(x) for x in navigation.items]
         return navigation
 
     def __make_audio_features(self, json_content: bytes) -> Audio_features:
@@ -661,3 +688,10 @@ class Sympyfy:
         print(json_content)
         images_list: list[Image] = [Image.model_validate(x) for x in dict_content]
         return images_list
+
+    def __make_playlists_by_category(self, json_content: bytes) -> tuple[str, Navigation]:
+        dict_content = json.loads(json_content)
+        message = dict_content["message"]
+        navigation = Navigation.model_validate(dict_content["playlists"])
+        navigation.items = [Playlist.model_validate(x) for x in navigation.items]
+        return message, navigation

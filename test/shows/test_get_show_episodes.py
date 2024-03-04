@@ -16,7 +16,7 @@ def test_get_show_episodes() -> None:
     assert test_show
 
     assert test_show.limit == 2
-    assert len(test_show.items) == 2
+    assert test_show.items and len(test_show.items) == 2
 
 
 def test_get_show_unknown_show() -> None:

@@ -87,7 +87,7 @@ _Since audiobooks are not available in my country, I won't implement this part o
 - [ ] Get User's Playlists ⮕ **GET** `/users/{user_id}/playlists` 🔒
 - [ ] Create Playlist ⮕ **POST** `/users/{user_id}/playlists` 🔒
 - [ ] Get Featured Playlists ⮕ **GET** `/browse/featured-playlists`
-- [ ] Get Category's Playlists ⮕ **GET** `/browse/categories/{category_id}/playlists`
+- [x] Get Category's Playlists ⮕ **GET** `/browse/categories/{category_id}/playlists`
 - [x] Get Playlist Cover Image ⮕ **GET** `/playlists/{playlist_id}/images`
 - [ ] Add Custom Playlist Cover Image ⮕ **PUT** `/playlists/{playlist_id}/images` 🔒
 

@@ -28,7 +28,6 @@ HTTP_GET_SEVERAL_BROWSE_CATEGORIES = HTTP_API_ROOT + "/browse/categories"
 # HTTP_GET_EPISODE = HTTP_API_ROOT + "/episodes/{id}"
 # HTTP_GET_SEVERAL_EPISODES = HTTP_API_ROOT + "/episodes?ids={ids}"
 
-
 # genres
 HTTP_GET_GENRES = HTTP_API_ROOT + "/recommendations/available-genre-seeds"
 
@@ -38,12 +37,13 @@ HTTP_GET_MARKETS = HTTP_API_ROOT + "/markets"
 # playlists
 HTTP_GET_PLAYLIST = HTTP_API_ROOT + "/playlists/{id}"
 HTTP_GET_PLAYLIST_COVER_IMAGE = HTTP_API_ROOT + "/playlists/{id}/images"
+HTTP_GET_PLAYLISTS_BY_CATEGORY = HTTP_API_ROOT + "/browse/categories/{id}/playlists"
+
 
 # shows
 HTTP_GET_SHOW = HTTP_API_ROOT + "/shows/{id}"
 HTTP_GET_SEVERAL_SHOWS = HTTP_API_ROOT + "/shows?ids={ids}"
 HTTP_GET_SHOW_EPISODES = HTTP_API_ROOT + "/shows/{id}/episodes"
-
 
 # tracks
 HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"
