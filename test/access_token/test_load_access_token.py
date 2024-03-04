@@ -5,6 +5,7 @@ test for sympyfy.load_access_token
 """
 
 import os
+from datetime import datetime
 
 import pytest
 
@@ -46,3 +47,16 @@ def test_load_access_token_cache_expired() -> None:
 
     test.load_access_token()
     assert test.is_valid()
+
+
+def test_load_access_token_cache_expired_during_a_session() -> None:
+    test = Access_token()
+    test.load_spotify_credentials()
+    test.load_access_token()
+
+    test._expiry = datetime.today()
+    assert not test.is_valid()
+
+    _ = test.headers
+
+    assert not test.is_valid()

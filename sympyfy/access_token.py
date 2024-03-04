@@ -68,21 +68,21 @@ class Access_token:
     def load_access_token(self) -> None:
         # check for previously saved token on filesystem
         if os.path.isfile(ACCESS_TOKEN_FILE):
-            console.print("Loading Access Token from cache", style=STYLE["INFO"])
             self.make_access_token(self.load_token_from_file())
             if self.is_valid():
                 return
             console.print("Cache is expired", style=STYLE["NOTICE"])
 
-        console.print("Loading Access Token from Spotify API", style=STYLE["INFO"])
         self.make_access_token(self.load_token_from_api())
 
     def load_token_from_file(self) -> bytes:
+        console.print("Loading Access Token from cache", style=STYLE["INFO"])
         with open(ACCESS_TOKEN_FILE, "rb") as token_file:
             token_json = token_file.read()
         return token_json
 
     def load_token_from_api(self) -> bytes:
+        console.print("Loading Access Token from Spotify API", style=STYLE["INFO"])
         auth_str = self._client_id + ":" + self._client_secret
         auth_bytes = auth_str.encode("utf-8")
         base64_bytes = base64.b64encode(auth_bytes)
@@ -132,6 +132,9 @@ class Access_token:
 
     @property
     def headers(self) -> dict[str, str]:
+        if not self.is_valid():
+            console.print("Access token has expired", style=STYLE["NOTICE"])
+            self.load_token_from_api()
         return {"Authorization": "Bearer " + self.token}
 
     def is_valid(self) -> bool:
