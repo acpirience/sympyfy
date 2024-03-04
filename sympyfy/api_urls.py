@@ -37,6 +37,7 @@ HTTP_GET_MARKETS = HTTP_API_ROOT + "/markets"
 
 # playlists
 HTTP_GET_PLAYLIST = HTTP_API_ROOT + "/playlists/{id}"
+HTTP_GET_PLAYLIST_COVER_IMAGE = HTTP_API_ROOT + "/playlists/{id}/images"
 
 # shows
 HTTP_GET_SHOW = HTTP_API_ROOT + "/shows/{id}"

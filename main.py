@@ -39,7 +39,8 @@ def main() -> None:
     # test = spotify.get_artist_top_tracks("5N5tQ9Dx1h8Od7aRmGj7Fi", "US")
     # test = spotify.get_episode("62Qq3LRFB2P3P3xSgVFA2U")
     # test = spotify.get_users_follow_playlist("3cEYpjA9oz9GiPac4AsH4n", ["jmperezperez", "thelinmichael", "wizzler"])
-    test = spotify.get_playlist("2LbyMChvxpn1emaIiDKKnT")
+    # test = spotify.get_playlist("2LbyMChvxpn1emaIiDKKnT")
+    test = spotify.get_playlist_cover_image("2LbyMChvxpn1emaIiDKKnT")
 
     console.print(test)
 

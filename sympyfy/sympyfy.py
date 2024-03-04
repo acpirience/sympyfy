@@ -15,6 +15,7 @@ from sympyfy.api_structures import (
     Audio_features,
     Category,
     Episode,
+    Image,
     Navigation,
     Playlist,
     Playlist_item,
@@ -525,6 +526,22 @@ class Sympyfy:
             return self.__make_playlist(response.content)
         return None
 
+    def get_playlist_cover_image(self, playlist_id: str) -> list[Image] | None:
+        """Get the current image associated with a specific playlist.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover](https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover)
+
+        Parameters:
+            playlist_id: The Spotify ID of the playlist.
+
+        Returns:
+            List of Image Objects
+        """
+        url = api.HTTP_GET_PLAYLIST_COVER_IMAGE.replace("{id}", playlist_id)
+        response = self._get_api_response_with_access_token(sanitize(url))
+        if response.status_code == 200:
+            return self.__make_playlist_cover_image(response.content)
+        return None
+
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         dict_content = json.loads(json_content)
         return set(dict_content[key])
@@ -638,3 +655,9 @@ class Sympyfy:
         playlist = Playlist.model_validate_json(json_content)
         playlist.tracks.items = [Playlist_item.model_validate(x) for x in playlist.tracks.items]
         return playlist
+
+    def __make_playlist_cover_image(self, json_content: bytes) -> list[Image]:
+        dict_content = json.loads(json_content)
+        print(json_content)
+        images_list: list[Image] = [Image.model_validate(x) for x in dict_content]
+        return images_list

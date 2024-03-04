@@ -6,6 +6,8 @@
     options:
       heading_level: 3
 
+---
+
 ## ARTISTS ##
 ::: sympyfy.Sympyfy.get_artist
     options:
@@ -23,6 +25,8 @@
     options:
       heading_level: 3
 
+---
+
 ## ALBUMS ##
 ::: sympyfy.Sympyfy.get_album
     options:
@@ -37,6 +41,8 @@
     options:
       heading_level: 3
 
+---
+
 ## CATEGORIES ##
 ::: sympyfy.Sympyfy.get_browse_category
     options:
@@ -44,6 +50,8 @@
 ::: sympyfy.Sympyfy.get_several_browse_categories
     options:
       heading_level: 3
+
+---
 
 ## GENRES ##
 ::: sympyfy.Sympyfy.genres
@@ -53,6 +61,8 @@
     options:
       heading_level: 3
 
+---
+
 ## MARKETS ##
 ::: sympyfy.Sympyfy.markets
     options:
@@ -61,11 +71,17 @@
     options:
       heading_level: 3
 
+---
 
 ## PLAYLISTS ##
 ::: sympyfy.Sympyfy.get_playlist
     options:
       heading_level: 3
+::: sympyfy.Sympyfy.get_playlist_cover_image
+    options:
+      heading_level: 3
+
+---
 
 ## SHOWS ##
 ::: sympyfy.Sympyfy.get_show
@@ -77,6 +93,8 @@
 ::: sympyfy.Sympyfy.get_show_episodes
     options:
       heading_level: 3
+
+---
 
 ## TRACKS ##
 ::: sympyfy.Sympyfy.get_track
@@ -91,6 +109,8 @@
 ::: sympyfy.Sympyfy.get_several_track_audio_features
     options:
       heading_level: 3
+
+---
 
 ## USERS ##
 ::: sympyfy.Sympyfy.get_user_profile

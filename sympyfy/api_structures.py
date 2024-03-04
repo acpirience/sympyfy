@@ -143,7 +143,7 @@ class Navigation(BaseModel):
         limit (int): The maximum number of items in the response (as set in the query or by default).
         offset (int): The offset of the items returned (as set in the query or by default)
         total (int): The total number of items available to return.
-        items (list[Any]): list of objects paginated
+        items (list[Track] | list[Episode] | list[Playlist_item]): list of objects paginated
     """
 
     href: str
