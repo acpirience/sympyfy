@@ -112,7 +112,10 @@
 ::: sympyfy.Sympyfy.get_several_track_audio_features
     options:
       heading_level: 3
-::: sympyfy.Sympyfy.get_recommendations
+::: sympyfy.Sympyfy.get_track_audio_analysis
+    options:
+      heading_level: 3
+::: sympyfy.Sympyfy.get_track_recommendations
     options:
       heading_level: 3
 

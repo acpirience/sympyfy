@@ -43,13 +43,8 @@ def main() -> None:
     # test = spotify.get_playlist_cover_image("2LbyMChvxpn1emaIiDKKnT")
     # test = spotify.get_playlists_by_category("0JQ5DAqbMKFCuoRTxhYWow", limit=3)
     # test = spotify.get_playlist("2LbyMChvxpn1emaIiDKKnT", additional_types=["track", "episode"])
-    test = spotify.get_recommendations(
-        limit=2,
-        seed_artists=["5Ho1vKl1Uz8bJlk4vbmvmf"],
-        seed_genres=["techno", "electro"],
-        seed_tracks=["7sovMMhuknCR0PHianjiEq"],
-        tunable_track_attributes={"min_energy": 0.6, "max_energy": 1},
-    )
+    # test = spotify.get_recommendations(limit=2,seed_artists=["5Ho1vKl1Uz8bJlk4vbmvmf"],seed_genres=["techno", "electro"],seed_tracks=["7sovMMhuknCR0PHianjiEq"],tunable_track_attributes={"min_energy": 0.6, "max_energy": 1})
+    test = spotify.get_track_audio_analysis("2IQ61J0AFfjnxBm4lQEU0W")
 
     console.print(test)
 

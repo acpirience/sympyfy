@@ -1,17 +1,17 @@
 """
 
-test for sympyfy.get_recommendations
+test for sympyfy.get_track_recommendations
 
 """
 
 from sympyfy import Sympyfy
 
 
-def test_get_recommendations() -> None:
+def test_get_track_recommendations() -> None:
     test = Sympyfy()
     test.load_credentials()
 
-    test_reco = test.get_recommendations(
+    test_reco = test.get_track_recommendations(
         limit=2,
         seed_artists=["5Ho1vKl1Uz8bJlk4vbmvmf"],
         seed_genres=["techno", "electro"],

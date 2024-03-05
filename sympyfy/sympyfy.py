@@ -15,6 +15,7 @@ from sympyfy.access_token import Access_token
 from sympyfy.api_structures import (
     Album,
     Artist,
+    Audio_analysis,
     Audio_features,
     Category,
     Episode,
@@ -555,7 +556,7 @@ class Sympyfy:
             return self.__make_playlists_by_category(response.content)
         return None
 
-    def get_recommendations(
+    def get_track_recommendations(
         self,
         market: str | None = None,
         limit: int = 20,
@@ -580,6 +581,9 @@ class Sympyfy:
             tunable_track_attributes: A dictionary of attributes relatives to the track audio features. For each tunable track attribute, a hard floor on the selected track attribute’s value can be provided. See tunable track attributes below for the list of available options.<br>
                 The attribute list is: min_acousticness, max_acousticness, target_acousticness, min_danceability, max_danceability, target_danceability, min_duration_ms, max_duration_ms, target_duration_ms, min_energy, max_energy, target_energy, min_instrumentalness, max_instrumentalness, target_instrumentalness, min_key, max_key, target_key, min_liveness, max_liveness, target_liveness, min_loudness, max_loudness, target_loudness, min_mode, max_mode, target_mode, min_popularity, max_popularity, target_popularity, min_speechiness, max_speechiness, target_speechiness, min_tempo, max_tempo, target_tempo, min_time_signature, max_time_signature, target_time_signature, min_valence, max_valence, target_valence<br>
                 The explanation of the terms acousticness, danceability ... etc ... can be found in the [Audio_features object Documentation](1structs.md#sympyfy.api_structures.Audio_features).
+
+        Returns:
+            A list of recommended Track Objects based the input parameters.
         """
         params = {
             "market": market,
@@ -593,8 +597,28 @@ class Sympyfy:
         if seed_tracks:
             params["seed_tracks"] = ",".join(seed_tracks)
 
-        response = self._get_api_response_with_access_token(api.HTTP_GET_RECOMMENDATIONS, params)
-        return self.__make_recommendations(response.content)
+        response = self._get_api_response_with_access_token(
+            api.HTTP_GET_TRACK_RECOMMENDATIONS, params
+        )
+        return self.__make_track_recommendations(response.content)
+
+    def get_track_audio_analysis(self, track_id: str) -> Audio_analysis | None:
+        """Get a low-level audio analysis for a track in the Spotify catalog. The audio analysis describes the track’s structure and musical content, including rhythm, pitch, and timbre.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-audio-analysis](https://developer.spotify.com/documentation/web-api/reference/get-audio-analysis)
+
+        Parameters:
+            track_id: The Spotify ID for the track.
+
+        Returns:
+            An Audio analysis Object
+        """
+        response = self._get_api_response_with_access_token(
+            api.HTTP_GET_TRACK_AUDIO_ANALYSIS,
+            {"id": track_id},
+        )
+        if response.status_code == 200:
+            return self.__make_track_audio_analysis(response.content)
+        return None
 
     def __make_artist(self, json_content: bytes) -> Artist:
         artist: Artist = Artist.model_validate_json(json_content)
@@ -724,10 +748,13 @@ class Sympyfy:
         navigation.items = [Playlist.model_validate(x) for x in navigation.items]
         return message, navigation
 
-    def __make_recommendations(self, json_content: bytes) -> Recommendation:
-        print(json_content)
+    def __make_track_recommendations(self, json_content: bytes) -> Recommendation:
         recommendation = Recommendation.model_validate_json(json_content)
         return recommendation
+
+    def __make_track_audio_analysis(self, json_content: bytes) -> Audio_analysis:
+        audio_analysis = Audio_analysis.model_validate_json(json_content)
+        return audio_analysis
 
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         dict_content = json.loads(json_content)

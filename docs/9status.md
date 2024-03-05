@@ -118,7 +118,7 @@ _Since audiobooks are not available in my country, I won't implement this part o
 - [ ] Check User's Saved Tracks ⮕ **GET** `/me/tracks/contains?ids={ids}` 🔒
 - [x] Get Track's Audio Features ⮕ **GET** `/audio-features/{id}`
 - [x] Get Several Tracks' Audio Features ⮕ **GET** `/audio-features?ids={ids}`
-- [ ] Get Track's Audio Analysis ⮕ **GET** `/audio-analysis/{id}`
+- [x] Get Track's Audio Analysis ⮕ **GET** `/audio-analysis/{id}`
 - [x] Get Recommendations ⮕ **GET** `/recommendations`
 
 
