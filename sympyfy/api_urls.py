@@ -39,7 +39,6 @@ HTTP_GET_PLAYLIST = HTTP_API_ROOT + "/playlists/{id}"
 HTTP_GET_PLAYLIST_COVER_IMAGE = HTTP_API_ROOT + "/playlists/{id}/images"
 HTTP_GET_PLAYLISTS_BY_CATEGORY = HTTP_API_ROOT + "/browse/categories/{id}/playlists"
 
-
 # shows
 HTTP_GET_SHOW = HTTP_API_ROOT + "/shows/{id}"
 HTTP_GET_SEVERAL_SHOWS = HTTP_API_ROOT + "/shows?ids={ids}"
@@ -50,6 +49,7 @@ HTTP_GET_TRACK = HTTP_API_ROOT + "/tracks/{id}"
 HTTP_GET_SEVERAL_TRACKS = HTTP_API_ROOT + "/tracks?ids={ids}"
 HTTP_GET_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features/{id}"
 HTTP_GET_SEVERAL_TRACK_AUDIO_FEATURES = HTTP_API_ROOT + "/audio-features?ids={ids}"
+HTTP_GET_RECOMMENDATIONS = HTTP_API_ROOT + "/recommendations"
 
 # Users
 HTTP_GET_USER_PROFILE = HTTP_API_ROOT + "/users/{id}"

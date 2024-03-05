@@ -489,3 +489,39 @@ class Playlist_item(BaseModel):
     added_by: User | None = None
     is_local: bool = False
     track: Track | Episode | None = None
+
+
+class Seed(BaseModel):
+    """
+    A recommendation seed objects that give statistics about the search.
+
+    Parameters:
+        afterFilteringSize (int): The number of tracks available after min_* and max_* filters have been applied.
+        afterRelinkingSize (int): The number of tracks available after relinking for regional availability.
+        href (str): A link to the full track or artist data for this seed. For tracks this will be a link to a Track Object. For artists a link to an Artist Object. For genre seeds, this value will be null.<br>
+            Optional, default = None (is always None for GENRE)
+        id (str): The id used to select this seed. This will be the same as the string used in the seed_artists, seed_tracks or seed_genres parameter.
+        initialPoolSize (int): The number of recommended tracks available for this seed.
+        type (str): The entity type of this seed. One of "ARTIST", "TRACK" or "GENRE".
+    """
+
+    id: str
+    href: str | None = None
+    type: str
+    afterFilteringSize: int
+    afterRelinkingSize: int
+    initialPoolSize: int
+
+
+class Recommendation(BaseModel):
+    """
+    Recommendations are generated based on the available information for a given seed entity and matched against similar artists and tracks. If there is sufficient information about the provided seeds, a list of tracks will be returned together with pool size details.<br>
+    For artists and tracks that are very new or obscure there might not be enough data to generate a list of tracks.<br>
+
+    Parameters:
+        seeds (list[Seed]): A list of recommendation seed objects.
+        tracks (list[Track]): A list of recommended Track Objects.
+    """
+
+    seeds: list[Seed]
+    tracks: list[Track]

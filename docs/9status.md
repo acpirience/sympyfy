@@ -119,7 +119,7 @@ _Since audiobooks are not available in my country, I won't implement this part o
 - [x] Get Track's Audio Features ⮕ **GET** `/audio-features/{id}`
 - [x] Get Several Tracks' Audio Features ⮕ **GET** `/audio-features?ids={ids}`
 - [ ] Get Track's Audio Analysis ⮕ **GET** `/audio-analysis/{id}`
-- [ ] Get Recommendations ⮕ **GET** `/recommendations`
+- [x] Get Recommendations ⮕ **GET** `/recommendations`
 
 
 ###Users

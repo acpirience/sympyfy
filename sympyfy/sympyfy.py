@@ -22,11 +22,12 @@ from sympyfy.api_structures import (
     Navigation,
     Playlist,
     Playlist_item,
+    Recommendation,
     Show,
     Track,
     User,
 )
-from sympyfy.consts import INCLUDE_GROUPS, STYLE
+from sympyfy.consts import INCLUDE_GROUPS, STYLE, TRACKS_ATTRIBUTES
 
 console = Console()
 
@@ -119,7 +120,7 @@ class Sympyfy:
 
         Parameters:
             artist_id: Spotify id of the artist
-            market: ISO 2 character country code of the market
+            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
 
         Returns:
             list of Tracks objects or None if id does not match an artist
@@ -554,6 +555,47 @@ class Sympyfy:
             return self.__make_playlists_by_category(response.content)
         return None
 
+    def get_recommendations(
+        self,
+        market: str | None = None,
+        limit: int = 20,
+        seed_artists: list[str] | None = None,
+        seed_genres: list[str] | None = None,
+        seed_tracks: list[str] | None = None,
+        tunable_track_attributes: dict[str, Any] | None = None,
+    ) -> Recommendation:
+        """Recommendations are generated based on the available information for a given seed entity and matched against similar artists and tracks. If there is sufficient information about the provided seeds, a list of tracks will be returned together with pool size details.<br>
+        For artists and tracks that are very new or obscure there might not be enough data to generate a list of tracks.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/get-recommendations](https://developer.spotify.com/documentation/web-api/reference/get-recommendations)
+
+        Parameters:
+            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+            limit: The target size of the list of recommended tracks. For seeds with unusually small pools or when highly restrictive filtering is applied, it may be impossible to generate the requested number of recommended tracks. Debugging information for such cases is available in the response. Default: 20. Minimum: 1. Maximum: 100.
+            seed_artists: A list of Spotify IDs for seed artists. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres.<br>
+                Note: only required if seed_genres and seed_tracks are not set.
+            seed_genres: A comma separated list of any genres in the set of available genre seeds. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres.<br>
+                Note: only required if seed_artists and seed_tracks are not set.
+            seed_tracks: A comma separated list of Spotify IDs for a seed track. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres.<br>
+                Note: only required if seed_artists and seed_genres are not set.
+            tunable_track_attributes: A dictionary of attributes relatives to the track audio features. For each tunable track attribute, a hard floor on the selected track attribute’s value can be provided. See tunable track attributes below for the list of available options.<br>
+                The attribute list is: min_acousticness, max_acousticness, target_acousticness, min_danceability, max_danceability, target_danceability, min_duration_ms, max_duration_ms, target_duration_ms, min_energy, max_energy, target_energy, min_instrumentalness, max_instrumentalness, target_instrumentalness, min_key, max_key, target_key, min_liveness, max_liveness, target_liveness, min_loudness, max_loudness, target_loudness, min_mode, max_mode, target_mode, min_popularity, max_popularity, target_popularity, min_speechiness, max_speechiness, target_speechiness, min_tempo, max_tempo, target_tempo, min_time_signature, max_time_signature, target_time_signature, min_valence, max_valence, target_valence<br>
+                The explanation of the terms acousticness, danceability ... etc ... can be found in the [Audio_features object Documentation](1structs.md#sympyfy.api_structures.Audio_features).
+        """
+        params = {
+            "market": market,
+            "limit": limit,
+            "tunable_track_attributes": tunable_track_attributes,
+        }
+        if seed_artists:
+            params["seed_artists"] = ",".join(seed_artists)
+        if seed_genres:
+            params["seed_genres"] = ",".join(seed_genres)
+        if seed_tracks:
+            params["seed_tracks"] = ",".join(seed_tracks)
+
+        response = self._get_api_response_with_access_token(api.HTTP_GET_RECOMMENDATIONS, params)
+        return self.__make_recommendations(response.content)
+
     def __make_artist(self, json_content: bytes) -> Artist:
         artist: Artist = Artist.model_validate_json(json_content)
         return artist
@@ -682,6 +724,11 @@ class Sympyfy:
         navigation.items = [Playlist.model_validate(x) for x in navigation.items]
         return message, navigation
 
+    def __make_recommendations(self, json_content: bytes) -> Recommendation:
+        print(json_content)
+        recommendation = Recommendation.model_validate_json(json_content)
+        return recommendation
+
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         dict_content = json.loads(json_content)
         return set(dict_content[key])
@@ -720,11 +767,18 @@ class Sympyfy:
                         params += "&include_groups=" + "%2C".join(param_groups)
                     else:
                         params += "&include_groups=" + "%2C".join(INCLUDE_GROUPS)
+                case "tunable_track_attributes":
+                    param_attrs = ""
+                    for attr in param_list["tunable_track_attributes"]:
+                        if attr in TRACKS_ATTRIBUTES:
+                            param_attrs += f"&{attr}={param_list['tunable_track_attributes'][attr]}"
+                    params += param_attrs
                 case _:
                     if param_list[param]:
                         params += f"&{param}={escape(param_list[param])}"
 
         url = url + params
+        # sanitize URL
         if "?" not in url:
             url = url.replace("&", "?", 1)
 

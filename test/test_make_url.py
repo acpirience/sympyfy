@@ -149,9 +149,19 @@ def test_sanitize_no_question_mark() -> None:
     assert test == "https://www.youtube.com/watch?v=ILwhI3qyl8I&t=3066s"
 
 
-def test_sanitize_no_tail() -> None:
-    url = "https://www.youtube.com"
-    params: dict[str, str] = {}
+def test_tunable_track_attributes_invalid() -> None:
+    url = ""
+    tunable_track_attributes = {"xxx": 0}
+    params = {"tunable_track_attributes": tunable_track_attributes}
     test = Sympyfy()._Sympyfy__make_url(url, params)  # type: ignore
 
-    assert test == "https://www.youtube.com"
+    assert test == ""
+
+
+def test_tunable_track_attributes_valid() -> None:
+    url = ""
+    tunable_track_attributes = {"target_instrumentalness": 0.1, "min_key": 1}
+    params = {"tunable_track_attributes": tunable_track_attributes}
+    test = Sympyfy()._Sympyfy__make_url(url, params)  # type: ignore
+
+    assert test == "?target_instrumentalness=0.1&min_key=1"
