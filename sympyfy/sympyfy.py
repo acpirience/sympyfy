@@ -11,7 +11,7 @@ from requests import Response, get
 from rich.console import Console
 
 import sympyfy.api_urls as api
-from sympyfy.access_token import Access_token
+from sympyfy.access_token import Access_token, Auth_type
 from sympyfy.api_structures import (
     Album,
     Artist,
@@ -40,17 +40,25 @@ class Sympyfy:
         self._spotify_markets: set[str] = set()
         self._genre_seeds: set[str] = set()
 
-    def load_credentials(self, client_id: str = "", client_secret: str = "") -> None:
+    def load_credentials(
+        self,
+        auth_type: Auth_type = Auth_type.APP,
+        client_id: str = "",
+        client_secret: str = "",
+        scope: list[str] | None = None,
+    ) -> None:
         """Load Spotify credential request for an Access Token. If parameters are provided, they will be used; else environment variables will be used, else we will try in the .env file<br>
         See: [https://developer.spotify.com/documentation/web-api/concepts/access-token](https://developer.spotify.com/documentation/web-api/concepts/access-token)
 
         Parameters:
+            auth_type: Authentication type: APP (client_id/secret) or USER (Oauth2 via Authorization code flow)
             client_id: Client Id of the application, provided by Spotify.
             client_secret: Client secret of the application, provided by Spotify.
+            scopes: the rights asked given to the app when a USER connection is used. Must be a valid list af scopes. See [https://developer.spotify.com/documentation/web-api/concepts/scopes](https://developer.spotify.com/documentation/web-api/concepts/scopes)
         """
         self._access_token = Access_token(client_id, client_secret)
         self._access_token.load_spotify_credentials()
-        self._access_token.load_access_token()
+        self._access_token.load_access_token(auth_type, scope)
 
     def _get_api_response_with_access_token(self, url: str, params: dict[str, Any]) -> Response:
         # Generic function that returns the json response

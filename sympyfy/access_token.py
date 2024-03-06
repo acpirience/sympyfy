@@ -9,6 +9,7 @@ import json
 import os
 import sys
 from datetime import datetime, timedelta
+from enum import Enum
 
 from dotenv import dotenv_values
 from requests import post
@@ -22,6 +23,45 @@ console = Console()
 ACCESS_TOKEN_FILE = ".access_token"
 
 
+class Auth_type(Enum):
+    """
+    Authentication type:<br>
+        - APP: authentication via client_id / client_secret with access only to app APIs. See [https://developer.spotify.com/documentation/web-api/concepts/access-token](https://developer.spotify.com/documentation/web-api/concepts/access-token)<br>
+        - USER: authentication via Oauth2 Authorization code flow. See [https://developer.spotify.com/documentation/web-api/tutorials/code-flow](https://developer.spotify.com/documentation/web-api/tutorials/code-flow)
+    """
+
+    APP = "APP"
+    USER = "USER"
+
+
+SCOPES = {
+    "ugc-image-upload",
+    "user-read-playback-state",
+    "user-modify-playback-state",
+    "user-read-currently-playing",
+    "app-remote-control",
+    "streaming",
+    "playlist-read-private",
+    "playlist-read-collaborative",
+    "playlist-modify-private",
+    "playlist-modify-public",
+    "user-follow-modify",
+    "user-follow-read",
+    "user-read-playback-position",
+    "user-top-read",
+    "user-read-recently-played",
+    "user-library-modify",
+    "user-library-read",
+    "user-read-email",
+    "user-read-private",
+    "user-soa-link",
+    "user-soa-unlink",
+    "user-manage-entitlements",
+    "user-manage-partner",
+    "user-create-partner",
+}
+
+
 class Access_token:
     def __init__(self, client_id: str = "", client_secret: str = "") -> None:
         #     # Token: token content passed to the API
@@ -29,7 +69,10 @@ class Access_token:
         self._client_id: str = client_id
         self._client_secret: str = client_secret
         self._token: str = ""
+        self._token_type: Auth_type = Auth_type.APP
+        self._scope: list[str] = []
         self._expiry: datetime = datetime.today()
+        self.refresh_token: str = ""
 
     def load_spotify_credentials(self) -> None:
         if self._client_id != "" and self._client_secret != "":
@@ -65,7 +108,7 @@ class Access_token:
         self._client_id = env_config["client_id"]
         self._client_secret = env_config["client_secret"]
 
-    def load_access_token(self) -> None:
+    def load_access_token(self, auth_type: Auth_type, scope: list[str] | None = None) -> None:
         # check for previously saved token on filesystem
         if os.path.isfile(ACCESS_TOKEN_FILE):
             self.make_access_token(self.load_token_from_file())
@@ -73,7 +116,7 @@ class Access_token:
                 return
             console.print("Cache is expired", style=STYLE["NOTICE"])
 
-        self.make_access_token(self.load_token_from_api())
+        self.make_access_token(self.load_token_from_api(auth_type, scope))
 
     def load_token_from_file(self) -> bytes:
         console.print("Loading Access Token from cache", style=STYLE["INFO"])
@@ -81,8 +124,19 @@ class Access_token:
             token_json = token_file.read()
         return token_json
 
-    def load_token_from_api(self) -> bytes:
-        console.print("Loading Access Token from Spotify API", style=STYLE["INFO"])
+    def load_token_from_api(self, auth_type: Auth_type, scope: list[str] | None) -> bytes:
+        if auth_type == Auth_type.USER and not scope:
+            console.print(
+                "Error: Scope is mandatory for a USER authentication",
+                style=STYLE["CRITICAL"],
+            )
+            sys.exit(1)
+
+        self._token_type = auth_type
+        self._scope = scope if scope else []
+        console.print(
+            f"Loading Access Token from Spotify {auth_type.value} API", style=STYLE["INFO"]
+        )
         auth_str = self._client_id + ":" + self._client_secret
         auth_bytes = auth_str.encode("utf-8")
         base64_bytes = base64.b64encode(auth_bytes)
@@ -134,7 +188,7 @@ class Access_token:
     def headers(self) -> dict[str, str]:
         if not self.is_valid():
             console.print("Access token has expired", style=STYLE["NOTICE"])
-            self.load_token_from_api()
+            self.load_token_from_api(self._token_type, self._scope)
         return {"Authorization": "Bearer " + self.token}
 
     def is_valid(self) -> bool:
