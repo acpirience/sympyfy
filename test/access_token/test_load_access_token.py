@@ -17,13 +17,15 @@ def test_load_access_token_bad_credentials() -> None:
     test.load_spotify_credentials()
 
     if os.path.isfile(ACCESS_TOKEN_FILE):
-        os.remove(ACCESS_TOKEN_FILE)
+        os.rename(ACCESS_TOKEN_FILE, ACCESS_TOKEN_FILE + "_TEST")
 
     # pytest magic found in https://medium.com/python-pandemonium/testing-sys-exit-with-pytest-10c6e5f7726f
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         test.load_access_token(Auth_type.APP)
     assert pytest_wrapped_e.type == SystemExit
     assert pytest_wrapped_e.value.code == 1
+
+    os.rename(ACCESS_TOKEN_FILE + "_TEST", ACCESS_TOKEN_FILE)
 
 
 def test_load_access_token_user_auth_without_scope() -> None:
