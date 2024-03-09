@@ -54,7 +54,7 @@ class Sympyfy:
             auth_type: Authentication type: APP (client_id/secret) or USER (Oauth2 via Authorization code flow)
             client_id: Client Id of the application, provided by Spotify.
             client_secret: Client secret of the application, provided by Spotify.
-            scopes: the rights asked given to the app when a USER connection is used. Must be a valid list af scopes. See [https://developer.spotify.com/documentation/web-api/concepts/scopes](https://developer.spotify.com/documentation/web-api/concepts/scopes)
+            scope: the rights asked given to the app when a USER connection is used. Must be a valid list af scopes. See [https://developer.spotify.com/documentation/web-api/concepts/scopes](https://developer.spotify.com/documentation/web-api/concepts/scopes)
         """
         self._access_token = Access_token(client_id, client_secret)
         self._access_token.load_spotify_credentials()
