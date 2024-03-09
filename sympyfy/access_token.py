@@ -72,7 +72,7 @@ class Access_token:
         self._token_type: Auth_type = Auth_type.APP
         self._scope: list[str] = []
         self._expiry: datetime = datetime.today()
-        self.refresh_token: str = ""
+        self._refresh_token: str = ""
 
     def load_spotify_credentials(self) -> None:
         if self._client_id != "" and self._client_secret != "":
@@ -108,15 +108,15 @@ class Access_token:
         self._client_id = env_config["client_id"]
         self._client_secret = env_config["client_secret"]
 
-    def load_access_token(self, auth_type: Auth_type, scope: list[str] | None = None) -> None:
+    def load_access_token(self, auth_type: Auth_type=Auth_type.APP, scope: list[str] | None = None) -> None:
         # check for previously saved token on filesystem
         if os.path.isfile(ACCESS_TOKEN_FILE):
-            self.make_access_token(self.load_token_from_file())
+            self.make_access_token(self.load_token_from_file(), auth_type, scope)
             if self.is_valid():
                 return
             console.print("Cache is expired", style=STYLE["NOTICE"])
 
-        self.make_access_token(self.load_token_from_api(auth_type, scope))
+        self.make_access_token(self.load_token_from_api(auth_type, scope), auth_type, scope)
 
     def load_token_from_file(self) -> bytes:
         console.print("Loading Access Token from cache", style=STYLE["INFO"])
@@ -158,23 +158,43 @@ class Access_token:
             )
             sys.exit(1)
 
-    def make_access_token(self, json_content: bytes):
-        response_json = json.loads(json_content)
-        self._token = response_json["access_token"]
-        if "expires_in" in response_json:
-            self._expiry = datetime.today() + timedelta(seconds=response_json["expires_in"])
+    def make_access_token(self, json_content: bytes, auth_type: Auth_type, scope: list[str] | None = None) -> None:
+        save_json = self.json_token_decode(json_content, auth_type, scope)
+        with open(ACCESS_TOKEN_FILE, "wb") as token_file:
+            token_file.write(save_json.encode("utf-8"))
+
+    def json_token_decode(self, json_content: bytes, auth_type: Auth_type, scope: list[str] | None = None) -> str:
+        response_dict = json.loads(json_content)
+        self._scope = scope
+        self._token = response_dict["access_token"]
+
+        if "refresh_token" in response_dict:
+            self._refresh_token = response_dict["refresh_token"]
+
+        if "token_type" in response_dict:
+            if response_dict["token_type"] == "Bearer":
+                self._token_type = auth_type
+            else:
+                match response_dict["token_type"]:
+                    case "APP":
+                        self._token_type = auth_type.APP
+                    case "USER":
+                        self._token_type = auth_type.USER
+                if "scope" in response_dict:
+                    self._scope = response_dict["scope"].split(",")
+
+        if "expire_date" in response_dict: # From File
+            self._expiry = datetime.fromisoformat(response_dict["expire_date"])
         else:
-            self._expiry = datetime.fromisoformat(response_json["expire_date"])
+            self._expiry = datetime.today() + timedelta(seconds=response_dict["expires_in"])
         console.print(
             f"Access Token loaded, valid until {self.expiry}",
             style=STYLE["INFO"],
         )
 
-        save_dict = {"access_token": self._token, "expire_date": self._expiry.isoformat()}
-        save_json = json.dumps(save_dict)
+        save_dict = {"access_token": self._token, "expire_date": self._expiry.isoformat(), "token_type": self._token_type.name, "scope": ",".join(self._scope) if self._scope else "", "refresh_token": self._refresh_token}
+        return json.dumps(save_dict)
 
-        with open(ACCESS_TOKEN_FILE, "wb") as token_file:
-            token_file.write(save_json.encode("utf-8"))
 
     @property
     def token(self) -> str:
@@ -197,3 +217,4 @@ class Access_token:
 
     def __repr__(self) -> str:
         return f"(Token:'{self.token}', Expiry:'{self.expiry}')"
+

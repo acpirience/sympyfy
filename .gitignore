@@ -11,6 +11,7 @@
 pyvenv.cfg
 .venv
 .access_token
+.spotify_response
 pip-selfcheck.json
 main.py
 
