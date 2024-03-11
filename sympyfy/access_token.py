@@ -108,7 +108,9 @@ class Access_token:
         self._client_id = env_config["client_id"]
         self._client_secret = env_config["client_secret"]
 
-    def load_access_token(self, auth_type: Auth_type=Auth_type.APP, scope: list[str] | None = None) -> None:
+    def load_access_token(
+        self, auth_type: Auth_type = Auth_type.APP, scope: list[str] | None = None
+    ) -> None:
         # check for previously saved token on filesystem
         if os.path.isfile(ACCESS_TOKEN_FILE):
             self.make_access_token(self.load_token_from_file(), auth_type, scope)
@@ -158,14 +160,20 @@ class Access_token:
             )
             sys.exit(1)
 
-    def make_access_token(self, json_content: bytes, auth_type: Auth_type, scope: list[str] | None = None) -> None:
+    def make_access_token(
+        self, json_content: bytes, auth_type: Auth_type, scope: list[str] | None = None
+    ) -> None:
         save_json = self.json_token_decode(json_content, auth_type, scope)
         with open(ACCESS_TOKEN_FILE, "wb") as token_file:
             token_file.write(save_json.encode("utf-8"))
 
-    def json_token_decode(self, json_content: bytes, auth_type: Auth_type, scope: list[str] | None = None) -> str:
+    def json_token_decode(
+        self, json_content: bytes, auth_type: Auth_type, scope: list[str] | None = None
+    ) -> str:
         response_dict = json.loads(json_content)
-        self._scope = scope
+
+        self._scope = scope if scope else []
+
         self._token = response_dict["access_token"]
 
         if "refresh_token" in response_dict:
@@ -177,13 +185,13 @@ class Access_token:
             else:
                 match response_dict["token_type"]:
                     case "APP":
-                        self._token_type = auth_type.APP
+                        self._token_type = Auth_type.APP
                     case "USER":
-                        self._token_type = auth_type.USER
+                        self._token_type = Auth_type.USER
                 if "scope" in response_dict:
                     self._scope = response_dict["scope"].split(",")
 
-        if "expire_date" in response_dict: # From File
+        if "expire_date" in response_dict:  # From File
             self._expiry = datetime.fromisoformat(response_dict["expire_date"])
         else:
             self._expiry = datetime.today() + timedelta(seconds=response_dict["expires_in"])
@@ -192,9 +200,14 @@ class Access_token:
             style=STYLE["INFO"],
         )
 
-        save_dict = {"access_token": self._token, "expire_date": self._expiry.isoformat(), "token_type": self._token_type.name, "scope": ",".join(self._scope) if self._scope else "", "refresh_token": self._refresh_token}
+        save_dict = {
+            "access_token": self._token,
+            "expire_date": self._expiry.isoformat(),
+            "token_type": self._token_type.name,
+            "scope": ",".join(self._scope) if self._scope else "",
+            "refresh_token": self._refresh_token,
+        }
         return json.dumps(save_dict)
-
 
     @property
     def token(self) -> str:
@@ -217,4 +230,3 @@ class Access_token:
 
     def __repr__(self) -> str:
         return f"(Token:'{self.token}', Expiry:'{self.expiry}')"
-

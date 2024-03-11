@@ -24,6 +24,7 @@ from sympyfy.api_structures import (
     Playlist,
     Playlist_item,
     Recommendation,
+    Search,
     Show,
     Track,
     User,
@@ -628,6 +629,47 @@ class Sympyfy:
             return self.__make_track_audio_analysis(response.content)
         return None
 
+    def get_search(
+        self,
+        q: str = "",
+        type: list[str] | None = None,
+        market: str | None = None,
+        limit: int = 20,
+        offset: int = 0,
+        include_external: str = "",
+    ) -> Search:
+        """Get Spotify catalog information about albums, artists, playlists, tracks, shows, episodes or audiobooks that match a keyword string. Audiobooks are only available within the US, UK, Canada, Ireland, New Zealand and Australia markets.<br>
+        [https://developer.spotify.com/documentation/web-api/reference/search](https://developer.spotify.com/documentation/web-api/reference/search)
+
+        Parameters:
+            q: Your search query.<br>You can narrow down your search using field filters. The available filters are album, artist, track, year, upc, tag:hipster, tag:new, isrc, and genre. Each field filter only applies to certain result types.<br>
+                The artist and year filters can be used while searching albums, artists and tracks. You can filter on a single year or a range (e.g. 1955-1960).<br>
+                The album filter can be used while searching albums and tracks.<br>
+                The genre filter can be used while searching artists and tracks.<br>
+                The isrc and track filters can be used while searching tracks.<br>
+                The upc, tag:new and tag:hipster filters can only be used while searching albums. The tag:new filter will return albums released in the past two weeks and tag:hipster can be used to return only albums with the lowest 10% popularity.
+            type: A comma-separated list of item types to search across. Search results include hits from all the specified item types. For example: q=abacab&type=album,track returns both albums and tracks matching "abacab". Allowed values: "album", "artist", "playlist", "track", "show", "episode", "audiobook"
+            market: An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter. Note: If neither market or user country are provided, the content is considered unavailable for the client. Users can view the country that is associated with their account in the account settings.
+            limit: The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+            offset: The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
+            include_external: If include_external=audio is specified it signals that the client can play externally hosted audio content, and marks the content as playable in the response. By default externally hosted audio content is marked as unplayable in the response.
+
+        Returns:
+            An Search Object
+        """
+        response = self._get_api_response_with_access_token(
+            api.HTTP_GET_SEARCH,
+            {
+                "q": q,
+                "market": market,
+                "type": ",".join(type) if type else "",
+                "limit": limit,
+                "offset": offset,
+                "include_external": include_external,
+            },
+        )
+        return self.__make_search(response.content)
+
     def __make_artist(self, json_content: bytes) -> Artist:
         artist: Artist = Artist.model_validate_json(json_content)
         return artist
@@ -763,6 +805,23 @@ class Sympyfy:
     def __make_track_audio_analysis(self, json_content: bytes) -> Audio_analysis:
         audio_analysis = Audio_analysis.model_validate_json(json_content)
         return audio_analysis
+
+    def __make_search(self, json_content: bytes) -> Search:
+        search = Search.model_validate_json(json_content)
+        if search.tracks and search.tracks.items:
+            search.tracks.items = [Track.model_validate(x) for x in search.tracks.items]
+        if search.artists and search.artists.items:
+            search.artists.items = [Artist.model_validate(x) for x in search.artists.items]
+        if search.albums and search.albums.items:
+            search.albums.items = [Album.model_validate(x) for x in search.albums.items]
+        if search.playlists and search.playlists.items:
+            search.playlists.items = [Playlist.model_validate(x) for x in search.playlists.items]
+        if search.shows and search.shows.items:
+            search.shows.items = [Show.model_validate(x) if x else None for x in search.shows.items]
+        if search.episodes and search.episodes.items:
+            search.episodes.items = [Episode.model_validate(x) for x in search.episodes.items]
+
+        return search
 
     def __make_simple_set(self, json_content: bytes, key: str) -> set[str]:
         dict_content = json.loads(json_content)

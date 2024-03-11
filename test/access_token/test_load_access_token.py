@@ -34,7 +34,7 @@ def test_load_access_token_user_auth_without_scope() -> None:
 
     # pytest magic found in https://medium.com/python-pandemonium/testing-sys-exit-with-pytest-10c6e5f7726f
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        test.load_access_token(Auth_type.USER)
+        test.load_token_from_api(Auth_type.USER, scope=[])
     assert pytest_wrapped_e.type == SystemExit
     assert pytest_wrapped_e.value.code == 1
 

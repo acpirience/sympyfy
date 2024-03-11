@@ -94,7 +94,7 @@ _Since audiobooks are not available in my country, I won't implement this part o
 
 ###Search
 
-- [ ] Search for Item ⮕ **GET** `/search`
+- [x] Search for Item ⮕ **GET** `/search`
 
 
 ###Shows

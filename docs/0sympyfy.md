@@ -86,6 +86,13 @@
 
 ---
 
+## SEARCH ##
+::: sympyfy.Sympyfy.get_search
+    options:
+      heading_level: 3
+
+---
+
 ## SHOWS ##
 ::: sympyfy.Sympyfy.get_show
     options:

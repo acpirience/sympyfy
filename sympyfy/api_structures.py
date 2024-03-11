@@ -143,7 +143,7 @@ class Navigation(BaseModel):
         limit (int): The maximum number of items in the response (as set in the query or by default).
         offset (int): The offset of the items returned (as set in the query or by default)
         total (int): The total number of items available to return.
-        items (list[Track]|list[Episode]|list[Playlist_item]|list[Playlist]): list of objects paginated<br>
+        items (list[Track]|list[Episode]|list[Playlist_item]|list[Playlist]|list|Artist]|list[Album]|list[Show]): list of objects paginated<br>
             Optional, default = None
     """
 
@@ -678,7 +678,7 @@ class Playlist(BaseModel):
     description: str = ""
     followers: Followers | None = None
     snapshot_id: str = ""
-    public: bool = False
+    public: bool | None = None
     collaborative: bool | None = None
     external_urls: (dict[str, str]) = {}
     images: list[Image] = []
@@ -740,3 +740,24 @@ class Recommendation(BaseModel):
 
     seeds: list[Seed]
     tracks: list[Track]
+
+
+class Search(BaseModel):
+    """
+    Get Spotify catalog information about albums, artists, playlists, tracks, shows, episodes or audiobooks that match a keyword string. Audiobooks are only available within the US, UK, Canada, Ireland, New Zealand and Australia markets.
+
+    Parameters:
+        tracks (Navigation):A navigation Object of Track Objects
+        artists (Navigation):A navigation Object of Artist Objects
+        albums (Navigation):A navigation Object of Album Objects
+        playlists (Navigation):A navigation Object of Playlist Objects
+        shows (Navigation):A navigation Object of Show Objects
+        episodes (Navigation):A navigation Object of Episode Objects
+    """
+
+    tracks: Navigation | None = None
+    artists: Navigation | None = None
+    albums: Navigation | None = None
+    playlists: Navigation | None = None
+    shows: Navigation | None = None
+    episodes: Navigation | None = None
