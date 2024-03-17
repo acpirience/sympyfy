@@ -1,0 +1,3538 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../1structs/">
+      
+      
+        <link rel="next" href="../9status/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
+    
+    
+      
+        <title>API DEMO with APP auth - Sympyfy Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-demo-with-app-auth" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Sympyfy Documentation" class="md-header__button md-logo" aria-label="Sympyfy Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Sympyfy Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API DEMO with APP auth
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../0sympyfy/" class="md-tabs__link">
+        
+  
+    
+  
+  Sympyfy API
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../1structs/" class="md-tabs__link">
+        
+  
+    
+  
+  Sympyfy Structures
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  API DEMO with APP auth
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../9status/" class="md-tabs__link">
+        
+  
+    
+  
+  Spotify Api Implementation status
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Sympyfy Documentation" class="md-nav__button md-logo" aria-label="Sympyfy Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Sympyfy Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0sympyfy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sympyfy API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1structs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sympyfy Structures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    API DEMO with APP auth
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    API DEMO with APP auth
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nirvana" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nirvana
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9status/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spotify Api Implementation status
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="api-demo-with-app-auth">API DEMO with APP auth</h1>
+<div class="highlight"><span class="filename">DEMO</span><pre><span></span><code><span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
+
+<span class="kn">from</span> <span class="nn">sympyfy</span> <span class="kn">import</span> <span class="n">Sympyfy</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+
+<span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+
+    <span class="n">spotify</span> <span class="o">=</span> <span class="n">Sympyfy</span><span class="p">()</span>
+    <span class="n">spotify</span><span class="o">.</span><span class="n">load_credentials</span><span class="p">()</span>
+
+    <span class="n">artist</span> <span class="o">=</span> <span class="n">spotify</span><span class="o">.</span><span class="n">get_artist</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">albums</span> <span class="o">=</span> <span class="n">spotify</span><span class="o">.</span><span class="n">get_artist_albums</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">include_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;album&quot;</span><span class="p">,</span> <span class="s2">&quot;compilation&quot;</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">])</span>
+    <span class="n">album_ids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">more_albums</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">while</span> <span class="n">more_albums</span><span class="p">:</span>
+        <span class="n">album_ids</span> <span class="o">+=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;release_date&quot;</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">release_date</span><span class="p">}</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">albums</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+        <span class="n">more_albums</span> <span class="o">=</span> <span class="n">albums</span> <span class="ow">and</span> <span class="n">albums</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">albums</span> <span class="o">=</span> <span class="n">spotify</span><span class="o">.</span><span class="n">get_artist_albums</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">albums</span><span class="o">.</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">50</span><span class="p">,</span> <span class="n">include_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;album&quot;</span><span class="p">,</span> <span class="s2">&quot;compilation&quot;</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">])</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;docs/demo.md&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">md</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#API DEMO with APP auth</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;##</span><span class="si">{</span><span class="n">artist</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">album_ids</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="s1">&#39;release_date&#39;</span><span class="p">)):</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;###</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">  _(</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;release_date&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)_</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">tracks</span> <span class="o">=</span> <span class="n">spotify</span><span class="o">.</span><span class="n">get_album_tracks</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">tracks_ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">more_tracks</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">while</span> <span class="n">more_tracks</span><span class="p">:</span>
+                <span class="n">tracks_ids</span> <span class="o">+=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;disc_number&quot;</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">disc_number</span><span class="p">,</span> <span class="s2">&quot;track_number&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">track_number</span><span class="p">,</span> <span class="s2">&quot;sort&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">disc_number</span><span class="si">:</span><span class="s2">02</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">track_number</span><span class="si">:</span><span class="s2">02</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tracks</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+                <span class="n">more_tracks</span> <span class="o">=</span> <span class="n">tracks</span> <span class="ow">and</span> <span class="n">tracks</span><span class="o">.</span><span class="n">next</span>
+                <span class="n">tracks</span> <span class="o">=</span> <span class="n">spotify</span><span class="o">.</span><span class="n">get_album_tracks</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">tracks</span><span class="o">.</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tracks_ids</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="s1">&#39;sort&#39;</span><span class="p">)):</span>
+                <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - </span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;disc_number&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;track_number&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="nirvana">Nirvana</h2>
+<p><strong>Bleach</strong>  _(1989-06-01)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Blew</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Floyd The Barber</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">About A Girl</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">School</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Love Buzz</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Paper Cuts</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Negative Creep</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Scoff</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Swap Meet</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Mr. Moustache</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Sifting</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Big Cheese</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Downer</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bleach (Deluxe Edition)</strong>  _(1989-06-15)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Blew</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Floyd The Barber</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">About A Girl</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">School</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Love Buzz</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Paper Cuts</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Negative Creep</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Scoff</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Swap Meet</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Mr. Moustache</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Sifting</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Big Cheese</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Downer</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Intro (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">School (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Floyd The Barber (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">Dive (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Love Buzz (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">Spank Thru (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-20</td>
+<td style="text-align: left;">Molly's Lips (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-21</td>
+<td style="text-align: left;">Sappy (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-22</td>
+<td style="text-align: left;">Scoff (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-23</td>
+<td style="text-align: left;">About A Girl (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-24</td>
+<td style="text-align: left;">Been A Son (Live at Pine Street Theatre)</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-25</td>
+<td style="text-align: left;">Blew (Live at Pine Street Theatre)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nevermind (Super Deluxe Edition)</strong>  _(1991-09-26)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Smells Like Teen Spirit</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">In Bloom</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Come As You Are</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Breed</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Lithium</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Polly</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Territorial Pissings</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Drain You</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Lounge Act</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Stay Away</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">On A Plain</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Something In The Way</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Endless, Nameless</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Even In His Youth - B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Aneurysm</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Curmudgeon</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">D-7 - Live At The BBC</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Been A Son - Live At Paramount Theatre B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">School - Live At Paramount Theatre/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-20</td>
+<td style="text-align: left;">Drain You - Live At Paramount Theatre B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-21</td>
+<td style="text-align: left;">Sliver - Live At Del Mar B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-22</td>
+<td style="text-align: left;">Polly - Live At Del Mar B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-1</td>
+<td style="text-align: left;">In Bloom - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-2</td>
+<td style="text-align: left;">Immodium (Breed) - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-3</td>
+<td style="text-align: left;">Lithium - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-4</td>
+<td style="text-align: left;">Polly - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-5</td>
+<td style="text-align: left;">Pay To Play - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-6</td>
+<td style="text-align: left;">Here She Comes Now - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-7</td>
+<td style="text-align: left;">Dive - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-8</td>
+<td style="text-align: left;">Sappy - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-9</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-10</td>
+<td style="text-align: left;">Verse Chorus Verse - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-11</td>
+<td style="text-align: left;">Territorial Pissings - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-12</td>
+<td style="text-align: left;">Lounge Act - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-13</td>
+<td style="text-align: left;">Come As You Are - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-14</td>
+<td style="text-align: left;">Old Age - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-15</td>
+<td style="text-align: left;">Something In The Way - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-16</td>
+<td style="text-align: left;">On A Plain - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-17</td>
+<td style="text-align: left;">Drain You - Live At The BBC</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-18</td>
+<td style="text-align: left;">Something In The Way - Live At The BBC</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-1</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-2</td>
+<td style="text-align: left;">In Bloom - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-3</td>
+<td style="text-align: left;">Come As You Are - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-4</td>
+<td style="text-align: left;">Breed - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-5</td>
+<td style="text-align: left;">Lithium - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-6</td>
+<td style="text-align: left;">Territorial Pissings - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-7</td>
+<td style="text-align: left;">Drain You - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-8</td>
+<td style="text-align: left;">Lounge Act - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-9</td>
+<td style="text-align: left;">Stay Away - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-10</td>
+<td style="text-align: left;">On A Plain - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-11</td>
+<td style="text-align: left;">Something In The Way - Devonshire Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-1</td>
+<td style="text-align: left;">Jesus Doesn't Want Me For A Sunbeam - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-2</td>
+<td style="text-align: left;">Aneurysm - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-3</td>
+<td style="text-align: left;">Drain You - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-4</td>
+<td style="text-align: left;">School - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-5</td>
+<td style="text-align: left;">Floyd The Barber - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-6</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-7</td>
+<td style="text-align: left;">About A Girl - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-8</td>
+<td style="text-align: left;">Polly - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-9</td>
+<td style="text-align: left;">Breed - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-10</td>
+<td style="text-align: left;">Sliver - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-11</td>
+<td style="text-align: left;">Love Buzz - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-12</td>
+<td style="text-align: left;">Lithium - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-13</td>
+<td style="text-align: left;">Been A Son - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-14</td>
+<td style="text-align: left;">Negative Creep - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-15</td>
+<td style="text-align: left;">On A Plain - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-16</td>
+<td style="text-align: left;">Blew - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-17</td>
+<td style="text-align: left;">Rape Me - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-18</td>
+<td style="text-align: left;">Territorial Pissings - Live At The Paramount</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-19</td>
+<td style="text-align: left;">Endless, Nameless - Live At The Paramount</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nevermind (Remastered)</strong>  _(1991-09-26)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Smells Like Teen Spirit</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">In Bloom</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Come As You Are</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Breed</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Lithium</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Polly</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Territorial Pissings</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Drain You</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Lounge Act</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Stay Away</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">On A Plain</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Something In The Way</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Endless, Nameless</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nevermind (Deluxe Edition)</strong>  _(1991-09-26)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Smells Like Teen Spirit</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">In Bloom</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Come As You Are</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Breed</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Lithium</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Polly</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Territorial Pissings</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Drain You</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Lounge Act</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Stay Away</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">On A Plain</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Something In The Way</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Endless, Nameless</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Even In His Youth - B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Aneurysm</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Curmudgeon</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">D-7 - Live At The BBC</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Been A Son - Live At Paramount Theatre B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">School - Live At Paramount Theatre/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-20</td>
+<td style="text-align: left;">Drain You - Live At Paramount Theatre B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-21</td>
+<td style="text-align: left;">Sliver - Live At Del Mar B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-22</td>
+<td style="text-align: left;">Polly - Live At Del Mar B-Side</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-1</td>
+<td style="text-align: left;">In Bloom - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-2</td>
+<td style="text-align: left;">Immodium (Breed) - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-3</td>
+<td style="text-align: left;">Lithium - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-4</td>
+<td style="text-align: left;">Polly - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-5</td>
+<td style="text-align: left;">Pay To Play - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-6</td>
+<td style="text-align: left;">Here She Comes Now - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-7</td>
+<td style="text-align: left;">Dive - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-8</td>
+<td style="text-align: left;">Sappy - Smart Sessions</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-9</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-10</td>
+<td style="text-align: left;">Verse Chorus Verse - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-11</td>
+<td style="text-align: left;">Territorial Pissings - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-12</td>
+<td style="text-align: left;">Lounge Act - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-13</td>
+<td style="text-align: left;">Come As You Are - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-14</td>
+<td style="text-align: left;">Old Age - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-15</td>
+<td style="text-align: left;">Something In The Way - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-16</td>
+<td style="text-align: left;">On A Plain - Boombox Rehearsals</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-17</td>
+<td style="text-align: left;">Drain You - Live At The BBC</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-18</td>
+<td style="text-align: left;">Something In The Way - Live At The BBC</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Incesticide</strong>  _(1992-12-14)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Dive</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Sliver</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Stain</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Been A Son - BBC Mark Goodier Session</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Turnaround - BBC John Peel Session 1990</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Molly's Lips - BBC John Peel Session 1990</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Son Of A Gun - BBC John Peel Session 1990</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">(New Wave) Polly - BBC Mark Goodier Session</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Beeswax</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Downer</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Mexican Seafood</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Hairspray Queen</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Aero Zeppelin</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Big Long Now</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Aneurysm</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In Utero (Super Deluxe Edition)</strong>  _(1993-09-21)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Serve The Servants</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Scentless Apprentice</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Heart-Shaped Box</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Rape Me</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Dumb</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Very Ape</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Milk It</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Pennyroyal Tea</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Tourette's</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">All Apologies</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Gallons Of Rubbing Alcohol Flow Through The Strip</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Marigold</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Moist Vagina - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Sappy - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">I Hate Myself And Want To Die - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Pennyroyal Tea - Scott Litt Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">Heart Shaped Box - Original Steve Albini 1993 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-20</td>
+<td style="text-align: left;">All Apologies - Original Steve Albini 1993 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-1</td>
+<td style="text-align: left;">Serve The Servants - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-2</td>
+<td style="text-align: left;">Scentless Apprentice - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-3</td>
+<td style="text-align: left;">Heart Shaped Box - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-4</td>
+<td style="text-align: left;">Rape Me - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-5</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-6</td>
+<td style="text-align: left;">Dumb - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-7</td>
+<td style="text-align: left;">Very Ape - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-8</td>
+<td style="text-align: left;">Milk It - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-9</td>
+<td style="text-align: left;">Pennyroyal Tea - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-10</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-11</td>
+<td style="text-align: left;">Tourette's - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-12</td>
+<td style="text-align: left;">All Apologies - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-13</td>
+<td style="text-align: left;">Scentless Apprentice - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-14</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-15</td>
+<td style="text-align: left;">Dumb - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-16</td>
+<td style="text-align: left;">Very Ape - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-17</td>
+<td style="text-align: left;">Pennyroyal Tea - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-18</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-19</td>
+<td style="text-align: left;">Tourette's - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-20</td>
+<td style="text-align: left;">Marigold - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-21</td>
+<td style="text-align: left;">All Apologies - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-22</td>
+<td style="text-align: left;">Forgotten Tune - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-23</td>
+<td style="text-align: left;">Jam - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-1</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-2</td>
+<td style="text-align: left;">Drain You - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-3</td>
+<td style="text-align: left;">Breed - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-4</td>
+<td style="text-align: left;">Serve The Servants - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-5</td>
+<td style="text-align: left;">Rape Me - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-6</td>
+<td style="text-align: left;">Sliver - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-7</td>
+<td style="text-align: left;">Pennyroyal Tea - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-8</td>
+<td style="text-align: left;">Scentless Apprentice - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-9</td>
+<td style="text-align: left;">All Apologies - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-10</td>
+<td style="text-align: left;">Heart Shaped Box - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-11</td>
+<td style="text-align: left;">Blew - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-12</td>
+<td style="text-align: left;">The Man Who Sold The World - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-13</td>
+<td style="text-align: left;">School - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-14</td>
+<td style="text-align: left;">Come As You Are - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-15</td>
+<td style="text-align: left;">Lithium - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-16</td>
+<td style="text-align: left;">About A Girl - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-17</td>
+<td style="text-align: left;">Endless, Nameless - Live &amp; Loud</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In Utero (Deluxe Edition)</strong>  _(1993-09-21)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Serve The Servants</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Scentless Apprentice</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Heart-Shaped Box</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Rape Me</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Dumb</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Very Ape</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Milk It</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Pennyroyal Tea</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Tourette's</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">All Apologies</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Gallons Of Rubbing Alcohol Flow Through The Strip</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Marigold</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Moist Vagina - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Sappy - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">I Hate Myself And Want To Die - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Pennyroyal Tea - Scott Litt Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">Heart Shaped Box - Original Steve Albini 1993 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-20</td>
+<td style="text-align: left;">All Apologies - Original Steve Albini 1993 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-1</td>
+<td style="text-align: left;">Serve The Servants - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-2</td>
+<td style="text-align: left;">Scentless Apprentice - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-3</td>
+<td style="text-align: left;">Heart Shaped Box - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-4</td>
+<td style="text-align: left;">Rape Me - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-5</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-6</td>
+<td style="text-align: left;">Dumb - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-7</td>
+<td style="text-align: left;">Very Ape - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-8</td>
+<td style="text-align: left;">Milk It - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-9</td>
+<td style="text-align: left;">Pennyroyal Tea - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-10</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-11</td>
+<td style="text-align: left;">Tourette's - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-12</td>
+<td style="text-align: left;">All Apologies - 2013 Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-13</td>
+<td style="text-align: left;">Scentless Apprentice - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-14</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-15</td>
+<td style="text-align: left;">Dumb - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-16</td>
+<td style="text-align: left;">Very Ape - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-17</td>
+<td style="text-align: left;">Pennyroyal Tea - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-18</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-19</td>
+<td style="text-align: left;">Tourette's - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-20</td>
+<td style="text-align: left;">Marigold - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-21</td>
+<td style="text-align: left;">All Apologies - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-22</td>
+<td style="text-align: left;">Forgotten Tune - Demo / Instrumental</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-23</td>
+<td style="text-align: left;">Jam - Demo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In Utero</strong>  _(1993-09-21)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Serve The Servants</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Scentless Apprentice</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Heart-Shaped Box</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Rape Me</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Dumb</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Very Ape</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Milk It</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Pennyroyal Tea</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Tourette's</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">All Apologies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>MTV Unplugged In New York (25th Anniversary)</strong>  _(1994-11-01)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">About A Girl - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Come As You Are - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Jesus Doesn't Want Me For A Sunbeam - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">The Man Who Sold The World - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Pennyroyal Tea - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Dumb - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Polly - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">On A Plain - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Something In The Way - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Plateau - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Oh Me - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Lake Of Fire - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">All Apologies - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Where Did You Sleep Last Night - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Come As You Are - Rehearsal</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Polly - Rehearsal</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">Plateau - Rehearsal</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Pennyroyal Tea - Rehearsal</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">The Man Who Sold The World - Rehearsal</td>
+</tr>
+</tbody>
+</table>
+<p><strong>MTV Unplugged In New York</strong>  _(1994-11-01)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">About A Girl - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Come As You Are - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Jesus Doesn't Want Me For A Sunbeam - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">The Man Who Sold The World - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Pennyroyal Tea - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Dumb - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Polly - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">On A Plain - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Something In The Way - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Plateau - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Oh Me - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Lake Of Fire - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">All Apologies - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Where Did You Sleep Last Night - Live</td>
+</tr>
+</tbody>
+</table>
+<p><strong>From The Muddy Banks Of The Wishkah (Live)</strong>  _(1996-10-01)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Intro - Live At London Astoria, UK, December 3, 1989</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">School - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Drain You - Live At Del Mar Fairgrounds, CA., December 28, 1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Aneurysm - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Been A Son - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Lithium - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Sliver - Live In Springfield, MA., November 10, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Spank Thru - Live In Rome, Italy, November 19, 1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Scentless Apprentice - Live In Seattle, WA., December 13, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Heart-Shaped Box - Live In Los Angeles, CA, December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Milk It - Live In Seattle, WA., January 5, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Negative Creep - Live In Seattle, WA., October 31, 1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Polly - Live At London Astoria, UK, December 3, 1989</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Breed - Live At London Astoria, UK, December 3, 1989</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Tourette's - Live At Reading Festival, UK, August 30, 1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">Blew - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nirvana</strong>  _(2002-10-29)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">You Know You're Right</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">About A Girl</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Been A Son - Blew EP Version</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Sliver</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Smells Like Teen Spirit</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Come As You Are</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Lithium</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">In Bloom</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Heart-Shaped Box</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Pennyroyal Tea - Single Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Rape Me</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Dumb</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">All Apologies - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">The Man Who Sold The World - Live</td>
+</tr>
+</tbody>
+</table>
+<p><strong>With The Lights Out - Box Set</strong>  _(2004-11-23)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Heartbreaker - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Anorexorcist - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">White Lace And Strange - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Help Me, I'm Hungry - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Mrs. Butterworth - 1988 Rehearsal</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">If You Must - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Pen Cap Chew - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Downer - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Floyd The Barber - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Raunchola/Moby Dick - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Beans - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Don't Want It All - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Clean Up Before She Comes - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Polly - Solo Acoustic Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">About A Girl - Home Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Blandest - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">Dive - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">They Hung Him On A Cross - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">Grey Goose - Instrumental Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-20</td>
+<td style="text-align: left;">Ain't It A Shame - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-21</td>
+<td style="text-align: left;">Token Eastern Song - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-22</td>
+<td style="text-align: left;">Even In His Youth - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-23</td>
+<td style="text-align: left;">Polly - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-1</td>
+<td style="text-align: left;">Opinion - Live Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-2</td>
+<td style="text-align: left;">Lithium - Live Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-3</td>
+<td style="text-align: left;">Been A Son - Live Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-4</td>
+<td style="text-align: left;">Sliver - Solo Acoustic Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-5</td>
+<td style="text-align: left;">Where Did You Sleep Last Night - Solo Acoustic Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-6</td>
+<td style="text-align: left;">Pay To Play - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-7</td>
+<td style="text-align: left;">Here She Comes Now - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-8</td>
+<td style="text-align: left;">Drain You - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-9</td>
+<td style="text-align: left;">Aneurysm</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-10</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Rehearsal Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-11</td>
+<td style="text-align: left;">Breed - Rough Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-12</td>
+<td style="text-align: left;">Verse Chorus Verse - Outtake</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-13</td>
+<td style="text-align: left;">Old Age - Nevermind Outtake</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-14</td>
+<td style="text-align: left;">Endless, Nameless - 1991 Radio Appearance</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-15</td>
+<td style="text-align: left;">Dumb - 1991 Radio Appearance</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-16</td>
+<td style="text-align: left;">D-7 - 1990 Radio Appearance</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-17</td>
+<td style="text-align: left;">Oh The Guilt</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-18</td>
+<td style="text-align: left;">Curmudgeon</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-19</td>
+<td style="text-align: left;">Return Of The Rat - Outtake</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-20</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Butch Vig Mix</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-1</td>
+<td style="text-align: left;">Rape Me - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-2</td>
+<td style="text-align: left;">Rape Me - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-3</td>
+<td style="text-align: left;">Scentless Apprentice - Rehearsal Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-4</td>
+<td style="text-align: left;">Heart Shaped Box - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-5</td>
+<td style="text-align: left;">I Hate Myself And Want To Die - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-6</td>
+<td style="text-align: left;">Milk It - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-7</td>
+<td style="text-align: left;">Moist Vagina - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-8</td>
+<td style="text-align: left;">Gallons Of Rubbing Alcohol Flow Through The Strip</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-9</td>
+<td style="text-align: left;">The Other Improv - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-10</td>
+<td style="text-align: left;">Serve The Servants - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-11</td>
+<td style="text-align: left;">Very Ape - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-12</td>
+<td style="text-align: left;">Pennyroyal Tea - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-13</td>
+<td style="text-align: left;">Marigold</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-14</td>
+<td style="text-align: left;">Sappy</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-15</td>
+<td style="text-align: left;">Jesus Doesn't Want Me For A Sunbeam - Rehearsal Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-16</td>
+<td style="text-align: left;">Do Re Mi - Home Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-17</td>
+<td style="text-align: left;">You Know You're Right - Home Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-18</td>
+<td style="text-align: left;">All Apologies - Home Demo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sliver - The Best Of The Box</strong>  _(2005-01-01)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Spank Thru - 1985 Fecal Matter Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Heartbreaker - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Mrs. Butterworth - 1988 Rehearsal</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Floyd The Barber - Live</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Clean Up Before She Comes - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">About A Girl - Home Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Blandest - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Ain't It A Shame - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Sappy - 1990 Studio Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Opinion - Live Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Lithium - Live Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Sliver - Solo Acoustic Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Rehearsal Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Come As You Are - Boom Box Version</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Old Age - Nevermind Outtake</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Oh The Guilt</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">Rape Me - Solo Acoustic</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Rape Me - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">Heart Shaped Box - Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-20</td>
+<td style="text-align: left;">Do Re Mi - Home Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-21</td>
+<td style="text-align: left;">You Know You're Right - Home Demo</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-22</td>
+<td style="text-align: left;">All Apologies - Home Demo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Live at Reading</strong>  _(2009-01-01)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Breed - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Drain You - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Aneurysm - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">School - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Sliver - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">In Bloom - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Come As You Are - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Lithium - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">About A Girl - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Tourette's - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Polly - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Lounge Act - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Smells Like Teen Spirit - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">On A Plain - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Negative Creep - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Been A Son - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">All Apologies - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Blew - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">Dumb - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-20</td>
+<td style="text-align: left;">Stay Away - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-21</td>
+<td style="text-align: left;">Spank Thru - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-22</td>
+<td style="text-align: left;">The Money Will Roll Right In - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-23</td>
+<td style="text-align: left;">D-7 - 1992/Live at Reading</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-24</td>
+<td style="text-align: left;">Territorial Pissings - 1992/Live at Reading</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Live At The Paramount</strong>  _(2019-04-12)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Jesus Doesn't Want Me For A Sunbeam - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Aneurysm - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Drain You - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">School - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Floyd The Barber - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">About A Girl - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Polly - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Breed - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Sliver - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Love Buzz - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Lithium - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Been A Son - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Negative Creep - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">On A Plain - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Blew - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">Rape Me - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-18</td>
+<td style="text-align: left;">Territorial Pissings - Live At The Paramount/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-19</td>
+<td style="text-align: left;">Endless, Nameless - Live At The Paramount/1991</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Live And Loud</strong>  _(2019-07-26)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Drain You - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Breed - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Serve The Servants - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Rape Me - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Sliver - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Pennyroyal Tea - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Scentless Apprentice - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">All Apologies - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Heart Shaped Box - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">Blew - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">The Man Who Sold The World - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">School - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Come As You Are - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Lithium - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">About A Girl - Live &amp; Loud</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">Endless, Nameless - Live &amp; Loud</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Breed (Live In Amsterdam, Netherlands/1991)</strong>  _(2021-09-23)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Breed - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lithium / Breed (Live)</strong>  _(2021-10-08)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Lithium - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Breed - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+</tbody>
+</table>
+<p><strong>On A Plain / Lithium / Breed (Live)</strong>  _(2021-10-22)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">On A Plain - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Lithium - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Breed - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In Bloom / On A Plain / Lithium / Breed</strong>  _(2021-11-05)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">In Bloom - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">On A Plain - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Lithium - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Breed - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Smells Like Teen Spirit / In Bloom / On A Plain / Lithium / Breed</strong>  _(2021-11-10)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">In Bloom - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">On A Plain - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Lithium - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Breed - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nevermind (30th Anniversary Super Deluxe)</strong>  _(2021-11-12)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">In Bloom - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Come As You Are - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Breed - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Lithium - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Polly - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Territorial Pissings - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Drain You - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Lounge Act - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Stay Away - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">On A Plain - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">Something In The Way - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Endless, Nameless - Remastered 2021</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-1</td>
+<td style="text-align: left;">Drain You - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-2</td>
+<td style="text-align: left;">Aneurysm - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-3</td>
+<td style="text-align: left;">School - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-4</td>
+<td style="text-align: left;">Floyd The Barber - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-5</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-6</td>
+<td style="text-align: left;">About A Girl - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-7</td>
+<td style="text-align: left;">Polly - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-8</td>
+<td style="text-align: left;">Lithium - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-9</td>
+<td style="text-align: left;">Sliver - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-10</td>
+<td style="text-align: left;">Breed - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-11</td>
+<td style="text-align: left;">Come As You Are - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-12</td>
+<td style="text-align: left;">Been A Son - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-13</td>
+<td style="text-align: left;">Negative Creep - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-14</td>
+<td style="text-align: left;">On A Plain - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-15</td>
+<td style="text-align: left;">Blew - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-16</td>
+<td style="text-align: left;">Love Buzz - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-17</td>
+<td style="text-align: left;">Territorial Pissings - Live In Amsterdam, Netherlands/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-1</td>
+<td style="text-align: left;">Drain You - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-2</td>
+<td style="text-align: left;">Aneurysm - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-3</td>
+<td style="text-align: left;">School - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-4</td>
+<td style="text-align: left;">Floyd The Barber - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-5</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-6</td>
+<td style="text-align: left;">About A Girl - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-7</td>
+<td style="text-align: left;">Polly - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-8</td>
+<td style="text-align: left;">Sliver - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-9</td>
+<td style="text-align: left;">Breed - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-10</td>
+<td style="text-align: left;">Come As You Are - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-11</td>
+<td style="text-align: left;">Lithium - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-12</td>
+<td style="text-align: left;">Territorial Pissings - Live In Del Mar, California/1991</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-1</td>
+<td style="text-align: left;">Aneurysm - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-2</td>
+<td style="text-align: left;">Drain You - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-3</td>
+<td style="text-align: left;">School - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-4</td>
+<td style="text-align: left;">Sliver - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-5</td>
+<td style="text-align: left;">About A Girl - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-6</td>
+<td style="text-align: left;">Come As You Are - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-7</td>
+<td style="text-align: left;">Lithium - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-8</td>
+<td style="text-align: left;">Breed - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-9</td>
+<td style="text-align: left;">Polly - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-10</td>
+<td style="text-align: left;">Lounge Act - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-11</td>
+<td style="text-align: left;">In Bloom - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-12</td>
+<td style="text-align: left;">Love Buzz - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-13</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-14</td>
+<td style="text-align: left;">Feedback Jam - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-15</td>
+<td style="text-align: left;">Negative Creep - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-16</td>
+<td style="text-align: left;">On A Plain - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">4-17</td>
+<td style="text-align: left;">Blew - Live In Melbourne, Australia For Triple J/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-1</td>
+<td style="text-align: left;">Negative Creep - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-2</td>
+<td style="text-align: left;">Been A Son - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-3</td>
+<td style="text-align: left;">On A Plain - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-4</td>
+<td style="text-align: left;">Blew - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-5</td>
+<td style="text-align: left;">Come As You Are - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-6</td>
+<td style="text-align: left;">Lithium - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-7</td>
+<td style="text-align: left;">Breed - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-8</td>
+<td style="text-align: left;">Sliver - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-9</td>
+<td style="text-align: left;">Drain You - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-10</td>
+<td style="text-align: left;">About A Girl - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-11</td>
+<td style="text-align: left;">School - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-12</td>
+<td style="text-align: left;">Aneurysm - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-13</td>
+<td style="text-align: left;">Love Buzz - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-14</td>
+<td style="text-align: left;">Polly - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-15</td>
+<td style="text-align: left;">Territorial Pissings - Live In Tokyo, Japan/1992</td>
+</tr>
+<tr>
+<td style="text-align: center;">5-16</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live In Tokyo, Japan/1992</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In Utero 30th Live</strong>  _(2023-09-29)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">All Apologies - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Pennyroyal Tea - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Scentless Apprentice - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In Utero (30th Anniversary Super Deluxe)</strong>  _(2023-10-27)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Disc - Track</th>
+<th style="text-align: left;">Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-1</td>
+<td style="text-align: left;">Serve The Servants - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td style="text-align: left;">Scentless Apprentice - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-3</td>
+<td style="text-align: left;">Heart-Shaped Box - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-4</td>
+<td style="text-align: left;">Rape Me - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-5</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-6</td>
+<td style="text-align: left;">Dumb - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-7</td>
+<td style="text-align: left;">Very Ape - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-8</td>
+<td style="text-align: left;">Milk It - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-9</td>
+<td style="text-align: left;">Pennyroyal Tea - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-10</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-11</td>
+<td style="text-align: left;">tourette's - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-12</td>
+<td style="text-align: left;">All Apologies - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-13</td>
+<td style="text-align: left;">Gallons Of Rubbing Alcohol Flow Through The Strip - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-14</td>
+<td style="text-align: left;">Marigold - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-15</td>
+<td style="text-align: left;">Sappy - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-16</td>
+<td style="text-align: left;">Moist Vagina - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">1-17</td>
+<td style="text-align: left;">I Hate Myself And Want To Die - 2023 Remaster</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-1</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-2</td>
+<td style="text-align: left;">Drain You - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-3</td>
+<td style="text-align: left;">Breed - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-4</td>
+<td style="text-align: left;">Serve The Servants - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-5</td>
+<td style="text-align: left;">Come As You Are - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-6</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-7</td>
+<td style="text-align: left;">Sliver - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-8</td>
+<td style="text-align: left;">Dumb - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-9</td>
+<td style="text-align: left;">In Bloom - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-10</td>
+<td style="text-align: left;">About A Girl - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-11</td>
+<td style="text-align: left;">Lithium - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-12</td>
+<td style="text-align: left;">Pennyroyal Tea - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-13</td>
+<td style="text-align: left;">School - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-14</td>
+<td style="text-align: left;">Polly - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-15</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-16</td>
+<td style="text-align: left;">Rape Me - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-17</td>
+<td style="text-align: left;">Territorial Pissings - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-18</td>
+<td style="text-align: left;">Jesus Doesn't Want Me For A Sunbeam - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-19</td>
+<td style="text-align: left;">The Man Who Sold The World - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-20</td>
+<td style="text-align: left;">All Apologies - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-21</td>
+<td style="text-align: left;">On A Plain - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-22</td>
+<td style="text-align: left;">Heart-Shaped Box - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-23</td>
+<td style="text-align: left;">Blew - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">2-24</td>
+<td style="text-align: left;">Feedback Jam - Live In Los Angeles, Great Western Forum - December 30, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-1</td>
+<td style="text-align: left;">Radio Friendly Unit Shifter - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-2</td>
+<td style="text-align: left;">Drain You - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-3</td>
+<td style="text-align: left;">Breed - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-4</td>
+<td style="text-align: left;">Serve The Servants - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-5</td>
+<td style="text-align: left;">Come As You Are - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-6</td>
+<td style="text-align: left;">Smells Like Teen Spirit - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-7</td>
+<td style="text-align: left;">Sliver - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-8</td>
+<td style="text-align: left;">Dumb - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-9</td>
+<td style="text-align: left;">In Bloom - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-10</td>
+<td style="text-align: left;">About A Girl - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-11</td>
+<td style="text-align: left;">Lithium - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-12</td>
+<td style="text-align: left;">Pennyroyal Tea - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-13</td>
+<td style="text-align: left;">School - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-14</td>
+<td style="text-align: left;">Polly - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-15</td>
+<td style="text-align: left;">Frances Farmer Will Have Her Revenge On Seattle - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-16</td>
+<td style="text-align: left;">Milk It - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-17</td>
+<td style="text-align: left;">Rape Me - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-18</td>
+<td style="text-align: left;">Territorial Pissings - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-19</td>
+<td style="text-align: left;">Jesus Doesn't Want Me For A Sunbeam - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-20</td>
+<td style="text-align: left;">The Man Who Sold The World - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-21</td>
+<td style="text-align: left;">All Apologies - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-22</td>
+<td style="text-align: left;">On A Plain - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-23</td>
+<td style="text-align: left;">Scentless Apprentice - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-24</td>
+<td style="text-align: left;">Heart-Shaped Box - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-25</td>
+<td style="text-align: left;">Blew - Live In Seattle, Seattle Center Arena - January 7, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-26</td>
+<td style="text-align: left;">Serve The Servants - Live In Rome, Palaghiaccio Di Marino - February 22, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-27</td>
+<td style="text-align: left;">Scentless Apprentice - Live In Rome, Palaghiaccio Di Marino - February 22, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-28</td>
+<td style="text-align: left;">Heart-Shaped Box - Live In Rome, Palaghiaccio Di Marino - February 22, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-29</td>
+<td style="text-align: left;">Very Ape - Live In Rome, Palaghiaccio Di Marino - February 22, 1994</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-30</td>
+<td style="text-align: left;">Milk It - Live In Springfield, Springfield Civic Center - November 10, 1993</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-31</td>
+<td style="text-align: left;">tourette's - Live In New York, Roseland Ballroom - July 23, 1993</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 <a href="https://github.com/acpirience"  target="_blank" rel="noopener">Acpirience</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
+      
+    
+  </body>
+</html>

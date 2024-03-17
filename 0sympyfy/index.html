@@ -1,0 +1,3645 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../1structs/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
+    
+    
+      
+        <title>Sympyfy API - Sympyfy Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sympyfy-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Sympyfy Documentation" class="md-header__button md-logo" aria-label="Sympyfy Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Sympyfy Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sympyfy API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  Sympyfy API
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../1structs/" class="md-tabs__link">
+        
+  
+    
+  
+  Sympyfy Structures
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../8demo/" class="md-tabs__link">
+        
+  
+    
+  
+  API DEMO with APP auth
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../9status/" class="md-tabs__link">
+        
+  
+    
+  
+  Spotify Api Implementation status
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Sympyfy Documentation" class="md-nav__button md-logo" aria-label="Sympyfy Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Sympyfy Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Sympyfy API
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Sympyfy API
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      CREDENTIALS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CREDENTIALS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.load_credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;load_credentials
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#artists" class="md-nav__link">
+    <span class="md-ellipsis">
+      ARTISTS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ARTISTS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_artist" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_artist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_several_artists" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_several_artists
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_artist_albums" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_artist_albums
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_artist_top_tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_artist_top_tracks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_artist_related_artists" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_artist_related_artists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#albums" class="md-nav__link">
+    <span class="md-ellipsis">
+      ALBUMS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ALBUMS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_album" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_album
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_several_albums" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_several_albums
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_album_tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_album_tracks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_new_releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_new_releases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      CATEGORIES
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CATEGORIES">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_browse_category" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_browse_category
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_several_browse_categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_several_browse_categories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#genres" class="md-nav__link">
+    <span class="md-ellipsis">
+      GENRES
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GENRES">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.genres" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;genres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_genres" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_genres
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markets" class="md-nav__link">
+    <span class="md-ellipsis">
+      MARKETS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MARKETS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.markets" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;markets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_markets" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_markets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#playlists" class="md-nav__link">
+    <span class="md-ellipsis">
+      PLAYLISTS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PLAYLISTS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_playlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_playlist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_playlists_by_category" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_playlists_by_category
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_playlist_cover_image" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_playlist_cover_image
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search" class="md-nav__link">
+    <span class="md-ellipsis">
+      SEARCH
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SEARCH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_search" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_search
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      SHOWS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SHOWS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_show" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_show
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_several_shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_several_shows
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_show_episodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_show_episodes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      TRACKS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TRACKS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_track" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_track
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_several_tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_several_tracks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_track_audio_features" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_track_audio_features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_several_track_audio_features" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_several_track_audio_features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_track_audio_analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_track_audio_analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_track_recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_track_recommendations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      USERS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="USERS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_user_profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_user_profile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sympyfy.Sympyfy.get_users_follow_playlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_users_follow_playlist
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1structs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sympyfy Structures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8demo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API DEMO with APP auth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9status/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spotify Api Implementation status
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="sympyfy-api">Sympyfy API</h1>
+<h2 id="credentials">CREDENTIALS</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.load_credentials" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">load_credentials</span><span class="p">(</span><span class="n">auth_type</span><span class="o">=</span><span class="n">Auth_type</span><span class="o">.</span><span class="n">APP</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Load Spotify credential request for an Access Token. If parameters are provided, they will be used; else environment variables will be used, else we will try in the .env file<br>
+See: <a href="https://developer.spotify.com/documentation/web-api/concepts/access-token">https://developer.spotify.com/documentation/web-api/concepts/access-token</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>auth_type</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.access_token.Auth_type" href="../1structs/#sympyfy.access_token.Auth_type">Auth_type</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Authentication type: APP (client_id/secret) or USER (Oauth2 via Authorization code flow)</p>
+            </div>
+          </td>
+          <td>
+                <code><span title="sympyfy.access_token.Auth_type.APP">APP</span></code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>client_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Client Id of the application, provided by Spotify.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>client_secret</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Client secret of the application, provided by Spotify.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>scope</code></td>
+          <td>
+                <code>list[str] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>the rights asked given to the app when a USER connection is used. Must be a valid list af scopes. See <a href="https://developer.spotify.com/documentation/web-api/concepts/scopes">https://developer.spotify.com/documentation/web-api/concepts/scopes</a></p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="artists">ARTISTS</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_artist" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_artist</span><span class="p">(</span><span class="n">artist_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns an Artist Object specified by its id<br>
+See: <a href="https://developer.spotify.com/documentation/web-api/reference/get-an-artist">https://developer.spotify.com/documentation/web-api/reference/get-an-artist</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>artist_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Spotify id of the artist</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Artist" href="../1structs/#sympyfy.api_structures.Artist">Artist</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Artist object or None if id does not match an artist</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_several_artists" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_several_artists</span><span class="p">(</span><span class="n">artist_ids</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns a list of Artist Objects specified by a list of their ids<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists">https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>artist_ids</code></td>
+          <td>
+                <code>list[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of artists ids</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[<a class="autorefs autorefs-internal" title="sympyfy.api_structures.Artist" href="../1structs/#sympyfy.api_structures.Artist">Artist</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of Artist objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_artist_albums" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_artist_albums</span><span class="p">(</span><span class="n">artist_id</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_groups</span><span class="o">=</span><span class="n">INCLUDE_GROUPS</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get Spotify catalog information about an artist's albums.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums">https://developer.spotify.com/documentation/web-api/reference/get-an-artists-albums</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>artist_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The Spotify ID of the artist.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>include_groups</code></td>
+          <td>
+                <code>list[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A list of keywords that will be used to filter the response. Valid values are: album, single, appears_on, compilation.</p>
+            </div>
+          </td>
+          <td>
+                <code><span title="sympyfy.consts.INCLUDE_GROUPS">INCLUDE_GROUPS</span></code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.</p>
+            </div>
+          </td>
+          <td>
+                <code>20</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>offset</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Navigation" href="../1structs/#sympyfy.api_structures.Navigation">Navigation</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A Navigation Object of Album Objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_artist_top_tracks" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_artist_top_tracks</span><span class="p">(</span><span class="n">artist_id</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns a list of top Track Objects related to the artist specified by its id in a given market<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks">https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>artist_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Spotify id of the artist</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[<a class="autorefs autorefs-internal" title="sympyfy.api_structures.Track" href="../1structs/#sympyfy.api_structures.Track">Track</a>] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of Tracks objects or None if id does not match an artist</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_artist_related_artists" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_artist_related_artists</span><span class="p">(</span><span class="n">artist_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns a list of Artist Objects related to the artist specified by its id<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists">https://developer.spotify.com/documentation/web-api/reference/get-an-artists-related-artists</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>artist_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Spotify id of the artist</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[<a class="autorefs autorefs-internal" title="sympyfy.api_structures.Artist" href="../1structs/#sympyfy.api_structures.Artist">Artist</a>] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of Artist objects or None if id does not match an artist</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="albums">ALBUMS</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_album" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_album</span><span class="p">(</span><span class="n">album_id</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns the details of an album specified by its id<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-an-album">https://developer.spotify.com/documentation/web-api/reference/get-an-album</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>album_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Spotify id of the album</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Market to search in²</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Album" href="../1structs/#sympyfy.api_structures.Album">Album</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Album object or None if id does not match a track</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_several_albums" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_several_albums</span><span class="p">(</span><span class="n">album_ids</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns a list of Album Objects specified by a list of their ids<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums">https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>album_ids</code></td>
+          <td>
+                <code>list[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of albums ids</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Market to search in</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[<a class="autorefs autorefs-internal" title="sympyfy.api_structures.Album" href="../1structs/#sympyfy.api_structures.Album">Album</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of Albums objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_album_tracks" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_album_tracks</span><span class="p">(</span><span class="n">album_id</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns a list of track Objects related to the album specified by its id in a given market. Result is paginated.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks">https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>album_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Spotify id of the artist</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>ISO 2 character country code of the market</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Maximum number of tracks appearing</p>
+            </div>
+          </td>
+          <td>
+                <code>20</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>offset</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Index of first track to return</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Navigation" href="../1structs/#sympyfy.api_structures.Navigation">Navigation</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A Navigation Object of Track Objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_new_releases" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_new_releases</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-new-releases">https://developer.spotify.com/documentation/web-api/reference/get-new-releases</a></p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Navigation" href="../1structs/#sympyfy.api_structures.Navigation">Navigation</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A Navigation object of Track Objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="categories">CATEGORIES</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_browse_category" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_browse_category</span><span class="p">(</span><span class="n">category_id</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-a-category">https://developer.spotify.com/documentation/web-api/reference/get-a-category</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>category_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The Spotify category ID for the category.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>locale</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The desired language, consisting of an ISO 639-1 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore. For example: es_MX, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note: if locale is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Category" href="../1structs/#sympyfy.api_structures.Category">Category</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>a Category object or None if its the id is unknown</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_several_browse_categories" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_several_browse_categories</span><span class="p">(</span><span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-categories">https://developer.spotify.com/documentation/web-api/reference/get-categories</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>locale</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The desired language, consisting of an ISO 639-1 language code and an ISO 3166-1 alpha-2 country code, joined by an underscore. For example: es_MX, meaning "Spanish (Mexico)". Provide this parameter if you want the category strings returned in a particular language. Note: if locale is not supplied, or if the specified language is not available, the category strings returned will be in the Spotify default language (American English).</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The maximum number of Categories to return. Default: 20. Minimum: 1. Maximum: 50.</p>
+            </div>
+          </td>
+          <td>
+                <code>20</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>offset</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The index of the first Category to return. Default: 0 (the first Category). Use with limit to get the next set of Categories.</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Navigation" href="../1structs/#sympyfy.api_structures.Navigation">Navigation</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>a Navigation Object of Category Objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="genres">GENRES</h2>
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="sympyfy.Sympyfy.genres" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">genres</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Retrieve a list of available genres seed parameter values for recommendations.<br>
+This is the preferred way to get this information since it is lazy loaded from the api via the method <a href="./#sympyfy.Sympyfy.get_genres">get_markets</a>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres">https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres</a></p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>set[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of genres seeds. Example: ["alternative","samba"]</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_genres" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_genres</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Retrieve a list of available genres seed parameter values for recommendations.<br>
+Please use the <a href="./#sympyfy.Sympyfy.genres">genres property</a>, this method is public only to match the Spotify API<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres">https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres</a></p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>set[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of genres seeds. Example: ["alternative","samba"]</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="markets">MARKETS</h2>
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="sympyfy.Sympyfy.markets" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">markets</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns the list of markets where Spotify is available.<br>
+This is the preferred way to get this information since it is lazy loaded from the api via the method <a href="./#sympyfy.Sympyfy.get_markets">get_markets</a>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-available-markets">https://developer.spotify.com/documentation/web-api/reference/get-available-markets</a><br>
+<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</a></p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>set[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of ISO 3166-1 alpha-2 country codes</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_markets" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_markets</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns the list of markets where Spotify is available.<br>
+Please use the <a href="./#sympyfy.Sympyfy.markets">markets property</a>, this method is public only to match the Spotify API<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-available-markets">https://developer.spotify.com/documentation/web-api/reference/get-available-markets</a><br>
+<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</a></p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>set[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of ISO 3166-1 alpha-2 country codes</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="playlists">PLAYLISTS</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_playlist" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_playlist</span><span class="p">(</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">additional_types</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get a playlist owned by a Spotify user.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-playlist">https://developer.spotify.com/documentation/web-api/reference/get-playlist</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>playlist_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The Spotify ID of the playlist.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fields</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Filters for the query: a comma-separated list of the fields to return. If omitted, all fields are returned. For example, to get just the playlist''s description and URI: fields=description,uri. A dot separator can be used to specify non-reoccurring fields, while parentheses can be used to specify reoccurring fields within objects. For example, to get just the added date and user ID of the adder: fields=tracks.items(added_at,added_by.id). Use multiple parentheses to drill down into nested objects, for example: fields=tracks.items(track(name,href,album(name,href))). Fields can be excluded by prefixing them with an exclamation mark, for example: fields=tracks.items(track(name,href,album(!name,href)))<br>
+Example: fields=items(added_by.id,track(name,href,album(name,href)))</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>additional_types</code></td>
+          <td>
+                <code>list[str] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A comma-separated list of item types that your client supports besides the default track type. Valid types are: track and episode.<br>
+Note: This parameter was introduced to allow existing clients to maintain their current behaviour and might be deprecated in the future.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Playlist" href="../1structs/#sympyfy.api_structures.Playlist">Playlist</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Playlist Object</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_playlists_by_category" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_playlists_by_category</span><span class="p">(</span><span class="n">category_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get a list of Spotify playlists tagged with a particular category.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover">https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>category_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The Spotify category ID for the category.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.</p>
+            </div>
+          </td>
+          <td>
+                <code>20</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>offset</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>tuple[str, <a class="autorefs autorefs-internal" title="sympyfy.api_structures.Navigation" href="../1structs/#sympyfy.api_structures.Navigation">Navigation</a>] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A string containing the localized message of a playlist and a Navigation Object of Playlist Objects.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_playlist_cover_image" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_playlist_cover_image</span><span class="p">(</span><span class="n">playlist_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get the current image associated with a specific playlist.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover">https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>playlist_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The Spotify ID of the playlist.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[<a class="autorefs autorefs-internal" title="sympyfy.api_structures.Image" href="../1structs/#sympyfy.api_structures.Image">Image</a>] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>List of Image Objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="search">SEARCH</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_search" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_search</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">include_external</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get Spotify catalog information about albums, artists, playlists, tracks, shows, episodes or audiobooks that match a keyword string. Audiobooks are only available within the US, UK, Canada, Ireland, New Zealand and Australia markets.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/search">https://developer.spotify.com/documentation/web-api/reference/search</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>q</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Your search query.<br>You can narrow down your search using field filters. The available filters are album, artist, track, year, upc, tag:hipster, tag:new, isrc, and genre. Each field filter only applies to certain result types.<br>
+The artist and year filters can be used while searching albums, artists and tracks. You can filter on a single year or a range (e.g. 1955-1960).<br>
+The album filter can be used while searching albums and tracks.<br>
+The genre filter can be used while searching artists and tracks.<br>
+The isrc and track filters can be used while searching tracks.<br>
+The upc, tag:new and tag:hipster filters can only be used while searching albums. The tag:new filter will return albums released in the past two weeks and tag:hipster can be used to return only albums with the lowest 10% popularity.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>type</code></td>
+          <td>
+                <code>list[str] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A comma-separated list of item types to search across. Search results include hits from all the specified item types. For example: q=abacab&amp;type=album,track returns both albums and tracks matching "abacab". Allowed values: "album", "artist", "playlist", "track", "show", "episode", "audiobook"</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter. Note: If neither market or user country are provided, the content is considered unavailable for the client. Users can view the country that is associated with their account in the account settings.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.</p>
+            </div>
+          </td>
+          <td>
+                <code>20</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>offset</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>include_external</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>If include_external=audio is specified it signals that the client can play externally hosted audio content, and marks the content as playable in the response. By default externally hosted audio content is marked as unplayable in the response.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;&#39;</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Search" href="../1structs/#sympyfy.api_structures.Search">Search</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An Search Object</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="shows">SHOWS</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_show" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_show</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get Spotify catalog information for a single show identified by its unique Spotify ID.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-a-show">https://developer.spotify.com/documentation/web-api/reference/get-a-show</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>show_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Spotify id of the track</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Show" href="../1structs/#sympyfy.api_structures.Show">Show</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Show object or None if id does not match a show</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_several_shows" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_several_shows</span><span class="p">(</span><span class="n">show_ids</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get Spotify catalog information for several shows based on their Spotify IDs.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-multiple-shows">https://developer.spotify.com/documentation/web-api/reference/get-multiple-shows</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>show_ids</code></td>
+          <td>
+                <code>list[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A list of the Spotify IDs for the shows. Maximum: 50 IDs.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[<a class="autorefs autorefs-internal" title="sympyfy.api_structures.Show" href="../1structs/#sympyfy.api_structures.Show">Show</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of Show objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_show_episodes" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_show_episodes</span><span class="p">(</span><span class="n">show_id</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get Spotify catalog information about an show’s episodes. Optional parameters can be used to limit the number of episodes returned.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-a-shows-episodes">https://developer.spotify.com/documentation/web-api/reference/get-a-shows-episodes</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>show_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The Spotify ID for the show.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.</p>
+            </div>
+          </td>
+          <td>
+                <code>20</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>offset</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.</p>
+            </div>
+          </td>
+          <td>
+                <code>0</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Navigation" href="../1structs/#sympyfy.api_structures.Navigation">Navigation</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A navigation Objet of Show Objects or None if id does not match a show</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="tracks">TRACKS</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_track" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_track</span><span class="p">(</span><span class="n">track_id</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get Spotify catalog information for a single track identified by its unique Spotify ID.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-track">https://developer.spotify.com/documentation/web-api/reference/get-track</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>track_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Spotify id of the track</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Track" href="../1structs/#sympyfy.api_structures.Track">Track</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Track object or None if id does not match a track</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_several_tracks" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_several_tracks</span><span class="p">(</span><span class="n">track_ids</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns a list of Track Objects specified by a list of their ids<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-several-tracks">https://developer.spotify.com/documentation/web-api/reference/get-several-tracks</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>track_ids</code></td>
+          <td>
+                <code>list[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of tracks ids</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Market to search in</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[<a class="autorefs autorefs-internal" title="sympyfy.api_structures.Track" href="../1structs/#sympyfy.api_structures.Track">Track</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of Tracks objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_track_audio_features" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_track_audio_features</span><span class="p">(</span><span class="n">track_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns a Audio_features Object specified by its ids<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-audio-features">https://developer.spotify.com/documentation/web-api/reference/get-audio-features</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>track_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Spotify id of the track</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Audio_features" href="../1structs/#sympyfy.api_structures.Audio_features">Audio_features</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>List of Audio_features object</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_several_track_audio_features" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_several_track_audio_features</span><span class="p">(</span><span class="n">track_ids</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>returns a list of Audio_features Object specified by a list of their ids<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-several-audio-features">https://developer.spotify.com/documentation/web-api/reference/get-several-audio-features</a></p>
+<p>Parameters
+    track_ids: list of tracks ids</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[<a class="autorefs autorefs-internal" title="sympyfy.api_structures.Audio_features" href="../1structs/#sympyfy.api_structures.Audio_features">Audio_features</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>List of Audio_features objects</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_track_audio_analysis" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_track_audio_analysis</span><span class="p">(</span><span class="n">track_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get a low-level audio analysis for a track in the Spotify catalog. The audio analysis describes the track’s structure and musical content, including rhythm, pitch, and timbre.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-audio-analysis">https://developer.spotify.com/documentation/web-api/reference/get-audio-analysis</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>track_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The Spotify ID for the track.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Audio_analysis" href="../1structs/#sympyfy.api_structures.Audio_analysis">Audio_analysis</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An Audio analysis Object</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_track_recommendations" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_track_recommendations</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">seed_artists</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed_genres</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed_tracks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tunable_track_attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Recommendations are generated based on the available information for a given seed entity and matched against similar artists and tracks. If there is sufficient information about the provided seeds, a list of tracks will be returned together with pool size details.<br>
+For artists and tracks that are very new or obscure there might not be enough data to generate a list of tracks.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-recommendations">https://developer.spotify.com/documentation/web-api/reference/get-recommendations</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>market</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned. If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The target size of the list of recommended tracks. For seeds with unusually small pools or when highly restrictive filtering is applied, it may be impossible to generate the requested number of recommended tracks. Debugging information for such cases is available in the response. Default: 20. Minimum: 1. Maximum: 100.</p>
+            </div>
+          </td>
+          <td>
+                <code>20</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>seed_artists</code></td>
+          <td>
+                <code>list[str] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A list of Spotify IDs for seed artists. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres.<br>
+Note: only required if seed_genres and seed_tracks are not set.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>seed_genres</code></td>
+          <td>
+                <code>list[str] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A comma separated list of any genres in the set of available genre seeds. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres.<br>
+Note: only required if seed_artists and seed_tracks are not set.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>seed_tracks</code></td>
+          <td>
+                <code>list[str] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A comma separated list of Spotify IDs for a seed track. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres.<br>
+Note: only required if seed_artists and seed_genres are not set.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>tunable_track_attributes</code></td>
+          <td>
+                <code>dict[str, <span title="typing.Any">Any</span>] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A dictionary of attributes relatives to the track audio features. For each tunable track attribute, a hard floor on the selected track attribute’s value can be provided. See tunable track attributes below for the list of available options.<br>
+The attribute list is: min_acousticness, max_acousticness, target_acousticness, min_danceability, max_danceability, target_danceability, min_duration_ms, max_duration_ms, target_duration_ms, min_energy, max_energy, target_energy, min_instrumentalness, max_instrumentalness, target_instrumentalness, min_key, max_key, target_key, min_liveness, max_liveness, target_liveness, min_loudness, max_loudness, target_loudness, min_mode, max_mode, target_mode, min_popularity, max_popularity, target_popularity, min_speechiness, max_speechiness, target_speechiness, min_tempo, max_tempo, target_tempo, min_time_signature, max_time_signature, target_time_signature, min_valence, max_valence, target_valence<br>
+The explanation of the terms acousticness, danceability ... etc ... can be found in the <a href="../1structs/#sympyfy.api_structures.Audio_features">Audio_features object Documentation</a>.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.Recommendation" href="../1structs/#sympyfy.api_structures.Recommendation">Recommendation</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A list of recommended Track Objects based the input parameters.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div><hr />
+<h2 id="users">USERS</h2>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_user_profile" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_user_profile</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Get public profile information about a Spotify user specified by its id<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-users-profile">https://developer.spotify.com/documentation/web-api/reference/get-users-profile</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>user_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The user's Spotify user ID.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sympyfy.api_structures.User" href="../1structs/#sympyfy.api_structures.User">User</a> | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>User Object</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="sympyfy.Sympyfy.get_users_follow_playlist" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_users_follow_playlist</span><span class="p">(</span><span class="n">playlist_id</span><span class="p">,</span> <span class="n">user_ids</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+  
+      <p>Check to see if one or more Spotify users are following a specified playlist.<br>
+<a href="https://developer.spotify.com/documentation/web-api/reference/get-users-profile">https://developer.spotify.com/documentation/web-api/reference/get-users-profile</a></p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>playlist_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The Spotify ID of the playlist.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>user_ids</code></td>
+          <td>
+                <code>list[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A  list of Spotify User IDs ; the ids of the users that you want to check to see if they follow the playlist. Maximum: 5 ids.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[bool] | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list of bool</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 <a href="https://github.com/acpirience"  target="_blank" rel="noopener">Acpirience</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
+      
+    
+  </body>
+</html>
