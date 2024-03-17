@@ -22,9 +22,7 @@ def test_get_search_episodes() -> None:
     test = Sympyfy()
     test.load_credentials()
 
-    test_search = test.get_search(
-        q="year:2023", type=["episode"]
-    )
+    test_search = test.get_search(q="year:2023", type=["episode"])
 
     assert test_search and test_search.episodes.total > 20
 
